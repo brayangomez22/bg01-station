@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" font-family="ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#38e1ff" stroke-opacity="0.05"/>
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38e1ff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#38e1ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="#0b0e16"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <rect x="24" y="24" width="1152" height="627" fill="none" stroke="#1e2740"/>
+  <path d="M24 64V24H64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1136 24H1176V64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1176 611V651H1136" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M64 651H24V611" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+
+  <!-- motif: fractured legacy module → clean-architecture concentric core -->
+  <g transform="translate(560,360)">
+    <!-- legacy module, fragmented -->
+    <g stroke="#ffb547" fill="none">
+      <path d="M-60 -52H10V-10" stroke-opacity="0.7" stroke-width="2"/>
+      <path d="M10 14V52H-22" stroke-opacity="0.45" stroke-width="2" stroke-dasharray="8 6"/>
+      <path d="M-44 52H-60V-30" stroke-opacity="0.3" stroke-width="2" stroke-dasharray="3 7"/>
+      <path d="M-38 -28 -14 -28M-38 -10 -4 -10M-38 8 -14 8M-38 26 -22 26" stroke-opacity="0.5"/>
+    </g>
+    <text x="-25" y="84" fill="#5c6680" font-size="12" letter-spacing="2" text-anchor="middle">LEGACY</text>
+    <!-- transfer beam -->
+    <g stroke="#38e1ff" fill="none">
+      <path d="M34 0H148" stroke-opacity="0.6" stroke-width="2" stroke-dasharray="10 8"/>
+      <path d="M136 -10 152 0 136 10" stroke-opacity="0.8" stroke-width="2"/>
+    </g>
+  </g>
+
+  <g transform="translate(870,360)">
+    <circle r="220" fill="url(#glow)"/>
+    <!-- clean architecture rings: entities · use cases · adapters -->
+    <circle r="150" fill="none" stroke="#38e1ff" stroke-opacity="0.25" stroke-dasharray="2 10"/>
+    <circle r="108" fill="none" stroke="#38e1ff" stroke-opacity="0.45"/>
+    <circle r="66" fill="none" stroke="#38e1ff" stroke-opacity="0.7"/>
+    <circle r="28" fill="#0b0e16" stroke="#38e1ff" stroke-width="2"/>
+    <!-- rebuilt service modules docked on the rings -->
+    <g fill="#0b0e16" stroke="#38e1ff" stroke-width="2">
+      <rect x="-12" y="-122" width="24" height="24"/>
+      <rect x="84" y="42" width="24" height="24"/>
+      <rect x="-122" y="30" width="24" height="24" stroke="#ffb547"/>
+    </g>
+    <!-- dependency arrows pointing inward -->
+    <g stroke="#38e1ff" stroke-opacity="0.6" fill="none">
+      <path d="M0 -94V-44M-6 -52 0 -44 6 -52"/>
+      <path d="M80 56 38 24M50 24 38 24 40 36"/>
+    </g>
+    <text x="0" y="6" fill="#38e1ff" font-size="13" letter-spacing="2" text-anchor="middle">CORE</text>
+    <text x="0" y="186" fill="#5c6680" font-size="12" letter-spacing="3" text-anchor="middle">ARQUITECTURA LIMPIA · SOLID</text>
+  </g>
+
+  <text x="64" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-005</text>
+  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">REINGENIERÍA DE MICROSERVICIOS GO</text>
+  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">GO · DOCKER · AZURE</text>
+
+  <text x="64" y="615" fill="#5c6680" font-size="12" letter-spacing="3">BG-01 STATION ARCHIVE · STATUS: COMPLETED</text>
+  <text x="1136" y="615" fill="#38e1ff" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.6">BACKEND REBUILD TIER</text>
+</svg>

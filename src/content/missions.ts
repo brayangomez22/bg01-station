@@ -14,6 +14,41 @@ const cover = (code: string, alt: string) => ({
  */
 export const missions: Mission[] = [
   {
+    id: 'go-microservices-reengineering',
+    code: 'M-005',
+    title: 'Reingeniería de Microservicios Go',
+    summary:
+      'Reconstrucción de microservicios Go existentes y construcción de servicios nuevos desde cero en Hibot Chat, con arquitectura limpia y buenas prácticas.',
+    description:
+      'Reconstrucción progresiva de microservicios en Go que arrastraban deuda técnica, junto con el diseño y construcción de proyectos nuevos desde cero. Aplicación rigurosa de arquitectura limpia, principios SOLID y buenas prácticas de ingeniería para obtener servicios desacoplados, testeables y fáciles de mantener — sin interrumpir la operación del producto durante las reescrituras.',
+    status: 'completed',
+    role: 'Full Stack Developer · backend en Go',
+    durationLabel: 'continuo · 4 años',
+    period: { start: '2022-05-01', end: '2026-04-01' },
+    technologies: ['go', 'docker', 'azure', 'mongodb'],
+    highlights: [
+      'Microservicios legados reconstruidos con arquitectura limpia, manteniendo compatibilidad de contratos.',
+      'Servicios nuevos diseñados desde cero: desacoplados, testeables y listos para escalar.',
+      'Estándares de ingeniería compartidos que elevaron la calidad de todo el backend.',
+    ],
+    challenges: [
+      'Reescribir servicios en producción sin downtime ni romper a los consumidores.',
+      'Equilibrar la reconstrucción con la entrega continua de features del producto.',
+    ],
+    metrics: [
+      { label: 'Servicios reconstruidos', value: '8+' },
+      { label: 'Desde cero', value: '4' },
+      { label: 'Downtime en reescrituras', value: '0' },
+    ],
+    links: {},
+    cover: cover(
+      'M-005',
+      'Esquemático de reingeniería: módulo legado fragmentado transferido a un núcleo de capas concéntricas de arquitectura limpia',
+    ),
+    featured: true,
+    order: 1,
+  },
+  {
     id: 'recurring-payments-system',
     code: 'M-001',
     title: 'Sistema de Pagos Recurrentes',
@@ -46,7 +81,7 @@ export const missions: Mission[] = [
       'Diagrama orbital del sistema de pagos: núcleo de transacciones con nodos de servicio e idempotencia',
     ),
     featured: true,
-    order: 1,
+    order: 2,
   },
   {
     id: 'angular-react-migration',
@@ -81,7 +116,7 @@ export const missions: Mission[] = [
       'Matriz de módulos del producto con traza de progreso de la migración',
     ),
     featured: true,
-    order: 2,
+    order: 3,
   },
   {
     id: 'multichannel-bots',
@@ -116,7 +151,7 @@ export const missions: Mission[] = [
       'Núcleo hexagonal de ruteo de mensajes con anillo de canales conectados',
     ),
     featured: false,
-    order: 3,
+    order: 4,
   },
   {
     id: 'rofe-platforms',
@@ -151,7 +186,7 @@ export const missions: Mission[] = [
       'Diagrama de flujo de las plataformas: registros, servicios y resultados de impacto',
     ),
     featured: false,
-    order: 4,
+    order: 5,
   },
 ];
 
