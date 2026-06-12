@@ -10,6 +10,11 @@ permissions:
   pages: write
   id-token: write
 
+# GitHub forces Node 24 for JS actions from 2026-06-16; opt in early so the
+# pipeline is verified on it before the cutover.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 # One deploy at a time; a newer push supersedes an in-flight one.
 concurrency:
   group: pages
