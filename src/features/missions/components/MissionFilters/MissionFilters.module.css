@@ -1,0 +1,33 @@
+.mission-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.mission-filters__chip {
+  padding: var(--space-2) var(--space-4);
+  min-height: 40px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-pill);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.mission-filters__chip:hover {
+  color: var(--color-text-strong);
+  border-color: var(--color-border-strong);
+}
+
+.mission-filters__chip--active {
+  color: var(--color-accent);
+  border-color: var(--color-accent-deep);
+  background: rgb(56 225 255 / 0.08);
+}

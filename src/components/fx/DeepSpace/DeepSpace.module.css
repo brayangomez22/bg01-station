@@ -1,0 +1,247 @@
+.deep-space {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ---- Ringed giant -------------------------------------------------------- */
+
+.planet {
+  position: absolute;
+  right: clamp(-70px, -4vw, -30px);
+  bottom: 16%;
+  width: clamp(170px, 24vw, 270px);
+  height: auto;
+  opacity: 0.9;
+}
+
+/* Narrow columns put text right over the planet — recede further. */
+@media (max-width: 767px) {
+  .planet {
+    opacity: 0.6;
+    bottom: 10%;
+  }
+}
+
+.body {
+  stroke: rgb(125 239 255 / 0.18);
+  stroke-width: 1;
+}
+
+/* Axial rotation: dashed latitude bands drifting inside the disc clip.
+   Dash periods are all 42px; the 84px loop is therefore seamless.
+   ~2.3px/s: slow enough to stay stately, fast enough to be seen moving. */
+.bands {
+  animation: ds-drift 36s linear infinite;
+}
+.band {
+  fill: none;
+  stroke: rgb(125 239 255 / 0.32);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+}
+
+@keyframes ds-drift {
+  to {
+    transform: translateX(-84px);
+  }
+}
+
+.ringShadow {
+  fill: none;
+  stroke: rgb(5 6 10 / 0.55);
+  stroke-width: 8;
+}
+
+.terminator {
+  fill: rgb(5 6 10 / 0.5);
+}
+
+.rim {
+  stroke: rgb(125 239 255 / 0.4);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+/* Rings: near and far halves share one slow precession sway. */
+.rings,
+.ringsFront {
+  transform-origin: 120px 120px;
+  animation: ds-sway 26s var(--ease-inout) infinite alternate;
+}
+.ringOuter {
+  fill: none;
+  stroke: rgb(125 239 255 / 0.3);
+  stroke-width: 1.5;
+}
+.ringMid {
+  fill: none;
+  stroke: rgb(255 181 71 / 0.18);
+  stroke-width: 2.5;
+}
+.ringInner {
+  fill: none;
+  stroke: rgb(125 239 255 / 0.16);
+  stroke-width: 1;
+}
+.ringFlow {
+  fill: none;
+  stroke: rgb(125 239 255 / 0.55);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 26 450.5;
+  animation: ds-ring-flow 32s linear infinite;
+}
+
+@keyframes ds-ring-flow {
+  to {
+    stroke-dashoffset: -476.5;
+  }
+}
+
+@keyframes ds-sway {
+  from {
+    transform: rotate(-2.4deg);
+  }
+  to {
+    transform: rotate(2.4deg);
+  }
+}
+
+/* ---- Distant moon -------------------------------------------------------- */
+
+.moon {
+  position: absolute;
+  left: 9%;
+  top: 14%;
+  width: clamp(28px, 3.2vw, 44px);
+  height: auto;
+  opacity: 0.8;
+  animation: ds-moon-drift 90s var(--ease-inout) infinite alternate;
+}
+
+@keyframes ds-moon-drift {
+  to {
+    transform: translate3d(14px, 10px, 0);
+  }
+}
+
+/* ---- Comets --------------------------------------------------------------
+   Each comet is a gradient streak with a glowing head, visible for ~2.5s of
+   a long cycle. Distinct vectors, durations and delays keep them from ever
+   syncing up. transform-origin sits on the head so rotation aims the tail. */
+
+.comet {
+  position: absolute;
+  width: 110px;
+  height: 2px;
+  opacity: 0;
+  transform-origin: 100% 50%;
+  background: linear-gradient(
+    90deg,
+    rgb(125 239 255 / 0) 0%,
+    rgb(125 239 255 / 0.05) 35%,
+    rgb(125 239 255 / 0.5) 92%,
+    rgb(232 236 244 / 0.9) 100%
+  );
+  border-radius: 999px;
+}
+.comet::after {
+  content: '';
+  position: absolute;
+  right: -2px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  translate: 0 -50%;
+  border-radius: 50%;
+  background: rgb(232 236 244 / 0.95);
+  box-shadow: 0 0 8px rgb(125 239 255 / 0.8);
+}
+
+.cometA {
+  top: -3%;
+  left: 14%;
+  animation: ds-comet-a 31s linear 5s infinite;
+}
+.cometB {
+  top: 32%;
+  right: -8%;
+  left: auto;
+  animation: ds-comet-b 47s linear 19s infinite;
+}
+.cometC {
+  top: 72%;
+  left: -6%;
+  animation: ds-comet-c 61s linear 11s infinite;
+}
+
+@keyframes ds-comet-a {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(35deg);
+    opacity: 0;
+  }
+  1.2% {
+    opacity: 0.9;
+  }
+  8% {
+    transform: translate3d(52vw, 36vh, 0) rotate(35deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(52vw, 36vh, 0) rotate(35deg);
+    opacity: 0;
+  }
+}
+
+@keyframes ds-comet-b {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(162deg);
+    opacity: 0;
+  }
+  0.9% {
+    opacity: 0.75;
+  }
+  6% {
+    transform: translate3d(-58vw, 19vh, 0) rotate(162deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(-58vw, 19vh, 0) rotate(162deg);
+    opacity: 0;
+  }
+}
+
+@keyframes ds-comet-c {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-15deg);
+    opacity: 0;
+  }
+  0.8% {
+    opacity: 0.6;
+  }
+  5% {
+    transform: translate3d(46vw, -12vh, 0) rotate(-15deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(46vw, -12vh, 0) rotate(-15deg);
+    opacity: 0;
+  }
+}
+
+/* The whole layer is ambient motion — without it, hold a still frame and
+   drop the comets entirely (their existence is movement). */
+@media (prefers-reduced-motion: reduce) {
+  .bands,
+  .rings,
+  .ringsFront,
+  .moon {
+    animation: none;
+  }
+  .ringFlow,
+  .comet {
+    display: none;
+  }
+}

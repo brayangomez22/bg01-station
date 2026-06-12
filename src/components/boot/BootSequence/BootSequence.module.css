@@ -1,0 +1,137 @@
+.boot-sequence {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+  background: var(--color-bg);
+}
+
+.boot-sequence__inner {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  font-family: var(--font-mono);
+}
+
+.boot-sequence__callsign {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  color: var(--color-accent);
+  letter-spacing: var(--ls-wide);
+  text-shadow: var(--glow-accent);
+  margin-bottom: var(--space-5);
+}
+
+.boot-sequence__status {
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.boot-sequence__bar {
+  height: 8px;
+  border: var(--border-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: rgb(5 6 10 / 0.6);
+}
+
+.boot-sequence__bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+  box-shadow: var(--glow-accent);
+  transition: width var(--dur-base) var(--ease-out);
+}
+
+.boot-sequence__pct {
+  margin-top: var(--space-2);
+  font-size: var(--fs-xs);
+  color: var(--color-accent);
+}
+
+.boot-sequence__log {
+  margin: var(--space-5) 0;
+  text-align: left;
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  min-height: 6.5em;
+}
+
+.boot-sequence__log-line {
+  white-space: nowrap;
+  overflow: hidden;
+  /* Typewriter: monospace width in ch driven per-line via --chars. */
+  width: calc(var(--chars, 30) * 1ch + 2ch);
+  max-width: 100%;
+  animation: log-type 220ms steps(24, end);
+}
+
+@keyframes log-type {
+  from {
+    width: 2ch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-sequence__log-line {
+    animation: none;
+  }
+}
+
+.boot-sequence__dock {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  padding: var(--space-3) var(--space-5);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.boot-sequence__dock[data-ready] {
+  color: var(--color-accent);
+  animation: dock-blink 1.4s var(--ease-inout) infinite;
+}
+.boot-sequence__dock[data-ready]:hover {
+  text-shadow: var(--glow-accent);
+}
+.boot-sequence__dock:disabled {
+  cursor: progress;
+}
+
+.boot-sequence__skip {
+  margin-top: var(--space-4);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+@keyframes dock-blink {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Short viewports (landscape phones): compress the sequence so the dock
+   button and the skip hint stay above the fold; scroll as a last resort. */
+@media (max-height: 500px) {
+  .boot-sequence {
+    place-items: start center;
+    overflow-y: auto;
+  }
+  .boot-sequence__callsign {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--space-3);
+  }
+  .boot-sequence__log {
+    margin: var(--space-3) 0;
+    min-height: 0;
+  }
+  .boot-sequence__skip {
+    margin-top: var(--space-2);
+  }
+}

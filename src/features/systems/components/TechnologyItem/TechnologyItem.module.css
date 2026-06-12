@@ -1,0 +1,62 @@
+.technology-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.technology-item:hover {
+  background: rgb(56 225 255 / 0.04);
+}
+
+.technology-item__body {
+  display: block;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--planet-color), rgb(5 6 10 / 0.9));
+  border: var(--border-thin) solid var(--planet-color);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--planet-color) 40%, transparent);
+}
+
+/* --planet-scale lets dense layouts (orbital mode) shrink bodies uniformly. */
+.technology-item[data-size='s'] .technology-item__body {
+  width: calc(44px * var(--planet-scale, 1));
+  height: calc(44px * var(--planet-scale, 1));
+}
+.technology-item[data-size='m'] .technology-item__body {
+  width: calc(64px * var(--planet-scale, 1));
+  height: calc(64px * var(--planet-scale, 1));
+}
+.technology-item[data-size='l'] .technology-item__body {
+  width: calc(84px * var(--planet-scale, 1));
+  height: calc(84px * var(--planet-scale, 1));
+}
+
+.technology-item__name {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.technology-item--selected {
+  background: rgb(56 225 255 / 0.08);
+}
+.technology-item--selected .technology-item__name {
+  color: var(--color-accent);
+}
+.technology-item--selected .technology-item__body {
+  animation: planet-glow 2s var(--ease-inout) infinite;
+  /* Targeting ring around the locked planet. */
+  outline: var(--border-thin) dashed var(--color-accent);
+  outline-offset: 5px;
+}
+
+@keyframes planet-glow {
+  50% {
+    box-shadow: 0 0 28px color-mix(in srgb, var(--planet-color) 70%, transparent);
+  }
+}

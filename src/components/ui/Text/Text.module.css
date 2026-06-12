@@ -1,0 +1,36 @@
+.text {
+  font-family: var(--font-body);
+  line-height: var(--lh-base);
+}
+
+/* Variants */
+.text--body {
+  font-size: var(--fs-base);
+}
+.text--lead {
+  font-size: var(--fs-md);
+  line-height: var(--lh-snug);
+}
+.text--caption {
+  font-size: var(--fs-sm);
+}
+.text--mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+}
+
+/* Tones */
+.text--default {
+  color: var(--color-text);
+}
+.text--muted {
+  color: var(--color-text-muted);
+}
+.text--strong {
+  color: var(--color-text-strong);
+}
+.text--accent {
+  color: var(--color-accent);
+}

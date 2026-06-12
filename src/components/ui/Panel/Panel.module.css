@@ -1,0 +1,61 @@
+.panel {
+  position: relative;
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+}
+
+.panel--panel {
+  background: var(--elevation-panel-bg);
+  border: var(--elevation-panel-border);
+  backdrop-filter: blur(var(--elevation-panel-blur));
+  -webkit-backdrop-filter: blur(var(--elevation-panel-blur));
+  /* Faint instrument grid: industrial texture, barely-there by design. */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgb(56 225 255 / 0.018) 0,
+      rgb(56 225 255 / 0.018) 1px,
+      transparent 1px,
+      transparent 28px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgb(56 225 255 / 0.018) 0,
+      rgb(56 225 255 / 0.018) 1px,
+      transparent 1px,
+      transparent 28px
+    );
+}
+
+.panel--drawer {
+  background: var(--elevation-drawer-bg);
+  border: var(--elevation-drawer-border);
+  backdrop-filter: blur(var(--elevation-drawer-blur));
+  -webkit-backdrop-filter: blur(var(--elevation-drawer-blur));
+}
+
+/* HUD corner brackets */
+.panel--bracketed::before,
+.panel--bracketed::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: var(--border-thin) solid var(--color-accent-dim);
+  pointer-events: none;
+  transition:
+    translate var(--dur-base) var(--ease-mechanical),
+    border-color var(--dur-base) var(--ease-mechanical);
+}
+.panel--bracketed::before {
+  top: 8px;
+  left: 8px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.panel--bracketed::after {
+  right: 8px;
+  bottom: 8px;
+  border-left: 0;
+  border-top: 0;
+}

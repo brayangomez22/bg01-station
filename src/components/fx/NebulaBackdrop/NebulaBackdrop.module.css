@@ -1,0 +1,36 @@
+.nebula {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(55% 45% at 20% 15%, rgb(56 225 255 / 0.1), transparent 60%),
+    radial-gradient(50% 50% at 85% 80%, rgb(255 181 71 / 0.07), transparent 65%),
+    radial-gradient(60% 60% at 50% 50%, rgb(11 14 22 / 0.4), transparent 70%);
+  animation: nebula-drift 30s var(--ease-inout) infinite alternate;
+  transition: filter 4s var(--ease-inout);
+  will-change: transform, opacity;
+}
+
+@keyframes nebula-drift {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.12) translate3d(2%, -2%, 0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nebula {
+    animation: none;
+  }
+}
+
+/* Night shift (22–06 visitor time): the station cools — the warm amber
+   pocket recedes and the field dims a touch. Long crossfade so a shift
+   change mid-session is felt, never seen. */
+[data-shift='nocturno'] .nebula {
+  filter: hue-rotate(-10deg) saturate(0.92) brightness(0.95);
+}

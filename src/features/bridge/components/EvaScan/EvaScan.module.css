@@ -1,0 +1,128 @@
+.eva {
+  display: block;
+  width: clamp(280px, 26vw, 340px);
+  height: auto;
+  overflow: visible;
+  user-select: none;
+}
+
+/* The whole readout drifts as one unit so leader lines stay attached. */
+.eva__float {
+  animation: eva-drift 7s ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes eva-drift {
+  from {
+    transform: translateY(-5px) rotate(-0.6deg);
+  }
+  to {
+    transform: translateY(5px) rotate(0.6deg);
+  }
+}
+
+/* Scan band sweeping the reticle area. */
+.eva__scan {
+  animation: eva-scan 6.5s linear infinite;
+}
+
+@keyframes eva-scan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(310px);
+    opacity: 0;
+  }
+}
+
+/* Tether slack slowly paying out. */
+.eva__tether {
+  animation: eva-tether 3s linear infinite;
+}
+
+@keyframes eva-tether {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+/* Antenna broadcasting. */
+.eva__signal {
+  animation: eva-pulse 2.4s ease-in-out infinite;
+}
+
+/* Callout attachment points breathe with the signal. */
+.eva__anchor {
+  animation: eva-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes eva-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Amber status light on the chest pack. */
+.eva__blink {
+  animation: eva-blink 1.8s steps(1) infinite;
+}
+
+@keyframes eva-blink {
+  0%,
+  60%,
+  100% {
+    opacity: 1;
+  }
+  70%,
+  90% {
+    opacity: 0.2;
+  }
+}
+
+.eva__text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.eva__label {
+  fill: var(--color-text);
+}
+
+.eva__value {
+  fill: var(--color-accent);
+}
+
+.eva__caption {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  fill: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eva__float,
+  .eva__scan,
+  .eva__tether,
+  .eva__signal,
+  .eva__anchor,
+  .eva__blink {
+    animation: none;
+  }
+  .eva__scan {
+    opacity: 0;
+  }
+}

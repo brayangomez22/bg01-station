@@ -1,0 +1,36 @@
+.heading {
+  font-family: var(--font-display);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+  color: var(--color-text-strong);
+  text-wrap: balance;
+  /* Michroma is wide: long Spanish words ("comunicaciones") need real
+     hyphenation on narrow screens instead of a bare mid-word break. */
+  hyphens: auto;
+}
+
+.heading--hero {
+  font-size: var(--fs-hero);
+}
+.heading--2xl {
+  font-size: var(--fs-2xl);
+}
+.heading--xl {
+  font-size: var(--fs-xl);
+}
+/* Sub-level headings: Michroma is rationed to hero/2xl/xl (it only ships
+   400, so it can't carry hierarchy by weight). lg/md switch to Plex Sans
+   semibold so weight — not just size — separates the levels. */
+.heading--lg {
+  font-size: var(--fs-lg);
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-subdisplay);
+}
+.heading--md {
+  font-size: var(--fs-md);
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-subdisplay);
+}

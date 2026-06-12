@@ -1,0 +1,86 @@
+.cursor__dot,
+.cursor__ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  border-radius: 50%;
+  translate: -50% -50%;
+}
+
+.cursor__dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-accent);
+}
+
+.cursor__ring {
+  width: 28px;
+  height: 28px;
+  border: var(--border-thin) solid var(--color-accent);
+  opacity: 0.6;
+  rotate: 0deg;
+  transition:
+    width var(--dur-fast) var(--ease-out),
+    height var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    rotate var(--dur-base) var(--ease-mechanical);
+}
+
+/* Reticle ticks: 4 marks that appear when a target is acquired. */
+.cursor__ring::before,
+.cursor__ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.cursor__ring::before {
+  background:
+    linear-gradient(var(--color-accent), var(--color-accent)) left center / 6px 1px
+      no-repeat,
+    linear-gradient(var(--color-accent), var(--color-accent)) right center / 6px 1px
+      no-repeat;
+}
+.cursor__ring::after {
+  background:
+    linear-gradient(var(--color-accent), var(--color-accent)) center top / 1px 6px
+      no-repeat,
+    linear-gradient(var(--color-accent), var(--color-accent)) center bottom / 1px 6px
+      no-repeat;
+}
+
+.cursor__ring[data-active] {
+  width: 44px;
+  height: 44px;
+  opacity: 1;
+  background: rgb(56 225 255 / 0.08);
+  rotate: 45deg;
+}
+.cursor__ring[data-active]::before,
+.cursor__ring[data-active]::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor__ring {
+    transition: none;
+    rotate: 0deg !important;
+  }
+}
+
+/* Hide native cursor only where the custom one is active (fine pointer) */
+@media (hover: hover) and (pointer: fine) {
+  :global(body) {
+    cursor: none;
+  }
+  :global(a),
+  :global(button),
+  :global(input),
+  :global(textarea) {
+    cursor: none;
+  }
+}

@@ -1,0 +1,220 @@
+/* =========================================================================
+   RECORD READING VIEW
+   Rule of the module: the fiction lives at the edges (fiche, rail, footer);
+   the reading column is quiet typography on solid background.
+   ========================================================================= */
+
+.record {
+  max-width: 72ch;
+  margin-inline: auto;
+}
+
+.record__back {
+  margin-bottom: var(--space-5);
+}
+
+/* ---- Fiche ---- */
+
+.record__fiche {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  /* Reserve headroom for the DESCLASIFICADO stamp in the top-right corner. */
+  padding-top: calc(var(--space-4) + 1.6rem);
+  border: var(--border-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  margin-bottom: var(--space-6);
+}
+
+.record__stamp {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-accent);
+  border: var(--border-thin) solid var(--color-accent-dim);
+  border-radius: var(--radius-sm);
+  padding: 1px var(--space-2);
+  transform: rotate(-6deg);
+  opacity: 0.7;
+  user-select: none;
+}
+
+.record__fiche-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.record__fiche-grid dt {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+}
+
+.record__fiche-grid dd {
+  margin: var(--space-1) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+}
+
+/* Michroma is rationed to the serial code — the one place it shines. */
+.record__fiche-code {
+  font-family: var(--font-display) !important;
+  color: var(--color-accent) !important;
+}
+
+.record__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ---- Title & body ---- */
+
+.record__title {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin-bottom: var(--space-6);
+  text-wrap: balance;
+}
+
+.record__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.record__h {
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-md);
+  letter-spacing: var(--ls-subdisplay);
+  color: var(--color-text-strong);
+  margin-top: var(--space-5);
+}
+
+.record__h-index {
+  color: var(--color-accent);
+}
+
+.record__p {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.record__list {
+  margin: 0;
+  padding-left: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.record__list li::marker {
+  color: var(--color-accent);
+}
+
+/* ---- Footer ---- */
+
+.record__footer {
+  margin-top: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.record__end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.record__end-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.record__end-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.record__checksum {
+  text-align: center;
+}
+
+.record__refs ul {
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.record__ref-link {
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.record__ref-link span {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-accent);
+  margin-right: var(--space-2);
+}
+
+.record__ref-link:hover {
+  color: var(--color-text-strong);
+}
+
+.record__siblings {
+  display: flex;
+  justify-content: space-between;
+  border-top: var(--border-thin) solid var(--color-border);
+  padding-top: var(--space-4);
+}
+
+.record__missing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-block: var(--space-8);
+}
+
+/* ---- Integrity line: reading progress riding the viewport top edge ---- */
+
+.record__progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent);
+  box-shadow: var(--glow-accent-soft);
+  transform-origin: left;
+  /* One above the HUD so it stays visible over the docked topbar. */
+  z-index: calc(var(--z-hud) + 1);
+  pointer-events: none;
+}

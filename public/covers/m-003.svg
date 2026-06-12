@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" font-family="ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#38e1ff" stroke-opacity="0.05"/>
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38e1ff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#38e1ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="#0b0e16"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <rect x="24" y="24" width="1152" height="627" fill="none" stroke="#1e2740"/>
+  <path d="M24 64V24H64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1136 24H1176V64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1176 611V651H1136" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M64 651H24V611" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+
+  <!-- motif: hex gate + token ring -->
+  <g transform="translate(820,337)">
+    <circle r="210" fill="url(#glow)"/>
+    <circle r="170" fill="none" stroke="#38e1ff" stroke-opacity="0.25" stroke-dasharray="2 10"/>
+    <!-- rotating token segments -->
+    <g fill="none" stroke="#38e1ff" stroke-width="3">
+      <path d="M 0 -130 A 130 130 0 0 1 112 -65" stroke-opacity="0.9"/>
+      <path d="M 112 65 A 130 130 0 0 1 0 130" stroke-opacity="0.45"/>
+      <path d="M -112 -65 A 130 130 0 0 1 -65 -112" stroke="#ffb547" stroke-opacity="0.8"/>
+    </g>
+    <!-- hexagon -->
+    <path d="M0 -86 74 -43 74 43 0 86 -74 43 -74 -43Z" fill="#0b0e16" stroke="#38e1ff" stroke-width="2"/>
+    <path d="M0 -62 54 -31 54 31 0 62 -54 31 -54 -31Z" fill="none" stroke="#38e1ff" stroke-opacity="0.3"/>
+    <!-- keyway -->
+    <circle r="16" fill="none" stroke="#38e1ff" stroke-width="2"/>
+    <rect x="-5" y="10" width="10" height="30" fill="#38e1ff"/>
+    <text x="0" y="120" fill="#5c6680" font-size="12" letter-spacing="3" text-anchor="middle">RBAC · JWT ROTATION</text>
+  </g>
+
+  <text x="64" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-003</text>
+  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">SERVICIO DE AUTENTICACIÓN NEBULA</text>
+  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">NESTJS · TYPESCRIPT · AWS</text>
+
+  <text x="64" y="615" fill="#5c6680" font-size="12" letter-spacing="3">BG-01 STATION ARCHIVE · STATUS: COMPLETED</text>
+  <text x="1136" y="615" fill="#38e1ff" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.6">ACCESS CONTROL TIER</text>
+</svg>

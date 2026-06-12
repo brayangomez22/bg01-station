@@ -1,0 +1,126 @@
+.system-view {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+.system-view__orbit {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 360px;
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+/* In orbital mode the container must be square so polar math holds.
+   Bodies shrink (--planet-scale) so adjacent rings can't collide. */
+.system-view__orbit[data-orbital] {
+  aspect-ratio: 1;
+  min-height: 0;
+  max-width: 560px;
+  margin-inline: auto;
+  padding: 0;
+  --planet-scale: 0.66;
+}
+
+.system-view__ring {
+  position: absolute;
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+.system-view__ring[data-ring='1'] {
+  width: 40%;
+  aspect-ratio: 1;
+}
+.system-view__ring[data-ring='2'] {
+  width: 65%;
+  aspect-ratio: 1;
+}
+.system-view__ring[data-ring='3'] {
+  width: 90%;
+  aspect-ratio: 1;
+  animation: orbit-spin 60s linear infinite;
+  border-style: dashed;
+}
+
+.system-view__sun {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: var(--glow-accent);
+  animation: sun-pulse 3s var(--ease-inout) infinite;
+}
+
+/* ---- Mobile fallback: wrap grid ---- */
+.system-view__planets {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+  margin: 0;
+  max-width: 460px;
+}
+
+/* ---- Orbital mode: planets ride their rings ---- */
+.system-view__carousel {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  z-index: 1;
+  animation: orbit-spin 120s linear infinite;
+}
+
+/* The whole system pauses while the visitor inspects it. */
+.system-view__orbit:hover .system-view__carousel,
+.system-view__orbit:focus-within .system-view__carousel {
+  animation-play-state: paused;
+}
+.system-view__orbit:hover .system-view__counter,
+.system-view__orbit:focus-within .system-view__counter {
+  animation-play-state: paused;
+}
+
+.system-view__slot {
+  position: absolute;
+  translate: -50% -50%;
+}
+
+/* Counter-rotation keeps planet labels upright while the system turns. */
+.system-view__counter {
+  display: block;
+  animation: orbit-spin 120s linear infinite reverse;
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes sun-pulse {
+  50% {
+    box-shadow: 0 0 36px rgb(56 225 255 / 0.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .system-view__ring[data-ring='3'],
+  .system-view__sun,
+  .system-view__carousel,
+  .system-view__counter {
+    animation: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .system-view {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}

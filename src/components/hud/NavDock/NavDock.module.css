@@ -1,0 +1,97 @@
+.nav-dock {
+  position: fixed;
+  bottom: var(--hud-inset);
+  left: 50%;
+  translate: -50% 0;
+  z-index: var(--z-hud);
+  padding: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--elevation-drawer-bg);
+  border: var(--elevation-drawer-border);
+  backdrop-filter: blur(var(--elevation-drawer-blur));
+  -webkit-backdrop-filter: blur(var(--elevation-drawer-blur));
+  max-width: calc(100vw - var(--space-6));
+}
+
+.nav-dock__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-dock__list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Narrow screens: the dock scrolls horizontally (scrollbar hidden), so the
+   edges fade to signal there are more decks off-screen. */
+@media (max-width: 480px) {
+  .nav-dock__list {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--space-4),
+      #000 calc(100% - var(--space-4)),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--space-4),
+      #000 calc(100% - var(--space-4)),
+      transparent 100%
+    );
+  }
+}
+
+.nav-dock__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  min-height: 44px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.nav-dock__link:hover {
+  color: var(--color-text-strong);
+  background: rgb(56 225 255 / 0.06);
+}
+
+.nav-dock__link--active {
+  color: var(--color-accent);
+  background: rgb(56 225 255 / 0.1);
+  box-shadow: var(--glow-accent-soft);
+}
+
+.nav-dock__code {
+  opacity: 0.5;
+  font-size: 0.65rem;
+}
+
+@media (max-width: 768px) {
+  .nav-dock__label {
+    display: none;
+  }
+  .nav-dock__code {
+    font-size: var(--fs-xs);
+    opacity: 0.9;
+  }
+}
+
+/* Seven modules must fit a ~360px hull without clipping the last one. */
+@media (max-width: 480px) {
+  .nav-dock__link {
+    padding: var(--space-2) var(--space-3);
+  }
+}

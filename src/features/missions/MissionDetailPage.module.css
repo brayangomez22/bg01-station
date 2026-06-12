@@ -1,0 +1,8 @@
+.mission-detail__missing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  min-height: 50vh;
+  justify-content: center;
+}

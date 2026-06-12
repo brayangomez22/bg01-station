@@ -1,0 +1,73 @@
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: 72vh;
+}
+
+.hero__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 64ch;
+}
+
+.hero__title {
+  overflow: hidden; /* mask reveal */
+}
+
+/* The recruiter's #1 datum now dominates: display face, signal color. */
+.hero__role {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  line-height: var(--lh-snug);
+}
+
+.hero__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.hero__stack-chip {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text);
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: rgb(18 23 38 / 0.4);
+}
+
+.hero__bio {
+  max-width: 52ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+/* EVA crew scan: decoration tier, anchors the hero telemetry visually. */
+.hero__side {
+  align-self: center;
+  justify-self: end;
+}
+
+@media (max-width: 1023px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero__side {
+    display: none;
+  }
+}

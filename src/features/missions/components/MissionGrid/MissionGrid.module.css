@@ -1,0 +1,17 @@
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-5);
+  margin: var(--space-5) 0 0;
+}
+
+.mission-grid__item {
+  height: 100%;
+}
+
+.mission-grid__empty {
+  padding: var(--space-8);
+  text-align: center;
+  border: var(--border-thin) dashed var(--color-border);
+  border-radius: var(--radius-md);
+}

@@ -1,0 +1,95 @@
+.route-transition {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/* Docking alignment: two thin marks converge from the edges on every
+   route entry — Interstellar's docking scene distilled to two lines. */
+.route-transition::before,
+.route-transition::after {
+  content: '';
+  position: fixed;
+  top: 50%;
+  width: 1px;
+  height: 48px;
+  translate: 0 -50%;
+  background: var(--color-accent-dim);
+  pointer-events: none;
+  animation: dock-align 350ms var(--ease-mechanical) forwards;
+}
+.route-transition::before {
+  left: 18%;
+  --dock-shift: 8vw;
+}
+.route-transition::after {
+  right: 18%;
+  --dock-shift: -8vw;
+}
+
+@keyframes dock-align {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(var(--dock-shift));
+  }
+}
+
+/* Deck travel: passing a bulkhead seam. The marks turn horizontal and sweep
+   vertically with the structure — the station moves past you. */
+.route-transition[data-travel]::before,
+.route-transition[data-travel]::after {
+  width: 48px;
+  height: 1px;
+  left: 50%;
+  right: auto;
+  translate: -50% 0;
+  animation: hatch-pass 350ms var(--ease-mechanical) forwards;
+}
+.route-transition[data-travel]::before {
+  top: 28%;
+}
+.route-transition[data-travel]::after {
+  top: auto;
+  bottom: 28%;
+}
+/* Descending (toward higher decks): the structure sweeps upward, and
+   vice versa. */
+.route-transition[data-travel='down'] {
+  --hatch-shift: -6vh;
+}
+.route-transition[data-travel='up'] {
+  --hatch-shift: 6vh;
+}
+
+@keyframes hatch-pass {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(var(--hatch-shift));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-transition::before,
+  .route-transition::after,
+  .route-transition[data-travel]::before,
+  .route-transition[data-travel]::after {
+    animation: none;
+    opacity: 0;
+  }
+}

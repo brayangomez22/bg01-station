@@ -1,0 +1,29 @@
+.telemetry {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  animation: telemetry-in var(--dur-base) var(--ease-mechanical);
+}
+
+.telemetry--accent {
+  color: var(--color-accent);
+}
+
+.telemetry--warn {
+  color: var(--color-secondary);
+}
+
+@keyframes telemetry-in {
+  from {
+    opacity: 0;
+    translate: 0 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .telemetry {
+    animation: none;
+  }
+}

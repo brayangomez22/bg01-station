@@ -1,0 +1,16 @@
+.core-activity {
+  margin-block: var(--space-6) var(--space-8);
+  padding-top: var(--space-4);
+  border-top: var(--border-thin) solid var(--color-border);
+}
+
+.core-activity__repo {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-accent-dim);
+  transition: text-decoration-color var(--dur-fast) var(--ease-out);
+}
+.core-activity__repo:hover {
+  text-decoration-color: var(--color-accent);
+}

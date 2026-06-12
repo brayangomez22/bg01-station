@@ -1,0 +1,10 @@
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  text-align: center;
+  min-height: 50vh;
+  padding: var(--space-8) var(--gutter);
+}

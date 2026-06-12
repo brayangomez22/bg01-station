@@ -1,0 +1,235 @@
+/* Two-channel layout (reference: mission-control loading card): telemetry
+   readout on the left, the deck's crew scene large on the right. Stacks on
+   narrow instruments with the scene on top. */
+.telemetry-loader {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  min-height: 60vh;
+  padding: var(--space-8) var(--space-5);
+}
+
+.telemetry-loader__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .telemetry-loader {
+    flex-direction: row;
+    gap: var(--space-9, 4rem);
+  }
+  .telemetry-loader__info {
+    align-items: flex-start;
+  }
+}
+
+.telemetry-loader__module {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.telemetry-loader__ring {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  animation: telemetry-spin 0.9s linear infinite;
+  box-shadow: var(--glow-accent-soft);
+}
+
+.telemetry-loader__label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+@keyframes telemetry-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Deck scene: the crew member preparing the destination ------------- */
+
+.vignette {
+  width: clamp(240px, 38vw, 330px);
+  height: auto;
+  animation:
+    vignette-in 350ms var(--ease-out),
+    vignette-float 3.4s var(--ease-inout) 350ms infinite alternate;
+}
+
+/* Suit hulls and rigid props */
+.shell {
+  fill: rgb(18 23 38 / 0.55);
+  stroke: rgb(125 239 255 / 0.55);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Outlined tube limbs: outline pass + dark core pass.
+   stroke-width is set per-element via attribute — never here. */
+.tubeOut {
+  fill: none;
+  stroke: rgb(125 239 255 / 0.55);
+  stroke-linecap: round;
+}
+.tubeIn {
+  fill: none;
+  stroke: rgb(13 17 29 / 0.92);
+  stroke-linecap: round;
+}
+
+/* Gloves, boots: solid pads that cap the tubes */
+.pad {
+  fill: rgb(13 17 29 / 0.92);
+  stroke: rgb(125 239 255 / 0.55);
+  stroke-width: 2;
+}
+
+/* Shoulder/elbow joints and rail nodes */
+.joint {
+  fill: rgb(18 23 38 / 0.9);
+  stroke: rgb(125 239 255 / 0.45);
+  stroke-width: 1.5;
+}
+
+/* Glass instrument surfaces (chest panel, slates, screens) */
+.panel {
+  fill: rgb(56 225 255 / 0.06);
+  stroke: rgb(125 239 255 / 0.4);
+  stroke-width: 1.25;
+}
+
+.visor {
+  fill: rgb(5 6 10 / 0.82);
+  stroke: rgb(125 239 255 / 0.5);
+  stroke-width: 1.5;
+}
+
+/* Cyan instrument ink (readouts, cables, pens) */
+.detail {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+/* Status lights */
+.dot {
+  fill: var(--color-accent);
+}
+.dotWarn {
+  fill: var(--color-secondary);
+}
+
+/* Secondary seams on suits and props */
+.shellLine {
+  fill: none;
+  stroke: rgb(125 239 255 / 0.28);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+}
+
+/* Paper: the one warm-neutral ink in the scene */
+.page {
+  fill: none;
+  stroke: rgb(169 178 199 / 0.6);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+/* Slack lines: tethers, guy wires, orbit traces */
+.tether {
+  fill: none;
+  stroke: rgb(125 239 255 / 0.3);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 5;
+  stroke-linecap: round;
+}
+
+/* Structural mast pole */
+.mast {
+  stroke: rgb(125 239 255 / 0.45);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* Scene framing: corner brackets, ground line */
+.frameLine {
+  fill: none;
+  stroke: rgb(125 239 255 / 0.2);
+  stroke-width: 1.25;
+}
+.floor {
+  stroke: rgb(125 239 255 / 0.16);
+  stroke-width: 1.25;
+  stroke-dasharray: 2 7;
+}
+
+/* Background stars and pulsing sparkles */
+.star {
+  fill: rgb(125 239 255 / 0.5);
+}
+.sparkle {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  animation: sparkle-pulse 2.2s var(--ease-inout) infinite;
+}
+.pulse {
+  animation: sparkle-pulse 1.8s var(--ease-inout) infinite;
+}
+
+/* Diegetic activity stamp, EvaScan-callout style */
+.stamp {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  fill: var(--c-ink-500);
+}
+
+@keyframes vignette-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes vignette-float {
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes sparkle-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vignette,
+  .sparkle,
+  .pulse {
+    animation: none;
+  }
+}

@@ -1,0 +1,18 @@
+.pilot-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.pilot-stats__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: center;
+  height: 100%;
+}
+
+.pilot-stats__value {
+  color: var(--color-accent);
+}

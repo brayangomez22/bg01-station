@@ -1,0 +1,49 @@
+.module-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.module-nav__link {
+  display: block;
+  height: 100%;
+}
+
+.module-nav__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  height: 100%;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.module-nav__link:hover .module-nav__panel {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-accent-soft);
+  border-color: var(--color-accent-deep);
+}
+
+/* Docking clamps: the panel's HUD brackets contract onto the module. */
+.module-nav__link:hover .module-nav__panel::before,
+.module-nav__link:focus-visible .module-nav__panel::before {
+  translate: 4px 4px;
+  border-color: var(--color-accent);
+}
+.module-nav__link:hover .module-nav__panel::after,
+.module-nav__link:focus-visible .module-nav__panel::after {
+  translate: -4px -4px;
+  border-color: var(--color-accent);
+}
+
+.module-nav__arrow {
+  margin-top: var(--space-3);
+  color: var(--color-accent);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.module-nav__link:hover .module-nav__arrow {
+  transform: translateX(4px);
+}

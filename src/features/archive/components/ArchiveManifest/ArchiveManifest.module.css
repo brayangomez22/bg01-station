@@ -1,0 +1,130 @@
+.manifest {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-thin) solid var(--color-border);
+}
+
+.manifest__row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto auto;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-2);
+  border-bottom: var(--border-thin) solid var(--color-border);
+  text-decoration: none;
+  position: relative;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+/* Targeting brackets on hover — same language as mission cards. */
+.manifest__row::before,
+.manifest__row::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  border: var(--border-thin) solid var(--color-accent);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+  pointer-events: none;
+}
+
+.manifest__row::before {
+  left: 0;
+  border-right: 0;
+}
+
+.manifest__row::after {
+  right: 0;
+  border-left: 0;
+}
+
+.manifest__row:hover,
+.manifest__row:focus-visible {
+  background: rgb(18 23 38 / 0.5);
+}
+
+.manifest__row:hover::before,
+.manifest__row:hover::after,
+.manifest__row:focus-visible::before,
+.manifest__row:focus-visible::after {
+  opacity: 1;
+}
+
+.manifest__code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.manifest__row:hover .manifest__code,
+.manifest__row:focus-visible .manifest__code {
+  color: var(--color-accent);
+}
+
+.manifest__title {
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-base);
+  letter-spacing: var(--ls-subdisplay);
+  color: var(--color-text-strong);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.manifest__section,
+.manifest__date,
+.manifest__minutes {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.manifest__go {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-accent);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.manifest__row:hover .manifest__go,
+.manifest__row:focus-visible .manifest__go {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .manifest__row {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'code meta minutes'
+      'title title title';
+    row-gap: var(--space-1);
+  }
+  .manifest__code {
+    grid-area: code;
+  }
+  .manifest__section {
+    grid-area: meta;
+  }
+  .manifest__date {
+    display: none;
+  }
+  .manifest__minutes {
+    grid-area: minutes;
+  }
+  .manifest__title {
+    grid-area: title;
+    white-space: normal;
+  }
+  .manifest__go {
+    display: none;
+  }
+}

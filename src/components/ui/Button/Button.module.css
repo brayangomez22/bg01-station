@@ -1,0 +1,95 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  border: var(--border-thin) solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+/* Narrow instruments: long Spanish labels ("descargar credenciales") must
+   never widen the layout. Tracking tightens and, as a last resort, the
+   label may wrap. */
+@media (max-width: 360px) {
+  .button {
+    letter-spacing: 0.12em;
+    white-space: normal;
+    text-align: center;
+  }
+  .button--md {
+    padding: var(--space-3) var(--space-4);
+  }
+}
+
+.button[disabled],
+.button[data-state='loading'] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.button[data-state='loading'] .button__label {
+  animation: button-pulse 1s var(--ease-inout) infinite;
+}
+
+/* Sizes */
+.button--sm {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--fs-xs);
+}
+.button--md {
+  padding: var(--space-3) var(--space-5);
+}
+
+/* Variant: primary */
+.button--primary {
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-weight: var(--fw-medium);
+}
+.button--primary:hover {
+  box-shadow: var(--glow-accent);
+}
+
+/* Variant: ghost */
+.button--ghost {
+  background-color: transparent;
+  border-color: var(--color-border-strong);
+  color: var(--color-text-strong);
+}
+.button--ghost:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Variant: hud */
+.button--hud {
+  background-color: rgb(56 225 255 / 0.06);
+  border-color: var(--color-accent-deep);
+  color: var(--color-accent);
+}
+.button--hud:hover {
+  background-color: rgb(56 225 255 / 0.12);
+  box-shadow: var(--glow-accent-soft);
+}
+
+@keyframes button-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}

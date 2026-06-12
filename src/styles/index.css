@@ -1,0 +1,19 @@
+/* Single import entry-point for all global styles & tokens.
+   Imported once in src/main.tsx. Order matters: fonts, then tokens. */
+
+/* Self-hosted fonts (@fontsource): same-origin woff2, no Google Fonts
+   round-trip. Only the weights actually used by the tokens. */
+@import '@fontsource/michroma/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-600.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
+
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/motion.css';
+@import './tokens/elevation.css';
+@import './tokens/breakpoints.css';
+@import './reset.css';
+@import './global.css';

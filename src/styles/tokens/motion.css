@@ -1,0 +1,15 @@
+/* =========================================================================
+   MOTION TOKENS  (single source of truth, mirrored in lib/motion)
+   Curves are precise/mechanical, never bouncy.
+   ========================================================================= */
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-mechanical: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --dur-instant: 80ms;
+  --dur-fast: 120ms;
+  --dur-base: 300ms;
+  --dur-slow: 600ms;
+  --dur-warp: 400ms;
+}

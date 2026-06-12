@@ -1,0 +1,169 @@
+.mission-card {
+  height: 100%;
+}
+
+.mission-card__link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--elevation-panel-bg);
+  backdrop-filter: blur(var(--elevation-panel-blur));
+  -webkit-backdrop-filter: blur(var(--elevation-panel-blur));
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.mission-card__link {
+  position: relative;
+}
+
+.mission-card__link:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-accent-deep);
+  box-shadow: var(--glow-accent-soft);
+}
+
+/* Target-lock brackets: contract onto the card on hover/focus. */
+.mission-card__bracket {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: var(--border-thin) solid var(--color-accent-dim);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition:
+    translate 250ms var(--ease-mechanical),
+    opacity 250ms var(--ease-mechanical);
+}
+.mission-card__bracket[data-pos='tl'] {
+  top: 6px;
+  left: 6px;
+  border-right: 0;
+  border-bottom: 0;
+  translate: -6px -6px;
+}
+.mission-card__bracket[data-pos='tr'] {
+  top: 6px;
+  right: 6px;
+  border-left: 0;
+  border-bottom: 0;
+  translate: 6px -6px;
+}
+.mission-card__bracket[data-pos='bl'] {
+  bottom: 6px;
+  left: 6px;
+  border-right: 0;
+  border-top: 0;
+  translate: -6px 6px;
+}
+.mission-card__bracket[data-pos='br'] {
+  bottom: 6px;
+  right: 6px;
+  border-left: 0;
+  border-top: 0;
+  translate: 6px 6px;
+}
+.mission-card__link:hover .mission-card__bracket,
+.mission-card__link:focus-visible .mission-card__bracket {
+  opacity: 1;
+  translate: 0 0;
+  border-color: var(--color-accent);
+}
+
+/* Acquisition line: reveals under the title once the target is locked. */
+.mission-card__lock {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  opacity: 0;
+  translate: 0 3px;
+  transition:
+    opacity 250ms var(--ease-mechanical) 80ms,
+    translate 250ms var(--ease-mechanical) 80ms;
+}
+.mission-card__link:hover .mission-card__lock,
+.mission-card__link:focus-visible .mission-card__lock {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.mission-card__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.mission-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.mission-card__link:hover .mission-card__img {
+  transform: scale(1.05);
+}
+
+.mission-card__code {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-accent);
+  background: rgb(5 6 10 / 0.7);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+/* The code blinks exactly once on lock — twice is noise. */
+.mission-card__link:hover .mission-card__code {
+  animation: code-blink 320ms var(--ease-mechanical) 1;
+}
+@keyframes code-blink {
+  35% {
+    opacity: 0.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mission-card__bracket,
+  .mission-card__lock {
+    transition: none;
+  }
+  .mission-card__link:hover .mission-card__code {
+    animation: none;
+  }
+}
+
+.mission-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  flex: 1;
+}
+
+.mission-card__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: var(--space-2) 0 0;
+}
+
+.mission-card__chip {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  padding: 2px var(--space-2);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}

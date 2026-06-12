@@ -1,0 +1,29 @@
+.station-shell {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  isolation: isolate;
+}
+
+.station-shell__bg {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-bg);
+}
+
+.station-shell__content {
+  position: relative;
+  z-index: var(--z-content);
+  /* Space for the top HUD bar and the bottom nav dock */
+  padding-block: calc(var(--hud-inset) + var(--space-9)) var(--space-12);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Below 480px the HUD topbar stacks into up to three rows; the content
+   needs the extra headroom or the first line sits under the instruments. */
+@media (max-width: 480px) {
+  .station-shell__content {
+    padding-block-start: calc(var(--hud-inset) + 7.5rem);
+  }
+}

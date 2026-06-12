@@ -1,0 +1,69 @@
+/* =========================================================================
+   COLOR TOKENS
+   Two-tier system: primitives (raw scale) -> semantic (intent).
+   Components must ONLY consume semantic tokens.
+   ========================================================================= */
+:root {
+  /* ---- Primitives: deep space base ---- */
+  --c-void: #05060a;
+  --c-hull: #0b0e16;
+  --c-panel: #121726;
+  --c-line: #1e2740;
+
+  /* ---- Primitives: cold ink scale ---- */
+  --c-ink-900: #e8ecf4;
+  --c-ink-700: #a9b2c7;
+  --c-ink-500: #5c6680;
+  --c-ink-300: #3a4258;
+
+  /* ---- Primitives: signal (cyan instrument) ---- */
+  --c-cyan-300: #7defff;
+  --c-cyan-500: #38e1ff;
+  --c-cyan-700: #0aa8cc;
+
+  /* ---- Primitives: amber (alert) ---- */
+  --c-amber-300: #ffd28a;
+  --c-amber-500: #ffb547;
+  --c-amber-600: #e0961f;
+
+  /* ---- Primitives: status ---- */
+  --c-green: #4ade80;
+  --c-red: #ff5470;
+
+  /* ---- Semantic: surfaces ---- */
+  --color-bg: var(--c-void);
+  --color-surface: var(--c-hull);
+  --color-surface-raised: var(--c-panel);
+  --color-border: var(--c-line);
+  --color-border-strong: #2c3658;
+
+  /* ---- Semantic: text ---- */
+  --color-text: var(--c-ink-700);
+  --color-text-muted: var(--c-ink-500);
+  --color-text-strong: var(--c-ink-900);
+
+  /* ---- Semantic: accents ----
+     Grammar: cyan = live signal (focus, selection, data).
+              amber = caution / in-progress / external action.
+              dim   = decoration only (brackets, rings, rails) — never text. */
+  --color-accent: var(--c-cyan-500);
+  --color-accent-deep: var(--c-cyan-700);
+  --color-accent-dim: rgb(56 225 255 / 0.45);
+  --color-accent-contrast: var(--c-void);
+  --color-secondary: var(--c-amber-500);
+  --color-secondary-dim: rgb(255 181 71 / 0.45);
+
+  /* ---- Semantic: status ---- */
+  --color-status-ok: var(--c-green);
+  --color-status-warn: var(--c-amber-500);
+  --color-status-danger: var(--c-red);
+
+  /* ---- Semantic: interaction ---- */
+  --color-focus-ring: var(--c-cyan-500);
+  --color-overlay: rgb(5 6 10 / 0.72);
+
+  /* ---- Glow effects ---- */
+  --glow-accent: 0 0 24px rgb(56 225 255 / 0.35);
+  --glow-accent-soft: 0 0 12px rgb(56 225 255 / 0.2);
+  --glow-amber: 0 0 20px rgb(255 181 71 / 0.3);
+}

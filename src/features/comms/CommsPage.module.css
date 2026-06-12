@@ -1,0 +1,25 @@
+.comms {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+/* Grid items default to min-width:auto, which lets the form's intrinsic
+   width blow the 1fr track past the viewport on small screens. */
+.comms > * {
+  min-width: 0;
+}
+
+.comms__channels {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+@media (max-width: 1024px) {
+  .comms {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}

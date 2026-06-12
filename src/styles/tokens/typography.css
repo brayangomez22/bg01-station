@@ -1,0 +1,56 @@
+/* =========================================================================
+   TYPOGRAPHY TOKENS
+   Display: Michroma (fuselage-plate instrumentation, single weight, rationed).
+   Body: IBM Plex Sans (engineering heritage). Mono: IBM Plex Mono (telemetry).
+   ========================================================================= */
+:root {
+  /* Families */
+  --font-display: 'Michroma', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Scale (modular ~1.25, Major Third) */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.25rem;
+  --fs-lg: 1.563rem;
+  --fs-xl: 1.953rem;
+  --fs-2xl: 2.441rem;
+  --fs-3xl: 3.052rem;
+  /* Michroma is wide: tighter ceiling than the previous display face. */
+  --fs-hero: clamp(2.25rem, 6.5vw, 4.5rem);
+
+  /* Line heights */
+  --lh-tight: 1.1;
+  --lh-snug: 1.25;
+  --lh-base: 1.6;
+  --lh-loose: 1.8;
+
+  /* Letter spacing */
+  --ls-tight: -0.02em;
+  --ls-normal: 0;
+  /* Michroma needs positive air, never negative tracking. */
+  --ls-display: 0.04em;
+  /* Sub-level headings (Plex Sans 600): enough tracking to read as
+     instrumentation next to Michroma, without mono-label extremes. */
+  --ls-subdisplay: 0.06em;
+  --ls-wide: 0.22em;
+
+  /* Weights (Michroma ships 400 only — never synthesize bold on display) */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+}
+
+/* Phone-size type scale: Michroma is wide, and long Spanish words
+   ("comunicaciones") must fit a ~320px content column without breaking. */
+@media (max-width: 480px) {
+  :root {
+    --fs-3xl: 2.25rem;
+    --fs-2xl: 1.85rem;
+    --fs-xl: 1.6rem;
+    --fs-lg: 1.4rem;
+  }
+}

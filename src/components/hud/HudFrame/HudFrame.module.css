@@ -1,0 +1,200 @@
+.hud-frame {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-hud);
+  pointer-events: none;
+}
+
+/* Top telemetry bar */
+.hud-frame__topbar {
+  position: absolute;
+  top: var(--hud-inset);
+  left: var(--hud-inset);
+  right: var(--hud-inset);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: var(--border-thin) solid transparent;
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    top var(--dur-base) var(--ease-out),
+    left var(--dur-base) var(--ease-out),
+    right var(--dur-base) var(--ease-out),
+    padding var(--dur-base) var(--ease-out),
+    border-radius var(--dur-base) var(--ease-out);
+}
+
+/* Once content scrolls underneath, the bar docks flush against the
+   viewport top (no see-through strip above it) and gains a glass
+   backing — same elevation language as the NavDock. Inline padding
+   absorbs the inset so the instruments themselves don't shift. */
+.hud-frame[data-scrolled] .hud-frame__topbar {
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-inline: calc(var(--hud-inset) + var(--space-3));
+  border-radius: 0;
+  background: var(--elevation-drawer-bg);
+  border-bottom-color: var(--color-border);
+  backdrop-filter: blur(var(--elevation-drawer-blur));
+  -webkit-backdrop-filter: blur(var(--elevation-drawer-blur));
+}
+
+.hud-frame__topbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.hud-frame__topbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* topbar children must be clickable (SoundToggle, dossier) */
+.hud-frame__topbar * {
+  pointer-events: auto;
+}
+
+.hud-frame__cmd {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.hud-frame__cmd:hover {
+  color: var(--color-accent);
+}
+
+/* Recruiter fast-path: the CV is one click away from every screen.
+   Amber = external action, per the color grammar. */
+.hud-frame__dossier {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-secondary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    text-shadow var(--dur-fast) var(--ease-out);
+}
+.hud-frame__dossier:hover {
+  color: var(--c-amber-300);
+  text-shadow: var(--glow-amber);
+}
+
+/* Corner brackets — double stroke, instrument-frame language */
+.hud-frame__corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: var(--border-thin) solid var(--color-accent-dim);
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+/* The docked topbar covers the top corners; fade them instead of
+   letting them ghost through the glass. */
+.hud-frame[data-scrolled] .hud-frame__corner[data-pos='tl'],
+.hud-frame[data-scrolled] .hud-frame__corner[data-pos='tr'] {
+  opacity: 0;
+}
+.hud-frame__corner::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: inherit;
+  opacity: 0.5;
+}
+.hud-frame__corner[data-pos='tl'] {
+  top: var(--hud-inset);
+  left: var(--hud-inset);
+  border-right: 0;
+  border-bottom: 0;
+}
+.hud-frame__corner[data-pos='tr'] {
+  top: var(--hud-inset);
+  right: var(--hud-inset);
+  border-left: 0;
+  border-bottom: 0;
+}
+.hud-frame__corner[data-pos='bl'] {
+  bottom: var(--hud-inset);
+  left: var(--hud-inset);
+  border-right: 0;
+  border-top: 0;
+}
+.hud-frame__corner[data-pos='br'] {
+  bottom: var(--hud-inset);
+  right: var(--hud-inset);
+  border-left: 0;
+  border-top: 0;
+}
+/* Inner stroke must only mirror the two visible sides of each corner. */
+.hud-frame__corner[data-pos='tl']::before {
+  border-right: 0;
+  border-bottom: 0;
+}
+.hud-frame__corner[data-pos='tr']::before {
+  border-left: 0;
+  border-bottom: 0;
+}
+.hud-frame__corner[data-pos='bl']::before {
+  border-right: 0;
+  border-top: 0;
+}
+.hud-frame__corner[data-pos='br']::before {
+  border-left: 0;
+  border-top: 0;
+}
+
+/* Stamped hull microcopy (vertical, decoration tier) */
+.hud-frame__stamp {
+  position: absolute;
+  top: 50%;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-accent-dim);
+  white-space: nowrap;
+  user-select: none;
+}
+.hud-frame__stamp[data-side='left'] {
+  left: var(--hud-inset);
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+}
+.hud-frame__stamp[data-side='right'] {
+  right: var(--hud-inset);
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+}
+
+@media (max-width: 1023px) {
+  .hud-frame__stamp {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hud-frame__topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  .hud-frame__topbar-right {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+}

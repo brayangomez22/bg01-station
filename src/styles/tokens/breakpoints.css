@@ -1,0 +1,15 @@
+/* =========================================================================
+   BREAKPOINT REFERENCE TOKENS
+   NOTE: CSS @media cannot reliably use var(); these exist for documentation
+   and are mirrored literally in src/lib/breakpoints.ts (single source).
+     sm  >= 480px   large phone
+     md  >= 768px   tablet
+     lg  >= 1024px  desktop
+     xl  >= 1440px  wide desktop
+   ========================================================================= */
+:root {
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1440px;
+}

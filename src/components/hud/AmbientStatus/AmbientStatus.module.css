@@ -1,0 +1,45 @@
+.ambient {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ambient__shift {
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+}
+
+.ambient__sep {
+  color: var(--color-accent-dim);
+}
+
+.ambient__event {
+  color: var(--color-text-muted);
+  animation: ambient-in var(--dur-slow) var(--ease-out);
+}
+
+@keyframes ambient-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Background chatter is the first thing to go on small instruments. */
+@media (max-width: 1023px) {
+  .ambient {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient__event {
+    animation: none;
+  }
+}

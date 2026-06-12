@@ -1,0 +1,122 @@
+.console {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 18vh var(--gutter) 0;
+  background: var(--color-overlay);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+
+.console__panel {
+  width: 100%;
+  max-width: 560px;
+  background: var(--elevation-drawer-bg);
+  border: var(--elevation-drawer-border);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(var(--elevation-drawer-blur));
+  -webkit-backdrop-filter: blur(var(--elevation-drawer-blur));
+  overflow: hidden;
+}
+
+.console__prompt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: var(--border-thin) solid var(--color-border);
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+}
+
+.console__input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+  color: var(--color-text-strong);
+  caret-color: var(--color-accent);
+}
+.console__input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.console__kbd {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-2);
+}
+
+.console__list {
+  margin: 0;
+  padding: var(--space-2);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.console__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+  text-align: left;
+  transition:
+    background-color var(--dur-instant) var(--ease-mechanical),
+    color var(--dur-instant) var(--ease-mechanical);
+}
+
+.console__item--active {
+  background: rgb(56 225 255 / 0.08);
+  color: var(--color-accent);
+}
+
+.console__hint {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+}
+
+.console__empty,
+.console__response {
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+}
+
+.console__response {
+  color: var(--color-secondary);
+}
+
+/* Short viewports (landscape phones): the 18vh drop + full list would
+   push the panel past the fold — dock it high and cap the list. Lives at
+   the end of the file so it wins the source-order tie with .console__list. */
+@media (max-height: 500px) {
+  .console {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+  .console__list {
+    max-height: calc(100vh - 180px);
+  }
+}

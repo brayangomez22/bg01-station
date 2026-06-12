@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" font-family="ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#38e1ff" stroke-opacity="0.05"/>
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38e1ff" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#38e1ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="#0b0e16"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <!-- frame -->
+  <rect x="24" y="24" width="1152" height="627" fill="none" stroke="#1e2740"/>
+  <path d="M24 64V24H64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1136 24H1176V64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1176 611V651H1136" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M64 651H24V611" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+
+  <!-- motif: transaction core with orbiting service nodes -->
+  <g transform="translate(800,337)">
+    <circle r="220" fill="url(#glow)"/>
+    <circle r="190" fill="none" stroke="#1e2740"/>
+    <circle r="140" fill="none" stroke="#38e1ff" stroke-opacity="0.25" stroke-dasharray="4 8"/>
+    <circle r="90" fill="none" stroke="#38e1ff" stroke-opacity="0.4"/>
+    <circle r="26" fill="#0b0e16" stroke="#38e1ff" stroke-width="2"/>
+    <circle r="8" fill="#38e1ff"/>
+    <!-- nodes -->
+    <g fill="#0b0e16" stroke="#38e1ff">
+      <circle cx="140" cy="0" r="10"/>
+      <circle cx="-99" cy="99" r="10"/>
+      <circle cx="-127" cy="-58" r="10" stroke="#ffb547"/>
+      <circle cx="45" cy="-178" r="10"/>
+    </g>
+    <g stroke="#38e1ff" stroke-opacity="0.5">
+      <line x1="26" y1="0" x2="130" y2="0"/>
+      <line x1="-18" y1="18" x2="-92" y2="92"/>
+      <line x1="-24" y1="-11" x2="-118" y2="-54"/>
+      <line x1="6" y1="-25" x2="42" y2="-168"/>
+    </g>
+    <text x="156" y="4" fill="#38e1ff" font-size="13" opacity="0.8">TX-NODE</text>
+    <text x="-127" y="-70" fill="#ffb547" font-size="13" opacity="0.8">IDEMPOTENCY</text>
+  </g>
+
+  <!-- stamp -->
+  <text x="64" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-001</text>
+  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">API DE PAGOS ORBITAL</text>
+  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">GO · MONGODB · AWS</text>
+
+  <!-- footer telemetry -->
+  <text x="64" y="615" fill="#5c6680" font-size="12" letter-spacing="3">BG-01 STATION ARCHIVE · STATUS: COMPLETED</text>
+  <text x="1136" y="615" fill="#38e1ff" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.6">5.2K TPS · P99 118MS</text>
+</svg>
