@@ -8,7 +8,7 @@ export const SITE = {
   url: 'https://brayangomez.dev',
   author: 'Brayan Gómez',
   locale: 'es_ES',
-  ogImage: '/og-image.png',
+  ogImage: 'https://brayangomez.dev/og-image.png',
 } as const;
 
 export interface SeoMeta {

@@ -31,15 +31,15 @@
   <text x="76" y="120" fill="#38e1ff" font-size="20" letter-spacing="6">▸ CONEXIÓN ESTABLECIDA CON BG-01</text>
 
   <text x="74" y="260" fill="#e8ecf4" font-size="84" letter-spacing="4" font-weight="bold">BRAYAN GÓMEZ</text>
-  <text x="76" y="324" fill="#38e1ff" font-size="30" letter-spacing="8">BACKEND DEVELOPER · ARQUITECTO DE SISTEMAS</text>
+  <text x="76" y="324" fill="#38e1ff" font-size="30" letter-spacing="8">FULL STACK DEVELOPER · GO / REACT / ANGULAR</text>
 
   <!-- stack chips -->
   <g font-size="18" fill="#a9b2c7">
     <rect x="74" y="380" width="70" height="44" fill="none" stroke="#2c3658"/><text x="109" y="408" text-anchor="middle">GO</text>
-    <rect x="160" y="380" width="120" height="44" fill="none" stroke="#2c3658"/><text x="220" y="408" text-anchor="middle">NESTJS</text>
-    <rect x="296" y="380" width="180" height="44" fill="none" stroke="#2c3658"/><text x="386" y="408" text-anchor="middle">TYPESCRIPT</text>
-    <rect x="492" y="380" width="150" height="44" fill="none" stroke="#2c3658"/><text x="567" y="408" text-anchor="middle">MONGODB</text>
-    <rect x="658" y="380" width="86" height="44" fill="none" stroke="#2c3658"/><text x="701" y="408" text-anchor="middle">AWS</text>
+    <rect x="160" y="380" width="110" height="44" fill="none" stroke="#2c3658"/><text x="215" y="408" text-anchor="middle">REACT</text>
+    <rect x="286" y="380" width="140" height="44" fill="none" stroke="#2c3658"/><text x="356" y="408" text-anchor="middle">ANGULAR</text>
+    <rect x="442" y="380" width="180" height="44" fill="none" stroke="#2c3658"/><text x="532" y="408" text-anchor="middle">TYPESCRIPT</text>
+    <rect x="638" y="380" width="110" height="44" fill="none" stroke="#2c3658"/><text x="693" y="408" text-anchor="middle">AZURE</text>
   </g>
 
   <text x="76" y="556" fill="#5c6680" font-size="16" letter-spacing="4">BG-01 SPACE STATION · PORTAFOLIO INMERSIVO · 5+ AÑOS DE VUELO</text>
