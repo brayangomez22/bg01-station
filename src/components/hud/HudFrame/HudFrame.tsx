@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { cn } from '@/lib/cn';
 import { deckOf } from '@/app/router/decks';
 import { OPEN_CONSOLE_EVENT } from '@/components/console/CommandConsole/CommandConsole';
 import { OPEN_MAP_EVENT } from '@/components/map/StationMap/StationMap';
@@ -72,7 +73,7 @@ export function HudFrame() {
           </button>
           <button
             type="button"
-            className={styles['hud-frame__cmd']}
+            className={cn(styles['hud-frame__cmd'], styles['hud-frame__cmd--console'])}
             onClick={() => window.dispatchEvent(new CustomEvent(OPEN_CONSOLE_EVENT))}
             aria-label="Abrir consola de comandos (Ctrl+K)"
             title="Ctrl+K"

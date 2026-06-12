@@ -187,14 +187,12 @@
   }
 }
 
-@media (max-width: 480px) {
-  .hud-frame__topbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-2);
-  }
-  .hud-frame__topbar-right {
-    flex-wrap: wrap;
-    gap: var(--space-3);
+/* Mobile: only essential instruments stay on the topbar so it fits in a
+   single row. The console is keyboard-driven (Ctrl+K) and the dossier
+   remains one tap away from the Puente hero and the Piloto deck. */
+@media (max-width: 767px) {
+  .hud-frame__cmd--console,
+  .hud-frame__dossier {
+    display: none;
   }
 }
