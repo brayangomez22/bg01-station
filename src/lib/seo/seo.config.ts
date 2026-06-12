@@ -5,7 +5,7 @@
 
 export const SITE = {
   name: 'BG-01 Space Station',
-  url: 'https://brayangomez22.github.io',
+  url: 'https://brayangomez.dev',
   author: 'Brayan Gómez',
   locale: 'es_ES',
   ogImage: '/og-image.png',
