@@ -26,22 +26,22 @@ export const seoByRoute = {
   bridge: {
     title: pageTitle('Puente de mando'),
     description:
-      'Conéctate a la estación BG-01: el portafolio inmersivo de Brayan Gómez, Backend Developer especializado en Go, NestJS y AWS.',
+      'Conéctate a la estación BG-01: el portafolio inmersivo de Brayan Gómez, Full Stack Developer especializado en Go, React y Angular.',
   },
   pilot: {
     title: pageTitle('Ficha del piloto'),
     description:
-      'Conoce a Brayan Gómez, Backend Developer y arquitecto de sistemas. Credenciales, manifiesto y trayectoria.',
+      'Conoce a Brayan Gómez, Full Stack Developer con 5+ años de vuelo. Credenciales, manifiesto y trayectoria.',
   },
   systems: {
     title: pageTitle('Sistemas orbitales'),
     description:
-      'Las tecnologías de Brayan como planetas en órbita: Go, TypeScript, NestJS, Angular, React, MongoDB y AWS.',
+      'Las tecnologías de Brayan como planetas en órbita: Go, TypeScript, Angular, React, NestJS, MongoDB y Azure.',
   },
   missions: {
     title: pageTitle('Registro de misiones'),
     description:
-      'Proyectos completados por Brayan Gómez: APIs de alto rendimiento, microservicios y sistemas en tiempo real.',
+      'Proyectos de Brayan Gómez: migración Angular → React, pagos recurrentes en Go, bots multicanal y plataformas de impacto social.',
   },
   logbook: {
     title: pageTitle('Bitácora de vuelo'),

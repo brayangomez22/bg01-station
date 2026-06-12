@@ -3,16 +3,16 @@ import type { Pilot } from '@/types/domain';
 export const pilot: Pilot = {
   name: 'Brayan Gómez',
   callsign: 'BG-01',
-  role: 'Backend Developer · Arquitecto de Sistemas',
+  role: 'Full Stack Developer',
   available: true,
-  location: 'Colombia · Remoto',
-  bio: 'Backend Developer especializado en construir sistemas robustos, escalables y de alto rendimiento. Trabajo principalmente con Go y NestJS, modelo datos en MongoDB y opero infraestructura en AWS. Me obsesiona el código mantenible y las arquitecturas que envejecen bien.',
+  location: 'Medellín, Colombia · Remoto',
+  bio: 'Full Stack Developer con 5+ años construyendo aplicaciones web escalables con Go, Angular y React. Especializado en microservicios y APIs REST en el backend, lideré la migración de productos núcleo de Angular a React e integré sistemas de pago con facturación recurrente. Opero CI/CD y despliegues cloud con Azure DevOps y Docker.',
   manifesto:
     'Construyo sistemas como quien diseña una nave: cada componente con un propósito claro, listo para resistir la carga real y fácil de operar a años luz de su lanzamiento.',
   stats: [
     { label: 'Años de vuelo', value: '5+' },
     { label: 'Misiones documentadas', value: '4' },
-    { label: 'Sistemas dominados', value: '7' },
+    { label: 'Sistemas dominados', value: '10' },
   ],
   avatar: {
     src: '/avatar.svg',

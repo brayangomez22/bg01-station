@@ -3,9 +3,6 @@
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M40 0H0V40" fill="none" stroke="#38e1ff" stroke-opacity="0.05"/>
     </pattern>
-    <pattern id="caution" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-      <rect width="12" height="24" fill="#ffb547" fill-opacity="0.5"/>
-    </pattern>
   </defs>
 
   <rect width="1200" height="675" fill="#0b0e16"/>
@@ -17,11 +14,11 @@
   <path d="M1176 611V651H1136" fill="none" stroke="#ffb547" stroke-opacity="0.6" stroke-width="2"/>
   <path d="M64 651H24V611" fill="none" stroke="#ffb547" stroke-opacity="0.6" stroke-width="2"/>
 
-  <!-- motif: serverless flow — intake, lambda stages, aggregate -->
+  <!-- motif: platform flow — intake, service stages, impact -->
   <g transform="translate(220,300)">
     <!-- intake -->
     <rect x="0" y="20" width="90" height="64" fill="none" stroke="#38e1ff"/>
-    <text x="45" y="110" fill="#5c6680" font-size="12" text-anchor="middle" letter-spacing="2">EVENTS</text>
+    <text x="45" y="110" fill="#5c6680" font-size="12" text-anchor="middle" letter-spacing="2">REGISTROS</text>
     <!-- chevrons -->
     <g stroke="#38e1ff" stroke-width="2" fill="none" stroke-opacity="0.7">
       <path d="M110 52 134 52 M126 40 140 52 126 64"/>
@@ -31,27 +28,26 @@
     <!-- lambda stages -->
     <g>
       <path d="M160 12 240 12 260 52 240 92 160 92 180 52Z" fill="#0b0e16" stroke="#38e1ff" stroke-width="2"/>
-      <text x="212" y="58" fill="#38e1ff" font-size="16" text-anchor="middle">λ</text>
+      <text x="212" y="58" fill="#38e1ff" font-size="14" text-anchor="middle">API</text>
       <path d="M430 12 510 12 530 52 510 92 430 92 450 52Z" fill="#0b0e16" stroke="#38e1ff" stroke-width="2"/>
-      <text x="482" y="58" fill="#38e1ff" font-size="16" text-anchor="middle">λ</text>
-      <text x="345" y="120" fill="#5c6680" font-size="12" text-anchor="middle" letter-spacing="2">GO RUNTIME · ELASTIC</text>
+      <text x="482" y="58" fill="#38e1ff" font-size="14" text-anchor="middle">WEB</text>
+      <text x="345" y="120" fill="#5c6680" font-size="12" text-anchor="middle" letter-spacing="2">NESTJS · ANGULAR</text>
     </g>
     <!-- aggregate store -->
     <g transform="translate(700,16)">
       <ellipse cx="45" cy="8" rx="45" ry="10" fill="none" stroke="#38e1ff"/>
       <path d="M0 8V64c0 6 20 12 45 12s45-6 45-12V8" fill="none" stroke="#38e1ff"/>
-      <text x="45" y="104" fill="#5c6680" font-size="12" text-anchor="middle" letter-spacing="2">AGGREGATES</text>
+      <text x="45" y="104" fill="#5c6680" font-size="12" text-anchor="middle" letter-spacing="2">IMPACTO</text>
     </g>
   </g>
 
-  <!-- caution strip: in progress -->
-  <rect x="64" y="540" width="280" height="10" fill="url(#caution)"/>
-  <text x="64" y="572" fill="#ffb547" font-size="13" letter-spacing="3">EN CURSO · 2025—</text>
+  <!-- mission band -->
+  <text x="64" y="572" fill="#ffb547" font-size="13" letter-spacing="3">FUNDACIÓN ROFÉ · 2021—2022</text>
 
   <text x="64" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-004</text>
-  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">PIPELINE DE ANALÍTICA DE CARGA</text>
-  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">GO · AWS LAMBDA · MONGODB</text>
+  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">PLATAFORMAS ROFÉ · IMPACTO SOCIAL</text>
+  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">NESTJS · ANGULAR · AZURE</text>
 
-  <text x="64" y="615" fill="#5c6680" font-size="12" letter-spacing="3">BG-01 STATION ARCHIVE · STATUS: IN-PROGRESS</text>
-  <text x="1136" y="615" fill="#ffb547" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.7">CAUTION · ACTIVE MISSION</text>
+  <text x="64" y="615" fill="#5c6680" font-size="12" letter-spacing="3">BG-01 STATION ARCHIVE · STATUS: COMPLETED</text>
+  <text x="1136" y="615" fill="#ffb547" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.7">MISIÓN DE IMPACTO SOCIAL</text>
 </svg>

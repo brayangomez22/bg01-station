@@ -46,10 +46,10 @@
 
   <!-- stamp -->
   <text x="64" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-001</text>
-  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">API DE PAGOS ORBITAL</text>
-  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">GO · MONGODB · AWS</text>
+  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">SISTEMA DE PAGOS RECURRENTES</text>
+  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">GO · MONGODB · AZURE</text>
 
   <!-- footer telemetry -->
   <text x="64" y="615" fill="#5c6680" font-size="12" letter-spacing="3">BG-01 STATION ARCHIVE · STATUS: COMPLETED</text>
-  <text x="1136" y="615" fill="#38e1ff" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.6">5.2K TPS · P99 118MS</text>
+  <text x="1136" y="615" fill="#38e1ff" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.6">12K+ COBROS/MES · 0 DUPLICADOS</text>
 </svg>

@@ -21,8 +21,8 @@ export const frequencies: Frequency[] = [
   {
     id: 'linkedin',
     label: 'LinkedIn',
-    handle: 'in/brayangomez',
-    url: 'https://www.linkedin.com/in/brayangomez',
+    handle: 'in/brayangomez-dev',
+    url: 'https://www.linkedin.com/in/brayangomez-dev/',
     icon: 'linkedin',
     primary: false,
   },
