@@ -2,13 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/app/router/paths';
-import { OPEN_MAP_EVENT } from '@/components/map/StationMap/StationMap';
 import { useSound } from '@/app/providers/SoundProvider';
-import { pilot } from '@/content/pilot';
-import { archiveManifest } from '@/content/archive/manifest';
 import { cn } from '@/lib/cn';
-import { formatStamp } from '@/lib/format';
-import { getVisitor } from '@/lib/visitor';
 import styles from './CommandConsole.module.css';
 
 /** Anyone (e.g. the HUD button) can open the console via this event. */
@@ -25,7 +20,7 @@ interface Command {
 
 export function CommandConsole() {
   const navigate = useNavigate();
-  const { play, enabled, toggle } = useSound();
+  const { play } = useSound();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [cursor, setCursor] = useState(0);
@@ -90,72 +85,8 @@ export function CommandConsole() {
         keywords: 'blog articulos archivo conocimiento registros knowledge',
         run: () => void navigate(ROUTES.archive),
       },
-      // Direct retrieval by serial: "reg 001" opens the record. The console
-      // only needs the light manifest — bodies stay in the archive chunk.
-      ...archiveManifest.map((r) => ({
-        id: `reg-${r.id}`,
-        label: `reg ${r.code.slice(4)}`,
-        hint: r.title.toLowerCase(),
-        keywords: `registro ${r.code.toLowerCase()} ${r.title.toLowerCase()}`,
-        run: () => void navigate(ROUTES.archiveRecord(r.id)),
-      })),
-      {
-        id: 'map',
-        label: 'abrir mapa',
-        hint: 'esquemático de la estación',
-        keywords: 'mapa esquematico plano cubiertas decks',
-        run: () => {
-          window.dispatchEvent(new CustomEvent(OPEN_MAP_EVENT));
-          return undefined;
-        },
-      },
-      {
-        id: 'dossier',
-        label: 'descargar dossier',
-        hint: 'CV en PDF',
-        keywords: 'cv resume pdf descargar',
-        run: () => {
-          window.open(pilot.resumeUrl, '_blank');
-          return undefined;
-        },
-      },
-      {
-        id: 'sound',
-        label: enabled ? 'sonido off' : 'sonido on',
-        hint: 'audio de la estación',
-        keywords: 'audio sound mute',
-        run: () => {
-          toggle();
-          return `audio de la estación: ${enabled ? 'desactivado' : 'activado'}`;
-        },
-      },
-      {
-        id: 'manifest',
-        label: 'manifiesto',
-        hint: 'tu registro de visita',
-        keywords: 'visitante visita registro quien soy id',
-        run: () => {
-          const v = getVisitor();
-          if (!v) return 'sin registro · almacenamiento local no disponible';
-          return `${v.id} · visita ${String(v.visits).padStart(2, '0')} · primer acoplamiento ${formatStamp(v.firstVisit)}`;
-        },
-      },
-      {
-        id: 'self-destruct',
-        label: 'autodestrucción',
-        hint: 'protocolo restringido',
-        keywords: 'destruir boom',
-        run: () => 'permiso denegado · bonito intento, visitante',
-      },
-      {
-        id: 'airlock',
-        label: 'abrir compuertas',
-        hint: 'protocolo restringido',
-        keywords: 'esclusa airlock puertas',
-        run: () => 'negativo · no sin un traje presurizado',
-      },
     ],
-    [navigate, enabled, toggle],
+    [navigate],
   );
 
   const matches = useMemo(() => {
@@ -253,7 +184,7 @@ export function CommandConsole() {
                   setResponse(null);
                 }}
                 onKeyDown={onInputKey}
-                placeholder="comando… (ir misiones, descargar dossier)"
+                placeholder="comando… (ir misiones, abrir comms)"
                 aria-label="Comando"
                 autoComplete="off"
                 spellCheck={false}

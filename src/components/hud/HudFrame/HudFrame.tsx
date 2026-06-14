@@ -84,9 +84,9 @@ export function HudFrame() {
             href={pilot.resumeUrl}
             download
             className={styles['hud-frame__dossier']}
-            aria-label="Descargar CV (dossier del piloto)"
+            aria-label="Descargar CV del piloto"
           >
-            [ DOSSIER ]
+            [ DESCARGAR CV ]
           </a>
           <SoundToggle />
         </div>
