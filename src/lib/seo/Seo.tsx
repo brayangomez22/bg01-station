@@ -7,6 +7,8 @@ interface SeoProps {
   path?: string;
   /** Optional structured data (JSON-LD) object. */
   jsonLd?: Record<string, unknown>;
+  /** Keep the page out of search indexes (e.g. the control center). */
+  noindex?: boolean;
 }
 
 /**
@@ -14,14 +16,18 @@ interface SeoProps {
  * hoisting <title>/<meta>/<link> rendered anywhere in the tree into <head>.
  * No external head-management dependency needed.
  */
-export function Seo({ title, description, path, jsonLd }: SeoProps) {
+export function Seo({ title, description, path, jsonLd, noindex }: SeoProps) {
   const url = path ? `${SITE.url}${path}` : SITE.url;
 
   return (
     <>
       <title>{title}</title>
       <meta name="description" content={description} />
-      <link rel="canonical" href={url} />
+      {noindex ? (
+        <meta name="robots" content="noindex, nofollow" />
+      ) : (
+        <link rel="canonical" href={url} />
+      )}
 
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />

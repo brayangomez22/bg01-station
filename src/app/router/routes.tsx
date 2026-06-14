@@ -1,7 +1,9 @@
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { StationShell } from '@/app/layout/StationShell';
-import { ROUTES, ROUTE_PATTERNS } from './paths';
+import { ControlShell } from '@/app/layout/ControlShell';
+import { ControlGuard } from '@/features/control/components/ControlGuard';
+import { ROUTES, ROUTE_PATTERNS, CONTROL } from './paths';
 
 /* First-visit pacing: the first time a deck's chunk loads mid-session, the
    telemetry loader (and its crew scene) holds long enough to be read.
@@ -37,6 +39,10 @@ const ArchivePage = lazy(() => paced(() => import('@/features/archive/ArchivePag
 const ArchiveRecordPage = lazy(() =>
   paced(() => import('@/features/archive/ArchiveRecordPage')),
 );
+// Control center pages (lazy; loaded only when an admin visits /control).
+const ControlLoginPage = lazy(() => import('@/features/control/LoginPage'));
+const ControlOverviewPage = lazy(() => import('@/features/control/OverviewPage'));
+
 // 404 is eager (lightweight, must render even if a chunk fails to load).
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
 
@@ -55,6 +61,19 @@ export const router = createBrowserRouter([
       { path: ROUTES.archive, element: <ArchivePage /> },
       { path: ROUTE_PATTERNS.archiveRecord, element: <ArchiveRecordPage /> },
       { path: '*', element: <NotFoundPage /> },
+    ],
+  },
+  {
+    // Control center: a sibling branch, not a deck. Public station chrome
+    // (NavDock, deck transitions) never applies here.
+    path: CONTROL.root,
+    element: <ControlShell />,
+    children: [
+      { path: 'login', element: <ControlLoginPage /> },
+      {
+        element: <ControlGuard />,
+        children: [{ index: true, element: <ControlOverviewPage /> }],
+      },
     ],
   },
 ]);

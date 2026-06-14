@@ -18,3 +18,12 @@ export const ROUTE_PATTERNS = {
   missionDetail: '/missions/:missionId',
   archiveRecord: '/archive/:recordId',
 } as const;
+
+/**
+ * Control center routes. Kept separate from the public ROUTES (the station's
+ * narrative source of truth) because the control area is not a deck.
+ */
+export const CONTROL = {
+  root: '/control',
+  login: '/control/login',
+} as const;

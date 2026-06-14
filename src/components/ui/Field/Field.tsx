@@ -16,7 +16,7 @@ interface BaseFieldProps {
 
 interface InputFieldProps extends BaseFieldProps {
   as?: 'input';
-  type?: 'text' | 'email';
+  type?: 'text' | 'email' | 'password';
 }
 
 interface TextareaFieldProps extends BaseFieldProps {
