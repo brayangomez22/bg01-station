@@ -1,4 +1,4 @@
-import type { Mission } from '@/types/domain';
+import type { Mission, Pilot } from '@/types/domain';
 import { apiFetch } from './client';
 
 /**
@@ -17,3 +17,10 @@ function crud<T>(base: string) {
 }
 
 export const missionsApi = crud<Mission>('/admin/missions');
+
+/** Pilot is a singleton: GET + PUT, no list or delete. */
+export const pilotApi = {
+  get: () => apiFetch<Pilot>('/admin/pilot'),
+  save: (pilot: Pilot) =>
+    apiFetch<Pilot>('/admin/pilot', { method: 'PUT', body: JSON.stringify(pilot) }),
+};

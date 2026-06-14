@@ -42,6 +42,7 @@ const ArchiveRecordPage = lazy(() =>
 // Control center pages (lazy; loaded only when an admin visits /control).
 const ControlLoginPage = lazy(() => import('@/features/control/LoginPage'));
 const ControlOverviewPage = lazy(() => import('@/features/control/OverviewPage'));
+const PilotEditorPage = lazy(() => import('@/features/control/pilot/PilotEditorPage'));
 const MissionsListPage = lazy(() => import('@/features/control/missions/MissionsListPage'));
 const MissionEditorPage = lazy(
   () => import('@/features/control/missions/MissionEditorPage'),
@@ -78,6 +79,7 @@ export const router = createBrowserRouter([
         element: <ControlGuard />,
         children: [
           { index: true, element: <ControlOverviewPage /> },
+          { path: 'pilot', element: <PilotEditorPage /> },
           { path: 'missions', element: <MissionsListPage /> },
           { path: 'missions/new', element: <MissionEditorPage /> },
           { path: 'missions/:missionId', element: <MissionEditorPage /> },
