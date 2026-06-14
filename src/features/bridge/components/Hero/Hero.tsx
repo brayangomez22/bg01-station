@@ -57,7 +57,7 @@ export function Hero() {
             Ver misiones
           </Button>
           <Button href={pilot.resumeUrl} variant="ghost">
-            Dossier / CV
+            Descargar CV
           </Button>
         </motion.div>
       </div>
