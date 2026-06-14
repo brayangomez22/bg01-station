@@ -30,4 +30,7 @@ export const CONTROL = {
   missions: '/control/missions',
   missionNew: '/control/missions/new',
   missionEdit: (id: string) => `/control/missions/${id}`,
+  technologies: '/control/technologies',
+  technologyNew: '/control/technologies/new',
+  technologyEdit: (id: string) => `/control/technologies/${id}`,
 } as const;

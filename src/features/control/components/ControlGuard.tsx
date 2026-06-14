@@ -7,8 +7,8 @@ import styles from './ControlGuard.module.css';
 /** Modules with a live editor (route) vs. those still pending. */
 const MODULES: { label: string; hint: string; route?: string }[] = [
   { label: 'Piloto', hint: 'Perfil', route: CONTROL.pilot },
+  { label: 'Sistemas', hint: 'Tecnologías', route: CONTROL.technologies },
   { label: 'Misiones', hint: 'Proyectos', route: CONTROL.missions },
-  { label: 'Sistemas', hint: 'Tecnologías' },
   { label: 'Bitácora', hint: 'Experiencia' },
   { label: 'Archivo', hint: 'Registros' },
   { label: 'Frecuencias', hint: 'Contacto' },

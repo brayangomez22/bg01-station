@@ -47,6 +47,12 @@ const MissionsListPage = lazy(() => import('@/features/control/missions/Missions
 const MissionEditorPage = lazy(
   () => import('@/features/control/missions/MissionEditorPage'),
 );
+const TechnologiesListPage = lazy(
+  () => import('@/features/control/technologies/TechnologiesListPage'),
+);
+const TechnologyEditorPage = lazy(
+  () => import('@/features/control/technologies/TechnologyEditorPage'),
+);
 
 // 404 is eager (lightweight, must render even if a chunk fails to load).
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
@@ -83,6 +89,9 @@ export const router = createBrowserRouter([
           { path: 'missions', element: <MissionsListPage /> },
           { path: 'missions/new', element: <MissionEditorPage /> },
           { path: 'missions/:missionId', element: <MissionEditorPage /> },
+          { path: 'technologies', element: <TechnologiesListPage /> },
+          { path: 'technologies/new', element: <TechnologyEditorPage /> },
+          { path: 'technologies/:techId', element: <TechnologyEditorPage /> },
         ],
       },
     ],
