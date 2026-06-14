@@ -36,4 +36,10 @@ export const CONTROL = {
   experiences: '/control/experiences',
   experienceNew: '/control/experiences/new',
   experienceEdit: (id: string) => `/control/experiences/${id}`,
+  frequencies: '/control/frequencies',
+  frequencyNew: '/control/frequencies/new',
+  frequencyEdit: (id: string) => `/control/frequencies/${id}`,
+  siteCopy: '/control/site-copy',
+  siteCopyNew: '/control/site-copy/new',
+  siteCopyEdit: (key: string) => `/control/site-copy/${encodeURIComponent(key)}`,
 } as const;

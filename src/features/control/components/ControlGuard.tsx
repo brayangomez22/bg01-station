@@ -11,8 +11,8 @@ const MODULES: { label: string; hint: string; route?: string }[] = [
   { label: 'Misiones', hint: 'Proyectos', route: CONTROL.missions },
   { label: 'Bitácora', hint: 'Experiencia', route: CONTROL.experiences },
   { label: 'Archivo', hint: 'Registros' },
-  { label: 'Frecuencias', hint: 'Contacto' },
-  { label: 'Textos', hint: 'Copy editable' },
+  { label: 'Frecuencias', hint: 'Contacto', route: CONTROL.frequencies },
+  { label: 'Textos', hint: 'Copy editable', route: CONTROL.siteCopy },
 ];
 
 /**

@@ -59,6 +59,18 @@ const ExperiencesListPage = lazy(
 const ExperienceEditorPage = lazy(
   () => import('@/features/control/experiences/ExperienceEditorPage'),
 );
+const FrequenciesListPage = lazy(
+  () => import('@/features/control/frequencies/FrequenciesListPage'),
+);
+const FrequencyEditorPage = lazy(
+  () => import('@/features/control/frequencies/FrequencyEditorPage'),
+);
+const SiteCopyListPage = lazy(
+  () => import('@/features/control/site-copy/SiteCopyListPage'),
+);
+const SiteCopyEditorPage = lazy(
+  () => import('@/features/control/site-copy/SiteCopyEditorPage'),
+);
 
 // 404 is eager (lightweight, must render even if a chunk fails to load).
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
@@ -101,6 +113,12 @@ export const router = createBrowserRouter([
           { path: 'experiences', element: <ExperiencesListPage /> },
           { path: 'experiences/new', element: <ExperienceEditorPage /> },
           { path: 'experiences/:expId', element: <ExperienceEditorPage /> },
+          { path: 'frequencies', element: <FrequenciesListPage /> },
+          { path: 'frequencies/new', element: <FrequencyEditorPage /> },
+          { path: 'frequencies/:freqId', element: <FrequencyEditorPage /> },
+          { path: 'site-copy', element: <SiteCopyListPage /> },
+          { path: 'site-copy/new', element: <SiteCopyEditorPage /> },
+          { path: 'site-copy/:copyKey', element: <SiteCopyEditorPage /> },
         ],
       },
     ],
