@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import type { TransmissionPayload, TransmissionState } from '@/types/domain';
+import { deliverTransmission } from '@/lib/comms/web3forms';
 
 export interface TransmissionErrors {
   from?: string;
@@ -21,8 +22,7 @@ function validate(payload: TransmissionPayload): TransmissionErrors {
 
 /**
  * Transmission state machine: idle -> validating -> transmitting -> success|error.
- * The actual delivery provider is intentionally deferred; `send` simulates the
- * network round-trip and can be swapped for a real endpoint later.
+ * Delivery is handled by Web3Forms (see `@/lib/comms/web3forms`).
  */
 export function useTransmission() {
   const [state, setState] = useState<TransmissionState>('idle');
@@ -46,8 +46,7 @@ export function useTransmission() {
     setState('transmitting');
     try {
       const startedAt = performance.now();
-      // TODO(provider): replace with real endpoint (serverless / API).
-      await new Promise((resolve) => setTimeout(resolve, 900));
+      await deliverTransmission(payload);
 
       // Light-delay theater: the signal "travels" for the remainder of a
       // 1.28s lunar round-trip. Never adds delay the network already spent,

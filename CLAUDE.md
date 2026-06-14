@@ -79,5 +79,5 @@ This list must stay in sync with `src/app/router/decks.ts`.
 - Path alias `@/` → `src/`.
 - Accessibility is load-bearing, not decorative: sound is off by default, `MotionConfig reducedMotion="user"` applies globally, decorative FX layers are `aria-hidden`, and reduced-motion visitors are never held on decorative loaders. Don't regress these when adding effects.
 - localStorage/sessionStorage keys are namespaced `bg01:*` and every access tolerates storage being unavailable (degrade, never throw).
-- The comms form (`useTransmission`) deliberately simulates delivery; there is no real endpoint yet.
+- The comms form (`useTransmission`) delivers via Web3Forms (`src/lib/comms/web3forms.ts`); the access key comes from `VITE_WEB3FORMS_ACCESS_KEY` (see `.env.example`) and is public by design.
 - GitHub Pages SPA fallback: the deploy workflow copies `index.html` to `404.html` so deep links work — keep that step if you touch the workflow.
