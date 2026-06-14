@@ -1,12 +1,15 @@
 import { useEffect, useState, type FormEvent } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { Panel, Field, Button, Text } from '@/components/ui';
 import { useSound } from '@/app/providers/SoundProvider';
 import { useTransmission } from '../../hooks/useTransmission';
+import { UplinkConfirm } from './UplinkConfirm';
 import styles from './TransmissionForm.module.css';
 
 export function TransmissionForm() {
   const { state, errors, send, reset } = useTransmission();
   const { play } = useSound();
+  const reduceMotion = useReducedMotion();
 
   // Diegetic acknowledgments: static while the signal travels, a two-tone
   // confirm when the station receives it.
@@ -27,26 +30,36 @@ export function TransmissionForm() {
   };
 
   if (state === 'success') {
+    // The copy lands as the pulse reaches the receiver (see UplinkConfirm).
+    const revealDelay = reduceMotion ? 0 : 0.95;
     return (
       <Panel bracketed className={styles['transmission-form__success']}>
-        <Text variant="mono" tone="accent">
-          ✓ MENSAJE RECIBIDO
-        </Text>
-        <Text>
-          Tu transmisión llegó a la estación BG-01. Responderé en cuanto vuelva al puente
-          de mando.
-        </Text>
-        <Button
-          variant="ghost"
-          onClick={() => {
-            setFrom('');
-            setFrequency('');
-            setMessage('');
-            reset();
-          }}
+        <UplinkConfirm />
+        <motion.div
+          className={styles['transmission-form__receipt']}
+          initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: revealDelay, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         >
-          Nueva transmisión
-        </Button>
+          <Text variant="mono" tone="accent">
+            ✓ MENSAJE RECIBIDO
+          </Text>
+          <Text>
+            Tu transmisión llegó a la estación BG-01. Responderé en cuanto vuelva al
+            puente de mando.
+          </Text>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setFrom('');
+              setFrequency('');
+              setMessage('');
+              reset();
+            }}
+          >
+            Nueva transmisión
+          </Button>
+        </motion.div>
       </Panel>
     );
   }

@@ -1,0 +1,70 @@
+.uplink {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  margin-inline: auto;
+  overflow: visible;
+}
+
+/* Established link: the channel sits quietly under the travelling pulse. */
+.uplink__channel {
+  fill: none;
+  stroke: var(--color-accent-dim);
+  stroke-width: 1;
+  stroke-dasharray: 2 5;
+}
+
+/* The signal itself — a short, glowing segment that rides the trajectory. */
+.uplink__pulse {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgb(56 225 255 / 0.85));
+}
+
+/* Radar acknowledgment expands from the receiver's centre. */
+.uplink__ring {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.25;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.uplink__node {
+  fill: var(--color-bg);
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+}
+
+.uplink__core {
+  fill: var(--color-accent);
+  filter: drop-shadow(0 0 5px rgb(56 225 255 / 0.7));
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.uplink__emit {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.25;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.uplink__label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  fill: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.uplink__caption {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.18em;
+  fill: var(--color-accent);
+  text-transform: uppercase;
+}
