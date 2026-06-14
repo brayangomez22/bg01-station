@@ -42,6 +42,10 @@ const ArchiveRecordPage = lazy(() =>
 // Control center pages (lazy; loaded only when an admin visits /control).
 const ControlLoginPage = lazy(() => import('@/features/control/LoginPage'));
 const ControlOverviewPage = lazy(() => import('@/features/control/OverviewPage'));
+const MissionsListPage = lazy(() => import('@/features/control/missions/MissionsListPage'));
+const MissionEditorPage = lazy(
+  () => import('@/features/control/missions/MissionEditorPage'),
+);
 
 // 404 is eager (lightweight, must render even if a chunk fails to load).
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
@@ -72,7 +76,12 @@ export const router = createBrowserRouter([
       { path: 'login', element: <ControlLoginPage /> },
       {
         element: <ControlGuard />,
-        children: [{ index: true, element: <ControlOverviewPage /> }],
+        children: [
+          { index: true, element: <ControlOverviewPage /> },
+          { path: 'missions', element: <MissionsListPage /> },
+          { path: 'missions/new', element: <MissionEditorPage /> },
+          { path: 'missions/:missionId', element: <MissionEditorPage /> },
+        ],
       },
     ],
   },

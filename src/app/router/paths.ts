@@ -26,4 +26,7 @@ export const ROUTE_PATTERNS = {
 export const CONTROL = {
   root: '/control',
   login: '/control/login',
+  missions: '/control/missions',
+  missionNew: '/control/missions/new',
+  missionEdit: (id: string) => `/control/missions/${id}`,
 } as const;

@@ -4,16 +4,16 @@ import { ROUTES, CONTROL } from '@/app/router/paths';
 import { useControlAuth } from '../ControlAuthProvider';
 import styles from './ControlGuard.module.css';
 
-/** Modules the control center will administer (editors arrive in later slices). */
-const MODULES = [
+/** Modules with a live editor (route) vs. those still pending. */
+const MODULES: { label: string; hint: string; route?: string }[] = [
+  { label: 'Misiones', hint: 'Proyectos', route: CONTROL.missions },
   { label: 'Piloto', hint: 'Perfil' },
   { label: 'Sistemas', hint: 'Tecnologías' },
-  { label: 'Misiones', hint: 'Proyectos' },
   { label: 'Bitácora', hint: 'Experiencia' },
   { label: 'Archivo', hint: 'Registros' },
   { label: 'Frecuencias', hint: 'Contacto' },
   { label: 'Textos', hint: 'Copy editable' },
-] as const;
+];
 
 /**
  * Gate for the authenticated control area. While the session is being checked
@@ -57,12 +57,31 @@ export function ControlGuard() {
           </NavLink>
 
           <p className={styles['guard__nav-label']}>Módulos</p>
-          {MODULES.map((m) => (
-            <span key={m.label} className={styles['guard__link--pending']} aria-disabled="true">
-              {m.label}
-              <small>{m.hint}</small>
-            </span>
-          ))}
+          {MODULES.map((m) =>
+            m.route ? (
+              <NavLink
+                key={m.label}
+                to={m.route}
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.guard__link} ${styles['guard__link--active']}`
+                    : styles.guard__link
+                }
+              >
+                {m.label}
+                <small>{m.hint}</small>
+              </NavLink>
+            ) : (
+              <span
+                key={m.label}
+                className={styles['guard__link--pending']}
+                aria-disabled="true"
+              >
+                {m.label}
+                <small>{m.hint}</small>
+              </span>
+            ),
+          )}
         </nav>
 
         <div className={styles.guard__footer}>
