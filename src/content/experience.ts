@@ -18,6 +18,7 @@ export const experience: Experience[] = [
       'Participación en decisiones de arquitectura, estimaciones técnicas y ceremonias ágiles.',
     ],
     achievements: [
+      'Reingeniería de microservicios en Go: servicios legados reconstruidos y nuevos proyectos desde cero.',
       'Migración Angular → React que mejoró rendimiento, mantenibilidad y reutilización de componentes.',
       'Sistema de pagos recurrentes que automatizó por completo los flujos de facturación.',
     ],

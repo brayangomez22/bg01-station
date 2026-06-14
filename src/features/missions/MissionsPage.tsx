@@ -8,6 +8,7 @@ import { technologyById } from '@/content/technologies';
 import { useMissionFilters } from './hooks/useMissionFilters';
 import { MissionFilters } from './components/MissionFilters/MissionFilters';
 import { MissionGrid } from './components/MissionGrid/MissionGrid';
+import { TrainingLog } from './components/TrainingLog/TrainingLog';
 
 export default function MissionsPage() {
   const labelFor = useCallback(
@@ -31,6 +32,7 @@ export default function MissionsPage() {
         filtro: {options.find((o) => o.id === active)?.label ?? 'todas'}
       </TelemetryLine>
       <MissionGrid missions={filtered} />
+      <TrainingLog />
     </Container>
   );
 }

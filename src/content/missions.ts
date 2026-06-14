@@ -188,6 +188,41 @@ export const missions: Mission[] = [
     featured: false,
     order: 5,
   },
+  {
+    id: 'kimsa-climate-systems',
+    code: 'M-006',
+    title: 'Sistemas KIMSA · Inteligencia Climática',
+    summary:
+      'Plataforma de cambio climático para la consultora KIMSA: seguimiento de huella de carbono, datos ambientales y reportes de sostenibilidad para sus clientes.',
+    description:
+      'Desarrollo freelance end-to-end de los sistemas de información de KIMSA, consultora de cambio climático. Backend en NestJS que centraliza la captura de datos ambientales y el cálculo de huella de carbono, con frontends en Angular y React para la gestión y la visualización de reportes de sostenibilidad. Sistemas desacoplados, integrados vía APIs REST y desplegados en producción.',
+    status: 'completed',
+    role: 'Freelance Full Stack Developer',
+    durationLabel: '13 meses',
+    period: { start: '2021-11-01', end: '2022-12-01' },
+    technologies: ['nestjs', 'angular', 'react', 'typescript'],
+    highlights: [
+      'Backend en NestJS para captura de datos ambientales y cálculo de huella de carbono.',
+      'Frontends en Angular y React para gestión y visualización de reportes de sostenibilidad.',
+      'Sistemas desacoplados e integrados vía APIs REST, desplegados en producción.',
+    ],
+    challenges: [
+      'Modelar el dominio de cambio climático para que datos dispersos fueran accionables.',
+      'Mantener consistencia entre múltiples frontends sobre un mismo backend.',
+    ],
+    metrics: [
+      { label: 'Sistemas entregados', value: '3' },
+      { label: 'Stack', value: 'NestJS·Angular·React' },
+      { label: 'Clientes activos', value: '10+' },
+    ],
+    links: {},
+    cover: cover(
+      'M-006',
+      'Esquemático de telemetría climática: fuentes de datos ambientales agregadas hacia un panel de monitoreo con tendencia de huella de carbono',
+    ),
+    featured: false,
+    order: 6,
+  },
 ];
 
 export const missionById = (id: string): Mission | undefined =>

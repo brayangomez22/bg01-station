@@ -36,6 +36,26 @@ export interface Mission {
   order: number;
 }
 
+/* ====================== TRAINING SIM (practice repo) ====================== */
+
+/**
+ * Curated practice repository, shown in the training log annex of the
+ * missions deck. `stack` holds plain labels — not Technology.id refs —
+ * because training covers tech outside the station index (Java, RabbitMQ…).
+ */
+export interface TrainingSim {
+  /** GitHub repository name (slug of repoUrl) */
+  repo: string;
+  /** narrative sim code, e.g. "SIM-001" */
+  code: string;
+  title: string;
+  /** one line: what the practice demonstrates */
+  summary: string;
+  stack: string[];
+  year: number;
+  repoUrl: string;
+}
+
 /* ============================ TECHNOLOGY (planet) ========================== */
 
 export type TechCategory = 'language' | 'framework' | 'database' | 'cloud' | 'tooling';

@@ -1,0 +1,103 @@
+/* Annex divider: the training log reads as a subordinate section of the deck. */
+.training-log {
+  margin-top: var(--space-12);
+  padding-top: var(--space-8);
+  border-top: var(--border-thin) solid var(--color-border);
+}
+
+.training-log__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  max-width: 60ch;
+}
+
+.training-log__hangar-link {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.training-log__hangar-link:hover {
+  color: var(--color-text);
+}
+
+.training-log__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.training-log__item {
+  height: 100%;
+}
+
+/* Compact card: no cover, no metrics — deliberately lighter than MissionCard. */
+.training-log__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  height: 100%;
+  padding: var(--space-4);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--elevation-panel-bg);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+.training-log__card:hover,
+.training-log__card:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--color-accent-deep);
+}
+
+.training-log__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.training-log__code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+.training-log__card:hover .training-log__code {
+  color: var(--color-accent);
+}
+
+.training-log__ext {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+.training-log__card:hover .training-log__ext {
+  color: var(--color-accent);
+}
+
+.training-log__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: auto;
+  padding-top: var(--space-2);
+}
+
+.training-log__chip {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  padding: 2px var(--space-2);
+  border: var(--border-thin) solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .training-log__card {
+    transition: none;
+  }
+}
