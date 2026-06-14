@@ -53,6 +53,12 @@ const TechnologiesListPage = lazy(
 const TechnologyEditorPage = lazy(
   () => import('@/features/control/technologies/TechnologyEditorPage'),
 );
+const ExperiencesListPage = lazy(
+  () => import('@/features/control/experiences/ExperiencesListPage'),
+);
+const ExperienceEditorPage = lazy(
+  () => import('@/features/control/experiences/ExperienceEditorPage'),
+);
 
 // 404 is eager (lightweight, must render even if a chunk fails to load).
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
@@ -92,6 +98,9 @@ export const router = createBrowserRouter([
           { path: 'technologies', element: <TechnologiesListPage /> },
           { path: 'technologies/new', element: <TechnologyEditorPage /> },
           { path: 'technologies/:techId', element: <TechnologyEditorPage /> },
+          { path: 'experiences', element: <ExperiencesListPage /> },
+          { path: 'experiences/new', element: <ExperienceEditorPage /> },
+          { path: 'experiences/:expId', element: <ExperienceEditorPage /> },
         ],
       },
     ],

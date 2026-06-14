@@ -33,4 +33,7 @@ export const CONTROL = {
   technologies: '/control/technologies',
   technologyNew: '/control/technologies/new',
   technologyEdit: (id: string) => `/control/technologies/${id}`,
+  experiences: '/control/experiences',
+  experienceNew: '/control/experiences/new',
+  experienceEdit: (id: string) => `/control/experiences/${id}`,
 } as const;

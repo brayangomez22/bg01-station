@@ -9,7 +9,7 @@ const MODULES: { label: string; hint: string; route?: string }[] = [
   { label: 'Piloto', hint: 'Perfil', route: CONTROL.pilot },
   { label: 'Sistemas', hint: 'Tecnologías', route: CONTROL.technologies },
   { label: 'Misiones', hint: 'Proyectos', route: CONTROL.missions },
-  { label: 'Bitácora', hint: 'Experiencia' },
+  { label: 'Bitácora', hint: 'Experiencia', route: CONTROL.experiences },
   { label: 'Archivo', hint: 'Registros' },
   { label: 'Frecuencias', hint: 'Contacto' },
   { label: 'Textos', hint: 'Copy editable' },
