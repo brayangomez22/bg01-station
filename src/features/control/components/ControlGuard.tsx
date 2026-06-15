@@ -10,7 +10,7 @@ const MODULES: { label: string; hint: string; route?: string }[] = [
   { label: 'Sistemas', hint: 'Tecnologías', route: CONTROL.technologies },
   { label: 'Misiones', hint: 'Proyectos', route: CONTROL.missions },
   { label: 'Bitácora', hint: 'Experiencia', route: CONTROL.experiences },
-  { label: 'Archivo', hint: 'Registros' },
+  { label: 'Archivo', hint: 'Registros', route: CONTROL.archive },
   { label: 'Frecuencias', hint: 'Contacto', route: CONTROL.frequencies },
   { label: 'Textos', hint: 'Copy editable', route: CONTROL.siteCopy },
 ];

@@ -1,4 +1,4 @@
-import type { Experience, Mission, Pilot, Technology } from '@/types/domain';
+import type { ArchiveSegment, Experience, Mission, Pilot, Technology } from '@/types/domain';
 import type { IconName } from '@/types/common';
 import { apiFetch } from './client';
 
@@ -20,6 +20,29 @@ export interface FrequencyRow {
 export interface SiteCopyEntry {
   key: string;
   value: string;
+}
+
+/** Admin row for an archive shelf (includes `order` for list sorting). */
+export interface ArchiveSectionRow {
+  id: string;
+  code: string;
+  label: string;
+  order: number;
+}
+
+/** Admin row for an archive record. `section` is a free string (a section id). */
+export interface ArchiveRecordRow {
+  id: string;
+  code: string;
+  title: string;
+  abstract: string;
+  section: string;
+  tags: string[];
+  archivedAt: string;
+  readingMinutes: number;
+  body: ArchiveSegment[];
+  refs: string[];
+  order: number;
 }
 
 /**
@@ -44,6 +67,9 @@ export const frequenciesApi = crud<FrequencyRow>('/admin/frequencies');
 
 // Site-copy's primary key is `key`; crud.remove receives that value positionally.
 export const siteCopyApi = crud<SiteCopyEntry>('/admin/site-copy');
+
+export const archiveSectionsApi = crud<ArchiveSectionRow>('/admin/archive/sections');
+export const archiveRecordsApi = crud<ArchiveRecordRow>('/admin/archive/records');
 
 /** Pilot is a singleton: GET + PUT, no list or delete. */
 export const pilotApi = {

@@ -42,4 +42,10 @@ export const CONTROL = {
   siteCopy: '/control/site-copy',
   siteCopyNew: '/control/site-copy/new',
   siteCopyEdit: (key: string) => `/control/site-copy/${encodeURIComponent(key)}`,
+  archive: '/control/archive',
+  archiveNew: '/control/archive/new',
+  archiveEdit: (id: string) => `/control/archive/${id}`,
+  archiveSections: '/control/archive/sections',
+  archiveSectionNew: '/control/archive/sections/new',
+  archiveSectionEdit: (id: string) => `/control/archive/sections/${id}`,
 } as const;

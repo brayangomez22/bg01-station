@@ -71,6 +71,18 @@ const SiteCopyListPage = lazy(
 const SiteCopyEditorPage = lazy(
   () => import('@/features/control/site-copy/SiteCopyEditorPage'),
 );
+const ArchiveRecordsListPage = lazy(
+  () => import('@/features/control/archive/ArchiveRecordsListPage'),
+);
+const ArchiveRecordEditorPage = lazy(
+  () => import('@/features/control/archive/ArchiveRecordEditorPage'),
+);
+const ArchiveSectionsListPage = lazy(
+  () => import('@/features/control/archive/ArchiveSectionsListPage'),
+);
+const ArchiveSectionEditorPage = lazy(
+  () => import('@/features/control/archive/ArchiveSectionEditorPage'),
+);
 
 // 404 is eager (lightweight, must render even if a chunk fails to load).
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
@@ -119,6 +131,12 @@ export const router = createBrowserRouter([
           { path: 'site-copy', element: <SiteCopyListPage /> },
           { path: 'site-copy/new', element: <SiteCopyEditorPage /> },
           { path: 'site-copy/:copyKey', element: <SiteCopyEditorPage /> },
+          { path: 'archive', element: <ArchiveRecordsListPage /> },
+          { path: 'archive/new', element: <ArchiveRecordEditorPage /> },
+          { path: 'archive/sections', element: <ArchiveSectionsListPage /> },
+          { path: 'archive/sections/new', element: <ArchiveSectionEditorPage /> },
+          { path: 'archive/sections/:sectionId', element: <ArchiveSectionEditorPage /> },
+          { path: 'archive/:recordId', element: <ArchiveRecordEditorPage /> },
         ],
       },
     ],
