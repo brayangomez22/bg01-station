@@ -1,0 +1,246 @@
+[
+  {
+    "id": "contenedores-go-12mb",
+    "code": "REG-003",
+    "title": "Contenedores de 12 MB: multi-stage para binarios Go",
+    "abstract": "Cómo pasé de imágenes Docker de 1.1 GB a 12 MB con builds multi-stage, y las tres trampas de usar scratch que me costaron una tarde cada una.",
+    "section": "ops",
+    "tags": [
+      "DEVOPS",
+      "DOCKER",
+      "GO",
+      "LINUX"
+    ],
+    "archivedAt": "2026-05-28",
+    "readingMinutes": 6,
+    "refs": [
+      "goroutines-que-no-mueren"
+    ],
+    "body": [
+      {
+        "kind": "p",
+        "text": "La primera imagen Docker del servicio pesaba 1.1 GB: golang:1.22 completo, código fuente, caché de módulos y el binario. Cada deploy movía un gigabyte por la red para ejecutar un archivo de 18 MB. La versión final pesa 12 MB y arranca en frío notablemente más rápido en ECS."
+      },
+      {
+        "kind": "h",
+        "text": "Multi-stage: compilar en un sitio, ejecutar en otro"
+      },
+      {
+        "kind": "p",
+        "text": "Go compila a un binario estático: el contenedor de ejecución no necesita compilador, ni fuente, ni distribución Linux completa. El Dockerfile multi-stage usa la imagen pesada solo para compilar y copia el binario a una base mínima."
+      },
+      {
+        "kind": "code",
+        "lang": "dockerfile",
+        "code": "# ── Etapa 1: compilación ───────────────────────────────\nFROM golang:1.22-alpine AS build\nWORKDIR /src\n\n# Cachear módulos: solo se reejecuta si cambian go.mod/go.sum\nCOPY go.mod go.sum ./\nRUN go mod download\n\nCOPY . .\nRUN CGO_ENABLED=0 GOOS=linux \\\n    go build -ldflags=\"-s -w\" -o /out/api ./cmd/api\n\n# ── Etapa 2: ejecución ─────────────────────────────────\nFROM scratch\nCOPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/\nCOPY --from=build /usr/share/zoneinfo /usr/share/zoneinfo\nCOPY --from=build /out/api /api\nUSER 65534\nENTRYPOINT [\"/api\"]"
+      },
+      {
+        "kind": "h",
+        "text": "Las tres trampas de scratch"
+      },
+      {
+        "kind": "p",
+        "text": "scratch es literalmente nada: ni shell, ni libc, ni certificados. Las tres líneas extra del Dockerfile existen porque cada una me costó una tarde de depuración."
+      },
+      {
+        "kind": "list",
+        "items": [
+          "Certificados CA: sin ca-certificates.crt, toda llamada HTTPS saliente falla con \"x509: certificate signed by unknown authority\". El error aparece en runtime, nunca en el build.",
+          "Zona horaria: sin zoneinfo, time.LoadLocation devuelve error y cualquier lógica de cortes diarios se rompe en silencio hacia UTC.",
+          "Usuario: scratch no tiene /etc/passwd; USER 65534 (nobody) evita correr como root sin necesitar crear usuarios."
+        ]
+      },
+      {
+        "kind": "p",
+        "text": "CGO_ENABLED=0 no es decorativo: con cgo activo el binario enlaza dinámicamente contra libc y simplemente no arranca en scratch (\"no such file or directory\" — el archivo que falta es el intérprete ELF, no tu binario). Y -ldflags=\"-s -w\" recorta símbolos y DWARF: ~30% menos de binario a cambio de stack traces igual de útiles."
+      },
+      {
+        "kind": "h",
+        "text": "Resultado"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "Imagen: 1.1 GB → 12 MB (94× menos).",
+          "Superficie de ataque: cero paquetes del sistema, cero shell — el escáner de vulnerabilidades pasó de 40+ CVEs a 0.",
+          "Pull en cold start de ECS: de ~25 s a <2 s."
+        ]
+      },
+      {
+        "kind": "p",
+        "text": "Si necesitas depurar dentro del contenedor alguna vez, gcr.io/distroless/static es el término medio: sigue sin shell, pero existe una variante :debug con busybox para emergencias. Para este servicio, scratch + buenas métricas externas ha sido suficiente."
+      }
+    ]
+  },
+  {
+    "id": "idempotencia-en-pagos",
+    "code": "REG-002",
+    "title": "Idempotencia en pagos: lo que un retry me enseñó",
+    "abstract": "Un timeout, un reintento automático y un cargo duplicado en producción. El diseño de claves de idempotencia que uso desde entonces en cada API de pagos.",
+    "section": "ing",
+    "tags": [
+      "ARQUITECTURA",
+      "BACKEND",
+      "GO"
+    ],
+    "archivedAt": "2026-04-22",
+    "readingMinutes": 10,
+    "refs": [
+      "goroutines-que-no-mueren"
+    ],
+    "body": [
+      {
+        "kind": "p",
+        "text": "Un viernes a las 18:40 un cliente pagó dos veces el mismo pedido. Nadie tocó nada raro: el gateway tardó más de la cuenta, nuestro cliente HTTP reintentó por timeout y la segunda petición llegó después de que la primera —que no había muerto— terminara de procesar el cargo. Dos transacciones válidas, un solo pedido."
+      },
+      {
+        "kind": "h",
+        "text": "Por qué los retries duplican"
+      },
+      {
+        "kind": "p",
+        "text": "Cualquier sistema con reintentos automáticos entrega al menos una vez (at-least-once). Un timeout no significa que la operación falló: significa que no sabes qué pasó. Si el servidor llegó a procesar y la respuesta se perdió, el reintento es un duplicado con todas las de la ley."
+      },
+      {
+        "kind": "p",
+        "text": "La conclusión incómoda es que la deduplicación no es opcional ni un refinamiento: es parte del contrato de cualquier endpoint con efectos secundarios que viva detrás de un cliente con retries. O sea, de todos."
+      },
+      {
+        "kind": "h",
+        "text": "La clave de idempotencia"
+      },
+      {
+        "kind": "p",
+        "text": "El patrón que implementamos es el mismo que exponen Stripe o Adyen: el cliente genera una clave única por operación (no por petición) y la envía en la cabecera Idempotency-Key. El servidor garantiza que dos peticiones con la misma clave producen exactamente un efecto y la misma respuesta."
+      },
+      {
+        "kind": "p",
+        "text": "La pieza crítica es dónde vive la garantía. No puede ser un if en memoria ni una caché: tiene que ser una restricción del almacén de datos, porque dos réplicas del servicio pueden procesar los dos reintentos en paralelo. En MongoDB, un índice único sobre la clave hace el trabajo sucio."
+      },
+      {
+        "kind": "code",
+        "lang": "go",
+        "code": "// Reserva atómica de la clave ANTES de tocar el gateway.\n// El índice único sobre \"key\" convierte la carrera en un error controlado.\nfunc (s *Store) Reserve(ctx context.Context, key string, req Hash) (*Op, error) {\n    op := Op{Key: key, ReqHash: req, Status: StatusPending, CreatedAt: now()}\n    _, err := s.ops.InsertOne(ctx, op)\n    if mongo.IsDuplicateKeyError(err) {\n        existing, _ := s.findByKey(ctx, key)\n        if existing.ReqHash != req {\n            return nil, ErrKeyReused // misma clave, cuerpo distinto: rechazar\n        }\n        return existing, ErrAlreadyProcessed // devolver respuesta archivada\n    }\n    return &op, err\n}"
+      },
+      {
+        "kind": "h",
+        "text": "Los tres estados que importan"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "PENDING — la clave está reservada y alguien trabaja: el duplicado espera o recibe 409 con Retry-After.",
+          "SUCCEEDED — respuesta archivada: el duplicado recibe la respuesta original, byte a byte, con 200.",
+          "FAILED — fallo definitivo archivado: el duplicado recibe el mismo error sin re-ejecutar nada."
+        ]
+      },
+      {
+        "kind": "p",
+        "text": "El matiz que más discusión generó: guardar también el hash del cuerpo de la petición. Si llega la misma clave con un payload distinto, eso no es un retry, es un bug del cliente — y la respuesta correcta es 422, no procesar en silencio cualquiera de las dos versiones."
+      },
+      {
+        "kind": "h",
+        "text": "Lecciones"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "La idempotencia se diseña el día uno; añadirla después significa migrar datos con duplicados ya dentro.",
+          "La garantía vive en el almacén (índice único), nunca en la memoria del proceso.",
+          "Archivar la respuesta original es parte del contrato: un retry exitoso debe ser indistinguible del original.",
+          "Las claves caducan (nosotros: 24 h) o la colección crece para siempre."
+        ]
+      },
+      {
+        "kind": "p",
+        "text": "Desde el despliegue, el sistema ha absorbido más de 5.000 transacciones concurrentes en picos con cero cargos duplicados. El incidente del viernes costó una disculpa y un reembolso; el diseño que lo siguió es probablemente el código con mejor retorno por línea que he escrito."
+      }
+    ]
+  },
+  {
+    "id": "goroutines-que-no-mueren",
+    "code": "REG-001",
+    "title": "Goroutines que no mueren: anatomía de una fuga",
+    "abstract": "La memoria del servicio crecía 40 MB por hora y ningún profiler de heap lo explicaba. Eran goroutines bloqueadas para siempre en un canal sin lector.",
+    "section": "lng",
+    "tags": [
+      "GO",
+      "CONCURRENCIA",
+      "DEBUGGING"
+    ],
+    "archivedAt": "2026-03-14",
+    "readingMinutes": 8,
+    "refs": [
+      "idempotencia-en-pagos",
+      "contenedores-go-12mb"
+    ],
+    "body": [
+      {
+        "kind": "p",
+        "text": "El servicio de pagos llevaba tres semanas en producción cuando la gráfica de memoria empezó a subir en línea recta: 40 MB por hora, sin picos de tráfico que lo justificaran. El heap profiler no mostraba nada anormal. Tardé dos días en mirar la métrica correcta."
+      },
+      {
+        "kind": "h",
+        "text": "El síntoma"
+      },
+      {
+        "kind": "p",
+        "text": "La pista no estaba en el heap sino en runtime.NumGoroutine(): el proceso había pasado de ~80 goroutines en reposo a más de 19.000. Cada goroutine cuesta unos pocos KB de stack, así que miles de ellas explican el crecimiento que el heap profiler no atribuía a ningún objeto."
+      },
+      {
+        "kind": "p",
+        "text": "El patrón culpable era un clásico: lanzar una goroutine que escribe el resultado en un canal, con un caller que a veces ya no está escuchando."
+      },
+      {
+        "kind": "code",
+        "lang": "go",
+        "code": "func (s *Service) Charge(ctx context.Context, req Request) (Result, error) {\n    ch := make(chan Result) // sin búfer: el envío bloquea\n\n    go func() {\n        res := s.provider.Process(req) // puede tardar segundos\n        ch <- res                      // ← si nadie lee, esto bloquea PARA SIEMPRE\n    }()\n\n    select {\n    case res := <-ch:\n        return res, nil\n    case <-ctx.Done(): // timeout: el caller se va…\n        return Result{}, ctx.Err() // …y la goroutine queda huérfana\n    }\n}"
+      },
+      {
+        "kind": "h",
+        "text": "La causa"
+      },
+      {
+        "kind": "p",
+        "text": "Cuando el contexto expira, la función retorna y nadie vuelve a leer del canal. La goroutine interna termina su trabajo, intenta enviar el resultado y se queda bloqueada en ch <- res indefinidamente. No es un leak de memoria en el sentido clásico: es un leak de goroutines, y el GC no puede hacer nada porque la goroutine sigue \"viva\"."
+      },
+      {
+        "kind": "p",
+        "text": "Bajo tráfico normal con timeouts ocasionales, cada timeout deja una goroutine zombi. Con un proveedor externo degradado (latencias de 8-10 s y nuestro timeout en 3 s), fabricábamos zombis a ritmo industrial."
+      },
+      {
+        "kind": "h",
+        "text": "El patrón que ahora uso"
+      },
+      {
+        "kind": "p",
+        "text": "Dos cambios mínimos eliminan la clase entera de errores: canal con búfer de 1 (el envío nunca bloquea aunque nadie lea) y propagar el contexto hacia el trabajo interno para que también pueda abortar."
+      },
+      {
+        "kind": "code",
+        "lang": "go",
+        "code": "func (s *Service) Charge(ctx context.Context, req Request) (Result, error) {\n    ch := make(chan Result, 1) // búfer 1: el envío SIEMPRE completa\n\n    go func() {\n        ch <- s.provider.Process(ctx, req) // el contexto viaja hacia dentro\n    }()\n\n    select {\n    case res := <-ch:\n        return res, nil\n    case <-ctx.Done():\n        return Result{}, ctx.Err() // la goroutine escribirá al búfer y morirá\n    }\n}"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "Todo canal cuyo lector puede abandonar lleva búfer ≥ 1.",
+          "Toda función que lance goroutines acepta y propaga context.Context.",
+          "Ninguna goroutine se lanza sin saber quién la espera y cómo termina."
+        ]
+      },
+      {
+        "kind": "h",
+        "text": "Cómo detectarlas antes de producción"
+      },
+      {
+        "kind": "p",
+        "text": "Exporto runtime.NumGoroutine() como métrica desde el día uno y le pongo alerta de pendiente, no de valor absoluto: si crece de forma sostenida durante 30 minutos, algo gotea. Para confirmar, el endpoint de pprof con /debug/pprof/goroutine?debug=1 agrupa los stacks: miles de goroutines clavadas en la misma línea de envío a canal son la firma inconfundible."
+      },
+      {
+        "kind": "p",
+        "text": "En tests, uber-go/goleak verifica al final de cada test que no quedó ninguna goroutine viva. Lo añadí al TestMain de cada paquete con I/O concurrente: desde entonces este tipo de fuga no ha vuelto a llegar a producción."
+      }
+    ]
+  }
+]

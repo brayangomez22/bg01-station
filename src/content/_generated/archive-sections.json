@@ -1,0 +1,22 @@
+[
+  {
+    "id": "lng",
+    "code": "S-LNG",
+    "label": "Lenguajes"
+  },
+  {
+    "id": "ing",
+    "code": "S-ING",
+    "label": "Ingeniería"
+  },
+  {
+    "id": "ops",
+    "code": "S-OPS",
+    "label": "Operaciones"
+  },
+  {
+    "id": "bit",
+    "code": "S-BIT",
+    "label": "Bitácora técnica"
+  }
+]

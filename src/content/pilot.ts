@@ -1,25 +1,8 @@
 import type { Pilot } from '@/types/domain';
-import { missions } from './missions';
+import data from './_generated/pilot.json';
 
-export const pilot: Pilot = {
-  name: 'Brayan Gómez',
-  callsign: 'BG-01',
-  role: 'Full Stack Developer',
-  available: true,
-  location: 'Medellín, Colombia · Remoto',
-  bio: 'Construyo sistemas pensados para durar en producción, no solo para pasar la demo. 5+ años en backend con Go: microservicios reconstruidos sin downtime y APIs que sostienen el día a día del producto.',
-  manifesto:
-    'Construyo sistemas como quien diseña una nave: cada componente con un propósito claro, listo para resistir la carga real y fácil de operar a años luz de su lanzamiento.',
-  stats: [
-    { label: 'Años de vuelo', value: '5+' },
-    { label: 'Misiones documentadas', value: String(missions.length) },
-    { label: 'Sistemas dominados', value: '10' },
-  ],
-  avatar: {
-    src: '/avatar.svg',
-    alt: 'Insignia del piloto BG-01: monograma BG dentro de una retícula orbital',
-    width: 400,
-    height: 400,
-  },
-  resumeUrl: '/cv-brayan-gomez.pdf',
-};
+/**
+ * Pilot profile. Sourced from the generated bundle (the API is the source of
+ * truth; CI regenerates _generated/ from /export on publish).
+ */
+export const pilot = data as unknown as Pilot;
