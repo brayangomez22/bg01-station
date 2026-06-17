@@ -41,7 +41,11 @@ jobs:
       - run: npm run sync:content
         env:
           API_BASE: ${{ vars.API_BASE || 'https://api.brayangomez.dev' }}
+      # VITE_API_BASE_URL is baked into the bundle so /control talks to the
+      # production API (not the localhost dev fallback).
       - run: npm run build
+        env:
+          VITE_API_BASE_URL: ${{ vars.API_BASE || 'https://api.brayangomez.dev' }}
       # SPA fallback: GitHub Pages serves 404.html for unknown paths, so a
       # copy of index.html lets deep links (/missions, /archive/…) boot the
       # router instead of erroring.
