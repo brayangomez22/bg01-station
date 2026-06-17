@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Fired by the admin panel (via the API) after a content edit, so a publish
+  # rebuilds the static site with the latest content from the database.
+  repository_dispatch:
+    types: [content-updated]
 
 permissions:
   contents: read
@@ -30,6 +34,13 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Pull the latest content from the API into src/content/_generated/ before
+      # building. Best-effort: if the API is unreachable the script exits 0 and
+      # the build falls back to the committed snapshot, so a deploy never fails
+      # on API downtime.
+      - run: npm run sync:content
+        env:
+          API_BASE: ${{ vars.API_BASE || 'https://api.brayangomez.dev' }}
       - run: npm run build
       # SPA fallback: GitHub Pages serves 404.html for unknown paths, so a
       # copy of index.html lets deep links (/missions, /archive/…) boot the

@@ -13,9 +13,6 @@
     ],
     "archivedAt": "2026-05-28",
     "readingMinutes": 6,
-    "refs": [
-      "goroutines-que-no-mueren"
-    ],
     "body": [
       {
         "kind": "p",
@@ -70,7 +67,11 @@
         "kind": "p",
         "text": "Si necesitas depurar dentro del contenedor alguna vez, gcr.io/distroless/static es el término medio: sigue sin shell, pero existe una variante :debug con busybox para emergencias. Para este servicio, scratch + buenas métricas externas ha sido suficiente."
       }
-    ]
+    ],
+    "refs": [
+      "goroutines-que-no-mueren"
+    ],
+    "order": 1
   },
   {
     "id": "idempotencia-en-pagos",
@@ -85,9 +86,6 @@
     ],
     "archivedAt": "2026-04-22",
     "readingMinutes": 10,
-    "refs": [
-      "goroutines-que-no-mueren"
-    ],
     "body": [
       {
         "kind": "p",
@@ -155,7 +153,11 @@
         "kind": "p",
         "text": "Desde el despliegue, el sistema ha absorbido más de 5.000 transacciones concurrentes en picos con cero cargos duplicados. El incidente del viernes costó una disculpa y un reembolso; el diseño que lo siguió es probablemente el código con mejor retorno por línea que he escrito."
       }
-    ]
+    ],
+    "refs": [
+      "goroutines-que-no-mueren"
+    ],
+    "order": 2
   },
   {
     "id": "goroutines-que-no-mueren",
@@ -170,10 +172,6 @@
     ],
     "archivedAt": "2026-03-14",
     "readingMinutes": 8,
-    "refs": [
-      "idempotencia-en-pagos",
-      "contenedores-go-12mb"
-    ],
     "body": [
       {
         "kind": "p",
@@ -241,6 +239,11 @@
         "kind": "p",
         "text": "En tests, uber-go/goleak verifica al final de cada test que no quedó ninguna goroutine viva. Lo añadí al TestMain de cada paquete con I/O concurrente: desde entonces este tipo de fuga no ha vuelto a llegar a producción."
       }
-    ]
+    ],
+    "refs": [
+      "idempotencia-en-pagos",
+      "contenedores-go-12mb"
+    ],
+    "order": 3
   }
 ]

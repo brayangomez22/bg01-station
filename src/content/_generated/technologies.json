@@ -6,18 +6,18 @@
     "proficiency": 90,
     "since": "2021-05-01",
     "description": "Lenguaje principal en backend: microservicios, APIs REST y sistemas de pago con arquitectura limpia.",
+    "usedInMissions": [
+      "go-microservices-reengineering",
+      "recurring-payments-system",
+      "multichannel-bots"
+    ],
     "planet": {
       "color": "--color-accent",
       "size": "l",
       "orbit": 1
     },
     "featured": true,
-    "order": 1,
-    "usedInMissions": [
-      "go-microservices-reengineering",
-      "recurring-payments-system",
-      "multichannel-bots"
-    ]
+    "order": 1
   },
   {
     "id": "typescript",
@@ -26,18 +26,18 @@
     "proficiency": 88,
     "since": "2020-06-01",
     "description": "Tipado estático en todo el stack: frontends en Angular y React y servicios en NestJS.",
+    "usedInMissions": [
+      "angular-react-migration",
+      "multichannel-bots",
+      "kimsa-climate-systems"
+    ],
     "planet": {
       "color": "--color-accent",
       "size": "l",
       "orbit": 1
     },
     "featured": true,
-    "order": 2,
-    "usedInMissions": [
-      "angular-react-migration",
-      "multichannel-bots",
-      "kimsa-climate-systems"
-    ]
+    "order": 2
   },
   {
     "id": "angular",
@@ -46,18 +46,18 @@
     "proficiency": 85,
     "since": "2021-01-01",
     "description": "SPAs empresariales con NgRx y RxJS; base de los productos que después lideré migrar a React.",
+    "usedInMissions": [
+      "angular-react-migration",
+      "rofe-platforms",
+      "kimsa-climate-systems"
+    ],
     "planet": {
       "color": "--color-status-danger",
       "size": "m",
       "orbit": 2
     },
     "featured": true,
-    "order": 3,
-    "usedInMissions": [
-      "angular-react-migration",
-      "rofe-platforms",
-      "kimsa-climate-systems"
-    ]
+    "order": 3
   },
   {
     "id": "react",
@@ -66,17 +66,17 @@
     "proficiency": 85,
     "since": "2021-06-01",
     "description": "Lideré la migración Angular → React de productos núcleo; interfaces rápidas, mantenibles y reutilizables.",
+    "usedInMissions": [
+      "angular-react-migration",
+      "kimsa-climate-systems"
+    ],
     "planet": {
       "color": "--color-accent",
       "size": "m",
       "orbit": 2
     },
     "featured": true,
-    "order": 4,
-    "usedInMissions": [
-      "angular-react-migration",
-      "kimsa-climate-systems"
-    ]
+    "order": 4
   },
   {
     "id": "nestjs",
@@ -85,17 +85,17 @@
     "proficiency": 84,
     "since": "2021-03-01",
     "description": "Framework backend para APIs modulares, escalables y testeables sobre Node.js.",
+    "usedInMissions": [
+      "rofe-platforms",
+      "kimsa-climate-systems"
+    ],
     "planet": {
       "color": "--color-secondary",
       "size": "m",
       "orbit": 2
     },
     "featured": true,
-    "order": 5,
-    "usedInMissions": [
-      "rofe-platforms",
-      "kimsa-climate-systems"
-    ]
+    "order": 5
   },
   {
     "id": "mongodb",
@@ -104,18 +104,18 @@
     "proficiency": 86,
     "since": "2021-05-01",
     "description": "Modelado documental y pipelines de agregación avanzados para procesamiento de datos de alto rendimiento.",
+    "usedInMissions": [
+      "go-microservices-reengineering",
+      "recurring-payments-system",
+      "multichannel-bots"
+    ],
     "planet": {
       "color": "--color-status-ok",
       "size": "m",
       "orbit": 3
     },
     "featured": true,
-    "order": 6,
-    "usedInMissions": [
-      "go-microservices-reengineering",
-      "recurring-payments-system",
-      "multichannel-bots"
-    ]
+    "order": 6
   },
   {
     "id": "mysql",
@@ -124,16 +124,16 @@
     "proficiency": 75,
     "since": "2021-06-01",
     "description": "Bases relacionales para sistemas administrativos, reportes y datos transaccionales.",
+    "usedInMissions": [
+      "rofe-platforms"
+    ],
     "planet": {
       "color": "--color-secondary",
       "size": "s",
       "orbit": 3
     },
     "featured": false,
-    "order": 7,
-    "usedInMissions": [
-      "rofe-platforms"
-    ]
+    "order": 7
   },
   {
     "id": "redis",
@@ -148,8 +148,7 @@
       "orbit": 3
     },
     "featured": false,
-    "order": 8,
-    "usedInMissions": []
+    "order": 8
   },
   {
     "id": "docker",
@@ -158,16 +157,16 @@
     "proficiency": 80,
     "since": "2022-01-01",
     "description": "Contenedores para entornos reproducibles de desarrollo, integración y despliegue.",
+    "usedInMissions": [
+      "go-microservices-reengineering"
+    ],
     "planet": {
       "color": "--color-secondary",
       "size": "m",
       "orbit": 4
     },
     "featured": true,
-    "order": 9,
-    "usedInMissions": [
-      "go-microservices-reengineering"
-    ]
+    "order": 9
   },
   {
     "id": "azure",
@@ -176,17 +175,17 @@
     "proficiency": 78,
     "since": "2021-06-01",
     "description": "CI/CD con Azure DevOps y despliegue cloud de productos y plataformas en producción.",
+    "usedInMissions": [
+      "go-microservices-reengineering",
+      "recurring-payments-system",
+      "rofe-platforms"
+    ],
     "planet": {
       "color": "--color-secondary",
       "size": "l",
       "orbit": 4
     },
     "featured": true,
-    "order": 10,
-    "usedInMissions": [
-      "go-microservices-reengineering",
-      "recurring-payments-system",
-      "rofe-platforms"
-    ]
+    "order": 10
   }
 ]

@@ -2,21 +2,25 @@
   {
     "id": "lng",
     "code": "S-LNG",
-    "label": "Lenguajes"
+    "label": "Lenguajes",
+    "order": 1
   },
   {
     "id": "ing",
     "code": "S-ING",
-    "label": "Ingeniería"
+    "label": "Ingeniería",
+    "order": 2
   },
   {
     "id": "ops",
     "code": "S-OPS",
-    "label": "Operaciones"
+    "label": "Operaciones",
+    "order": 3
   },
   {
     "id": "bit",
     "code": "S-BIT",
-    "label": "Bitácora técnica"
+    "label": "Bitácora técnica",
+    "order": 4
   }
 ]

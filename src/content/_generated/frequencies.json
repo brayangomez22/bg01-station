@@ -5,7 +5,8 @@
     "handle": "gomezmancobrayanalexander@gmail.com",
     "url": "mailto:gomezmancobrayanalexander@gmail.com",
     "icon": "email",
-    "primary": true
+    "primary": true,
+    "order": 1
   },
   {
     "id": "github",
@@ -13,7 +14,8 @@
     "handle": "@brayangomez22",
     "url": "https://github.com/brayangomez22",
     "icon": "github",
-    "primary": false
+    "primary": false,
+    "order": 2
   },
   {
     "id": "linkedin",
@@ -21,6 +23,7 @@
     "handle": "in/brayangomez-dev",
     "url": "https://www.linkedin.com/in/brayangomez-dev/",
     "icon": "linkedin",
-    "primary": false
+    "primary": false,
+    "order": 3
   }
 ]

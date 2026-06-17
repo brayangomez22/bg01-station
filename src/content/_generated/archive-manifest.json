@@ -12,7 +12,8 @@
       "LINUX"
     ],
     "archivedAt": "2026-05-28",
-    "readingMinutes": 6
+    "readingMinutes": 6,
+    "order": 1
   },
   {
     "id": "idempotencia-en-pagos",
@@ -26,7 +27,8 @@
       "GO"
     ],
     "archivedAt": "2026-04-22",
-    "readingMinutes": 10
+    "readingMinutes": 10,
+    "order": 2
   },
   {
     "id": "goroutines-que-no-mueren",
@@ -40,6 +42,7 @@
       "DEBUGGING"
     ],
     "archivedAt": "2026-03-14",
-    "readingMinutes": 8
+    "readingMinutes": 8,
+    "order": 3
   }
 ]

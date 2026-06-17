@@ -10,7 +10,8 @@
       "Docker"
     ],
     "year": 2023,
-    "repoUrl": "https://github.com/brayangomez22/go-events-cqrs"
+    "repoUrl": "https://github.com/brayangomez22/go-events-cqrs",
+    "order": 1
   },
   {
     "repo": "go-protobuffers-grpc",
@@ -23,7 +24,8 @@
       "Protobuf"
     ],
     "year": 2023,
-    "repoUrl": "https://github.com/brayangomez22/go-protobuffers-grpc"
+    "repoUrl": "https://github.com/brayangomez22/go-protobuffers-grpc",
+    "order": 2
   },
   {
     "repo": "go-rest-websockets",
@@ -35,7 +37,8 @@
       "WebSockets"
     ],
     "year": 2023,
-    "repoUrl": "https://github.com/brayangomez22/go-rest-websockets"
+    "repoUrl": "https://github.com/brayangomez22/go-rest-websockets",
+    "order": 3
   },
   {
     "repo": "bases-of-concurrency-unit-tests-and-poo-in-go",
@@ -48,7 +51,8 @@
       "Testing"
     ],
     "year": 2023,
-    "repoUrl": "https://github.com/brayangomez22/bases-of-concurrency-unit-tests-and-poo-in-go"
+    "repoUrl": "https://github.com/brayangomez22/bases-of-concurrency-unit-tests-and-poo-in-go",
+    "order": 4
   },
   {
     "repo": "rabbitmq-fundamentals",
@@ -60,7 +64,8 @@
       "RabbitMQ"
     ],
     "year": 2023,
-    "repoUrl": "https://github.com/brayangomez22/rabbitmq-fundamentals"
+    "repoUrl": "https://github.com/brayangomez22/rabbitmq-fundamentals",
+    "order": 5
   },
   {
     "repo": "spring-boot-web-flux-api-rest",
@@ -72,7 +77,8 @@
       "Spring WebFlux"
     ],
     "year": 2022,
-    "repoUrl": "https://github.com/brayangomez22/spring-boot-web-flux-api-rest"
+    "repoUrl": "https://github.com/brayangomez22/spring-boot-web-flux-api-rest",
+    "order": 6
   },
   {
     "repo": "nest-pokemons",
@@ -85,7 +91,8 @@
       "Docker"
     ],
     "year": 2023,
-    "repoUrl": "https://github.com/brayangomez22/nest-pokemons"
+    "repoUrl": "https://github.com/brayangomez22/nest-pokemons",
+    "order": 7
   },
   {
     "repo": "next-teslo-shop",
@@ -98,7 +105,8 @@
       "MongoDB"
     ],
     "year": 2023,
-    "repoUrl": "https://github.com/brayangomez22/next-teslo-shop"
+    "repoUrl": "https://github.com/brayangomez22/next-teslo-shop",
+    "order": 8
   },
   {
     "repo": "react-maps-app",
@@ -110,7 +118,8 @@
       "TypeScript"
     ],
     "year": 2023,
-    "repoUrl": "https://github.com/brayangomez22/react-maps-app"
+    "repoUrl": "https://github.com/brayangomez22/react-maps-app",
+    "order": 9
   },
   {
     "repo": "reactivex",
@@ -122,7 +131,8 @@
       "TypeScript"
     ],
     "year": 2022,
-    "repoUrl": "https://github.com/brayangomez22/reactivex"
+    "repoUrl": "https://github.com/brayangomez22/reactivex",
+    "order": 10
   },
   {
     "repo": "todo-app-redux",
@@ -135,7 +145,8 @@
       "TypeScript"
     ],
     "year": 2021,
-    "repoUrl": "https://github.com/brayangomez22/todo-app-redux"
+    "repoUrl": "https://github.com/brayangomez22/todo-app-redux",
+    "order": 11
   },
   {
     "repo": "TeamOne",
@@ -148,6 +159,7 @@
       "CSS"
     ],
     "year": 2020,
-    "repoUrl": "https://github.com/brayangomez22/TeamOne"
+    "repoUrl": "https://github.com/brayangomez22/TeamOne",
+    "order": 12
   }
 ]
