@@ -26,6 +26,7 @@ const PATHS: Record<IconName, React.ReactNode> = {
   close: (
     <path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7l-1.4-1.4L9.2 12 2.9 5.7l1.4-1.4 6.3 6.3 6.3-6.3 1.4 1.4Z" />
   ),
+  menu: <path d="M3 6h18v2H3V6Zm0 5h18v2H3v-2Zm0 5h18v2H3v-2Z" />,
   signal: <path d="M2 22h3v-6H2v6Zm5 0h3V10H7v12Zm5 0h3V6h-3v16Zm5 0h3V2h-3v20Z" />,
   planet: (
     <path d="M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm0 2a6 6 0 0 1 5.66 4H6.34A6 6 0 0 1 12 6Zm-6 6h12a6 6 0 0 1-12 0Z" />

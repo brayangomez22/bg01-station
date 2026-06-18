@@ -26,5 +26,6 @@ export type IconName =
   | 'arrow-right'
   | 'arrow-left'
   | 'close'
+  | 'menu'
   | 'signal'
   | 'planet';

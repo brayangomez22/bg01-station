@@ -45,6 +45,13 @@
 
 .editor__actions {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-3);
   padding-top: var(--space-2);
+}
+
+@media (max-width: 640px) {
+  .editor__cols {
+    grid-template-columns: 1fr;
+  }
 }

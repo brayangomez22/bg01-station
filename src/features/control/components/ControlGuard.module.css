@@ -4,6 +4,56 @@
   min-height: 100vh;
 }
 
+/* --- mobile top bar (hidden on desktop) --- */
+.guard__topbar {
+  display: none;
+}
+
+.guard__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  color: var(--color-text-strong);
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.guard__toggle:hover {
+  border-color: var(--color-accent-dim);
+  color: var(--color-accent);
+}
+
+.guard__topbar-code {
+  font-family: var(--font-display, var(--font-mono, monospace));
+  font-size: 1rem;
+  letter-spacing: 0.18em;
+  color: var(--color-text-strong);
+}
+
+.guard__topbar-name {
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* --- drawer backdrop (only rendered on mobile while open) --- */
+.guard__backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  border: none;
+  background: rgb(5 6 10 / 0.6);
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+
 /* --- session check holding state --- */
 .guard__checking {
   display: flex;
@@ -155,13 +205,58 @@
   overflow-y: auto;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 860px) {
   .guard {
-    grid-template-columns: 1fr;
+    display: block;
+    min-height: 100vh;
+  }
+
+  .guard__topbar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    background: rgb(11 14 22 / 0.85);
+    backdrop-filter: blur(8px);
+  }
+
+  /* drop the in-rail brand on mobile — the top bar already shows it */
+  .guard__brand {
+    display: none;
   }
 
   .guard__rail {
-    border-right: none;
-    border-bottom: 1px solid var(--color-border);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 50;
+    width: min(82vw, 300px);
+    border-right: 1px solid var(--color-border);
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.25s var(--ease-out, ease);
+  }
+
+  .guard[data-nav-open='true'] .guard__rail {
+    transform: none;
+  }
+
+  .guard__backdrop {
+    display: block;
+  }
+
+  .guard__content {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+@media (max-width: 860px) and (prefers-reduced-motion: reduce) {
+  .guard__rail {
+    transition: none;
   }
 }

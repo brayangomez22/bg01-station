@@ -27,9 +27,16 @@
 
 .pilot__actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-4);
   padding-top: var(--space-2);
+}
+
+@media (max-width: 640px) {
+  .pilot__cols {
+    grid-template-columns: 1fr;
+  }
 }
 
 .pilot__saved {

@@ -7,6 +7,7 @@
 
 .missions__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-4);
@@ -41,6 +42,11 @@
   display: flex;
   gap: var(--space-4);
   align-items: baseline;
+  min-width: 0;
+}
+
+/* let the title/summary column shrink so the summary can ellipsis-truncate */
+.missions__meta > div {
   min-width: 0;
 }
 

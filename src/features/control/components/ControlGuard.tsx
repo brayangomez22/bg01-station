@@ -1,4 +1,5 @@
-import { Navigate, NavLink, Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { Icon } from '@/components/ui';
 import { ROUTES, CONTROL } from '@/app/router/paths';
 import { useControlAuth } from '../ControlAuthProvider';
@@ -22,6 +23,28 @@ const MODULES: { label: string; hint: string; route?: string }[] = [
  */
 export function ControlGuard() {
   const { status, logout } = useControlAuth();
+  const location = useLocation();
+  const [navOpen, setNavOpen] = useState(false);
+
+  // Close the mobile drawer whenever the route changes (link tapped).
+  useEffect(() => {
+    setNavOpen(false);
+  }, [location.pathname]);
+
+  // While the drawer is open, lock body scroll and allow Escape to close it.
+  useEffect(() => {
+    if (!navOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setNavOpen(false);
+    };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [navOpen]);
 
   if (status === 'checking') {
     return (
@@ -37,8 +60,32 @@ export function ControlGuard() {
   }
 
   return (
-    <div className={styles.guard}>
-      <aside className={styles.guard__rail}>
+    <div className={styles.guard} data-nav-open={navOpen}>
+      <header className={styles.guard__topbar}>
+        <button
+          type="button"
+          className={styles['guard__toggle']}
+          aria-label={navOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={navOpen}
+          aria-controls="control-rail"
+          onClick={() => setNavOpen((open) => !open)}
+        >
+          <Icon name={navOpen ? 'close' : 'menu'} size={20} />
+        </button>
+        <span className={styles['guard__topbar-code']}>BG-01</span>
+        <span className={styles['guard__topbar-name']}>Centro de Control</span>
+      </header>
+
+      {navOpen && (
+        <button
+          type="button"
+          className={styles.guard__backdrop}
+          aria-label="Cerrar menú"
+          onClick={() => setNavOpen(false)}
+        />
+      )}
+
+      <aside id="control-rail" className={styles.guard__rail}>
         <div className={styles.guard__brand}>
           <span className={styles['guard__brand-code']}>BG-01</span>
           <span className={styles['guard__brand-name']}>Centro de Control</span>

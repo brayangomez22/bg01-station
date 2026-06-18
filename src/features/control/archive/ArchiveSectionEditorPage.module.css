@@ -39,6 +39,7 @@
 
 .editor__actions {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-3);
   padding-top: var(--space-2);
 }

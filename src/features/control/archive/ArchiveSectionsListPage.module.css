@@ -7,6 +7,7 @@
 
 .secs__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-4);
@@ -22,6 +23,7 @@
 
 .secs__cta {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-3);
 }
 
@@ -69,6 +71,12 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .secs__row {
+    grid-template-columns: 1fr;
+  }
 }
 
 .secs__delete {
