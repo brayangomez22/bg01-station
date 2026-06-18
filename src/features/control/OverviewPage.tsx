@@ -5,6 +5,7 @@ import { Seo } from '@/lib/seo/Seo';
 import { CONTROL } from '@/app/router/paths';
 import { publish } from '@/lib/control/publish';
 import { ApiError } from '@/lib/control/client';
+import { TrafficPanel } from './components/TrafficPanel/TrafficPanel';
 import styles from './OverviewPage.module.css';
 
 /** Modules the control center manages, with their editor route. */
@@ -62,6 +63,8 @@ export default function OverviewPage() {
           publicar, la estación se reconstruye con el contenido más reciente.
         </Text>
       </header>
+
+      <TrafficPanel />
 
       <Panel bracketed className={styles.overview__publish}>
         <div className={styles['overview__publish-copy']}>

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import { sendPulse } from './lib/pulse';
 import './styles/index.css';
 
 const container = document.getElementById('root');
@@ -11,3 +12,6 @@ createRoot(container).render(
     <App />
   </StrictMode>,
 );
+
+// Register this visit with the station (anonymous, once per session).
+sendPulse();

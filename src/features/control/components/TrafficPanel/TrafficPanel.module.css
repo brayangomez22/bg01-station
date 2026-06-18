@@ -1,0 +1,107 @@
+.traffic {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.traffic__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+/* --- Figures row --- */
+
+.traffic__figures {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 0;
+}
+
+.traffic__figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.traffic__figure-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.traffic__figure-value {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.9rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-strong);
+}
+
+.traffic__figure-value--accent {
+  color: var(--color-accent);
+}
+
+/* --- Mini bar chart --- */
+
+.traffic__chart {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  align-items: end;
+  height: 96px;
+}
+
+.traffic__bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  height: 100%;
+}
+
+.traffic__bar-count {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.traffic__bar-track {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-bottom: var(--border-thin, 1px) solid var(--color-border);
+}
+
+.traffic__bar-fill {
+  width: 60%;
+  min-height: 2px;
+  background: var(--color-secondary-dim, var(--color-border-strong));
+  border-radius: var(--radius-sm, 2px) var(--radius-sm, 2px) 0 0;
+  transition: height 0.4s ease;
+}
+
+.traffic__bar-fill--today {
+  background: var(--color-accent);
+}
+
+.traffic__bar-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 540px) {
+  .traffic__figures {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

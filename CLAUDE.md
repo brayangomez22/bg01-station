@@ -28,7 +28,7 @@ Layers under `src/`:
 - `features/<deck>/` — one folder per route: `<Name>Page.tsx` plus feature-local `components/` and `hooks/`. Pages are lazy-loaded, one chunk per feature, via `paced()` in `routes.tsx` (artificial hold so the telemetry loader can be read; skipped on first load and for reduced motion). Pages use **default exports** (required by `React.lazy` — the documented exception to the named-export rule used everywhere else).
 - `components/` — shared, grouped by role: `ui/` (primitives), `hud/`, `fx/`, `boot/`, `console/`, `map/`, `feedback/`.
 - `content/` — all portfolio data (pilot, missions, experience, technologies, socials, archive posts) as typed TS constants; edit content here, not in components.
-- `lib/` — framework-free utilities: audio engine (Web Audio, no audio files), motion variants/transitions, SEO (React 19 native document metadata via `lib/seo/Seo.tsx` + per-route copy in `seo.config.ts`), visitor manifest (localStorage only — no cookies, no tracking).
+- `lib/` — framework-free utilities: audio engine (Web Audio, no audio files), motion variants/transitions, SEO (React 19 native document metadata via `lib/seo/Seo.tsx` + per-route copy in `seo.config.ts`), visitor manifest (localStorage only — no cookies, no tracking), `pulse.ts` (anonymous, cookieless visit beacon to the `bg01-api` `/pulse` endpoint — the one external call, fired once per session for the control center's traffic counter).
 - `styles/tokens/` — design tokens as CSS custom properties, imported once through `styles/index.css`.
 
 ## Creative Direction
