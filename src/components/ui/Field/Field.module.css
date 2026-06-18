@@ -37,6 +37,11 @@
   box-shadow: var(--glow-accent-soft);
 }
 
+/* date inputs: left-align the value (WebKit/iOS centers it by default) */
+.field__control::-webkit-date-and-time-value {
+  text-align: left;
+}
+
 .field__control[data-state='error'] {
   border-color: var(--color-status-danger);
 }

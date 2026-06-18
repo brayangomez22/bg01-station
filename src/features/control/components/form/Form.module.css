@@ -56,6 +56,22 @@
   box-shadow: var(--glow-accent-soft);
 }
 
+/* selects: drop the native control chrome for a consistent caret */
+select.field__control {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97a7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  background-size: 16px;
+  padding-right: calc(var(--space-4) * 2 + 16px);
+}
+
+/* date inputs: left-align the value (WebKit/iOS centers it by default) */
+.field__control::-webkit-date-and-time-value {
+  text-align: left;
+}
+
 /* --- checkbox --- */
 .checkbox {
   display: flex;
@@ -85,7 +101,7 @@
 .list__row {
   display: flex;
   gap: var(--space-2);
-  align-items: center;
+  align-items: stretch;
 }
 
 .list__remove {
@@ -93,8 +109,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 34px;
-  height: 34px;
+  align-self: stretch;
+  width: 44px;
+  min-height: 44px;
   color: var(--color-text-muted);
   background: none;
   border: var(--border-thin) solid var(--color-border);
