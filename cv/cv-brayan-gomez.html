@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brayan Gómez — Desarrollador Full Stack Senior</title>
+<title>Brayan Gómez — Desarrollador Full Stack Semi Senior</title>
 <style>
   :root{
     --accent:#1F3A5F;
@@ -74,10 +74,15 @@
   .skills b{color:var(--text);}
   .two{display:inline-block;margin-right:26px;}
   footer{display:none;}
+  @page{margin:12mm 14mm;}
   @media print{
+    h2{break-after:avoid;}
     body{background:#fff;font-size:13px;}
     .sheet{box-shadow:none;margin:0;max-width:none;padding:0 4px;}
-    h2{margin-top:16px;}
+    h2{margin-top:14px;}
+    .job{margin-top:10px;}
+    li{margin-bottom:3px;}
+    li,.summary,.skills p{font-size:13.5px;}
     a{color:var(--text);}
   }
 </style>
@@ -87,18 +92,19 @@
 
   <header>
     <h1>BRAYAN GÓMEZ</h1>
-    <div class="subtitle">Desarrollador Full Stack Senior &nbsp;·&nbsp; Go &amp; Java &nbsp;·&nbsp; Microservicios</div>
+    <div class="subtitle">Desarrollador Full Stack Semi Senior &nbsp;·&nbsp; Go &amp; Java &nbsp;·&nbsp; Microservicios &nbsp;·&nbsp; IA (MCP)</div>
     <div class="contact">
       Medellín, Colombia &nbsp;|&nbsp; +57 301 393 2979 &nbsp;|&nbsp;
       <a href="mailto:gomezmancobrayanalexander@gmail.com">gomezmancobrayanalexander@gmail.com</a><br>
       <a href="https://linkedin.com/in/brayangomez-dev">linkedin.com/in/brayangomez-dev</a> &nbsp;|&nbsp;
+      <a href="https://github.com/brayangomez22">github.com/brayangomez22</a> &nbsp;|&nbsp;
       <a href="https://brayangomez.dev">brayangomez.dev</a>
     </div>
   </header>
 
   <section>
     <h2>Perfil Profesional</h2>
-    <p class="summary">Desarrollador Full Stack con más de 5 años de experiencia diseñando y evolucionando aplicaciones web escalables con Go (Golang), Java (Spring Boot), React y Angular. Especializado en arquitectura de microservicios (Go y Spring Boot), APIs REST y gRPC, y modernización de sistemas empresariales. Historial comprobado integrando pasarelas de pago, automatizando CI/CD y desplegando en la nube con Azure, Docker y Kubernetes. Fuerte enfoque en Arquitectura Limpia, testing automatizado, observabilidad y optimización del rendimiento, aplicando principios SOLID en entornos Agile/Scrum.</p>
+    <p class="summary">Desarrollador Full Stack Semi Senior con más de 5 años construyendo y modernizando sistemas en Go (Golang) y Java (Spring Boot), con React y Angular en frontend. He liderado migraciones de servicios legacy de Java a Go y de Angular a React con mejoras medibles en latencia, rendimiento y tiempos de despliegue. Experiencia en microservicios, APIs REST, pasarelas de pago, CI/CD y despliegue en Azure con Docker. Construyo servicios que integran agentes de IA mediante Model Context Protocol (MCP) y trabajo con desarrollo guiado por especificaciones (Spec Driven Development) asistido por IA.</p>
   </section>
 
   <section>
@@ -106,12 +112,23 @@
 
     <div class="job">
       <div class="job-head">
+        <div class="job-title">Desarrollo Independiente — Proyectos propios <span class="job-company">| Remoto</span></div>
+        <div class="job-dates">May 2026 – Presente</div>
+      </div>
+      <ul>
+        <li><b>payments-mcp</b> (<a href="https://github.com/brayangomez22/payments-mcp">GitHub</a>): middleware de pagos que expone la misma lógica de negocio por API REST y por un <b>servidor MCP para agentes de IA</b>, con autorización OAuth2 según la spec MCP, tools filtradas por scope y confirmación en dos pasos para reembolsos. Incluye un agente demo con Claude (Anthropic SDK) con aprobación humana. <i>Node.js, TypeScript, PostgreSQL.</i></li>
+        <li><b>Garanticé consistencia en pagos</b> con idempotencia, bloqueos <i>FOR UPDATE</i> contra reembolsos concurrentes y outbox transaccional hacia AWS SQS con entrega at-least-once. Desarrollado con Spec Driven Development, cobertura de tests ≥ 85 %, observabilidad (Prometheus, Grafana, Loki) e infraestructura como código con Terraform.</li>
+        <li><b>FindMe</b> (<a href="https://github.com/brayangomez22/findme">GitHub</a>): app web de ubicación en tiempo real entre contactos (tipo "Buscar" de Apple) con <b>backend en Go</b>, WebSockets, PostgreSQL + PostGIS y Redis pub/sub para escalar horizontalmente. Autenticación con JWT y refresh tokens rotativos con detección de robo, Arquitectura Hexagonal y frontend en React 19 + TypeScript + Mapbox.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
         <div class="job-title">Desarrollador Full Stack <span class="job-company">| Hibot Chat</span></div>
         <div class="job-dates">May 2022 – Abr 2026</div>
       </div>
       <ul>
-        <li><b>Reduje la latencia promedio de APIs críticas ~35% (de 800 ms a 520 ms)</b> rediseñando y modernizando más de 8 microservicios en Go y Java bajo Arquitectura Limpia, mejorando escalabilidad y mantenibilidad.</li>
-        <li><b>Modernicé el backend construyendo microservicios en Java (Spring Boot)</b> durante la migración de servicios legacy, aplicando Arquitectura Limpia para mejorar la escalabilidad y la mantenibilidad.</li>
+        <li><b>Reduje la latencia promedio de APIs críticas ~35% (de 800 ms a 520 ms)</b> liderando la migración de más de 8 microservicios legacy de Java (Spring Boot) a Go bajo Arquitectura Limpia, manteniendo los servicios Java en producción durante la transición.</li>
         <li><b>Aumenté el rendimiento del frontend ~40% y la reutilización de componentes</b> liderando la migración arquitectónica de aplicaciones estratégicas de Angular a React.</li>
         <li><b>Eliminé ~20 horas/mes de trabajo manual de facturación</b> diseñando un sistema de pagos recurrentes e integrando pasarelas de pago de terceros.</li>
         <li><b>Reduje el tiempo de despliegue ~50%</b> optimizando pipelines CI/CD en Azure DevOps con Docker y GitHub Actions.</li>
@@ -150,13 +167,14 @@
     <h2>Habilidades Técnicas</h2>
     <p><b>Lenguajes:</b> Go (Golang), Java, TypeScript, JavaScript</p>
     <p><b>Frontend:</b> React, Angular, NgRx, HTML5, CSS3, SASS</p>
-    <p><b>Backend &amp; APIs:</b> Node.js, NestJS, Express.js, APIs REST, gRPC, Microservicios, Concurrencia (goroutines)</p>
+    <p><b>Backend &amp; APIs:</b> Node.js, NestJS, Express.js, APIs REST, gRPC, WebSockets, Microservicios, Concurrencia (goroutines)</p>
     <p><b>Java &amp; Spring:</b> Spring Boot, Spring MVC, Spring Data JPA, Hibernate, Maven, JUnit</p>
+    <p><b>IA aplicada:</b> Model Context Protocol (MCP), Anthropic SDK (tool calling / agentes), Spec Driven Development</p>
     <p><b>Testing:</b> Pruebas unitarias, Pruebas de integración, TDD</p>
-    <p><b>Bases de datos:</b> PostgreSQL, MySQL, MongoDB, Redis</p>
-    <p><b>Mensajería &amp; Eventos:</b> RabbitMQ, Kafka</p>
-    <p><b>Cloud &amp; DevOps:</b> Azure DevOps, Docker, Kubernetes, CI/CD, GitHub Actions</p>
-    <p><b>Observabilidad:</b> Prometheus, Grafana, logging estructurado</p>
+    <p><b>Bases de datos:</b> PostgreSQL, PostGIS, MySQL, MongoDB, Redis</p>
+    <p><b>Mensajería &amp; Eventos:</b> RabbitMQ, Kafka, AWS SQS, Outbox transaccional</p>
+    <p><b>Cloud &amp; DevOps:</b> Azure DevOps, AWS (SQS), Terraform, Docker, CI/CD, GitHub Actions</p>
+    <p><b>Observabilidad:</b> Prometheus, Grafana, Loki, logging estructurado</p>
     <p><b>Seguridad:</b> JWT, OAuth 2.0</p>
     <p><b>Arquitectura:</b> Arquitectura Limpia, Arquitectura Hexagonal, DDD, SOLID</p>
     <p><b>Herramientas:</b> Git, Jira, Agile/Scrum</p>
