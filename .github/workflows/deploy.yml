@@ -14,11 +14,6 @@ permissions:
   pages: write
   id-token: write
 
-# GitHub forces Node 24 for JS actions from 2026-06-16; opt in early so the
-# pipeline is verified on it before the cutover.
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 # One deploy at a time; a newer push supersedes an in-flight one.
 concurrency:
   group: pages
@@ -28,8 +23,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -49,7 +44,7 @@ jobs:
       - run: npm run build
         env:
           VITE_API_BASE_URL: ${{ vars.API_BASE || 'https://api.brayangomez.dev' }}
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
 
@@ -61,4 +56,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
