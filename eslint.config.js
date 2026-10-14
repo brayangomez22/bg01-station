@@ -34,13 +34,11 @@ export default tseslint.config(
     },
     plugins: { 'react-hooks': reactHooks, react: reactLocal },
     rules: {
-      // Classic hook rules are hard errors. The React Compiler rules bundled in
-      // react-hooks v7 (set-state-in-effect, refs, immutability…) stay as
-      // warnings until the existing code is migrated.
+      // Classic hook rules plus the React Compiler rules bundled in v7
+      // (set-state-in-effect, refs, immutability…), all as errors.
       ...Object.fromEntries(
-        Object.keys(reactHooks.configs.recommended.rules).map((rule) => [rule, 'warn']),
+        Object.keys(reactHooks.configs.recommended.rules).map((rule) => [rule, 'error']),
       ),
-      'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react/no-danger': 'error',
       '@typescript-eslint/no-unused-vars': [

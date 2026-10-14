@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Heading, Panel, Tag, Text } from '@/components/ui';
 import { Seo } from '@/lib/seo/Seo';
@@ -10,15 +10,12 @@ export default function FrequenciesListPage() {
   const [items, setItems] = useState<FrequencyRow[] | null>(null);
   const [error, setError] = useState<string | undefined>();
 
-  const load = useCallback(() => {
-    setError(undefined);
+  useEffect(() => {
     frequenciesApi
       .list()
       .then(setItems)
       .catch(() => setError('No se pudo cargar el listado. ¿El API está activo?'));
   }, []);
-
-  useEffect(load, [load]);
 
   async function handleDelete(freq: FrequencyRow) {
     if (!window.confirm(`¿Cerrar la frecuencia "${freq.label}"?`)) return;

@@ -187,9 +187,10 @@ La inmersión no se paga con segundos de carga:
 
 ## 👨‍🚀 Autor
 
-**Brayan Gómez** — Backend Developer · Arquitecto de Sistemas
+**Brayan Gómez** — Full Stack Developer
 
-Especializado en sistemas robustos y escalables con **Go**, **NestJS**, **MongoDB** y **AWS**.
+5+ años construyendo sistemas pensados para durar en producción: backend en **Go**,
+interfaces en **React** y **Angular**, desplegados en **Azure**.
 
 [![GitHub](https://img.shields.io/badge/GitHub-brayangomez22-181717?logo=github)](https://github.com/brayangomez22)
 [![Portfolio](https://img.shields.io/badge/Estación-BG--01-0B3D91)](https://brayangomez.dev)

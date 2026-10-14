@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Heading, Panel, Tag, Text } from '@/components/ui';
 import { Seo } from '@/lib/seo/Seo';
@@ -11,15 +11,12 @@ export default function ExperiencesListPage() {
   const [items, setItems] = useState<Experience[] | null>(null);
   const [error, setError] = useState<string | undefined>();
 
-  const load = useCallback(() => {
-    setError(undefined);
+  useEffect(() => {
     experiencesApi
       .list()
       .then(setItems)
       .catch(() => setError('No se pudo cargar el listado. ¿El API está activo?'));
   }, []);
-
-  useEffect(load, [load]);
 
   async function handleDelete(exp: Experience) {
     if (!window.confirm(`¿Borrar el registro de "${exp.company}"?`)) return;

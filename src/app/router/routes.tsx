@@ -3,7 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 import { StationShell } from '@/app/layout/StationShell';
 import { ControlShell } from '@/app/layout/ControlShell';
 import { ControlGuard } from '@/features/control/components/ControlGuard';
-import { ROUTES, ROUTE_PATTERNS, CONTROL } from './paths';
+import { ROUTES, ROUTE_PATTERNS, CONTROL, CONTROL_PATTERNS } from './paths';
 
 /* First-visit pacing: the first time a deck's chunk loads mid-session, the
    telemetry loader (and its crew scene) holds long enough to be read.
@@ -28,25 +28,29 @@ function paced<T>(load: () => Promise<T>): Promise<T> {
 
 type PageModule = { default: ComponentType };
 
-/** A deck page: the lazy component plus a `handle.preload` that main.tsx
-    awaits before hydrating the prerendered route. Once preloaded, the lazy
-    factory hands React a synchronously-resolved thenable, so React.lazy
-    renders the page in the hydration pass instead of suspending (a suspended
-    boundary would be thrown away and client-rendered, losing the markup). */
+/** A deck page: the lazy component plus its route handle.
+    - `prefetch` warms the chunk on hover/focus (prefetch.ts); the first visit
+      still goes through `paced()`, so the telemetry loader keeps its hold.
+    - `preload` is awaited by main.tsx before hydrating a prerendered route.
+      Once preloaded, the lazy factory hands React a synchronously-resolved
+      thenable, so React.lazy renders the page in the hydration pass instead
+      of suspending (a suspended boundary would be thrown away and
+      client-rendered, losing the markup). */
 function deckPage(load: () => Promise<PageModule>) {
   let loaded: PageModule | undefined;
   const preload = () => load().then((module) => (loaded = module));
   const Page = lazy(() => {
     const module = loaded;
     if (!module) return paced(load);
-    return {
-      then: (resolve: (m: PageModule) => void) => resolve(module),
-    } as Promise<PageModule>;
+    return { then: (resolve: (m: PageModule) => void) => resolve(module) } as Promise<PageModule>;
   });
-  return { element: <Page />, handle: { preload } satisfies RouteHandle };
+  return { element: <Page />, handle: { prefetch: load, preload } satisfies RouteHandle };
 }
 
 export interface RouteHandle {
+  /** Download the route's chunk ahead of navigation. */
+  prefetch?: () => Promise<unknown>;
+  /** Load the chunk and let the lazy page render without suspending. */
   preload?: () => Promise<unknown>;
 }
 
@@ -135,37 +139,38 @@ export const routes: RouteObject[] = [
   },
   {
     // Control center: a sibling branch, not a deck. Public station chrome
-    // (NavDock, deck transitions) never applies here.
+    // (NavDock, deck transitions) never applies here. Children use absolute
+    // paths from CONTROL / CONTROL_PATTERNS (paths.ts), never inline strings.
     path: CONTROL.root,
     element: <ControlShell />,
     children: [
-      { path: 'login', element: <ControlLoginPage /> },
+      { path: CONTROL.login, element: <ControlLoginPage /> },
       {
         element: <ControlGuard />,
         children: [
           { index: true, element: <ControlOverviewPage /> },
-          { path: 'pilot', element: <PilotEditorPage /> },
-          { path: 'missions', element: <MissionsListPage /> },
-          { path: 'missions/new', element: <MissionEditorPage /> },
-          { path: 'missions/:missionId', element: <MissionEditorPage /> },
-          { path: 'technologies', element: <TechnologiesListPage /> },
-          { path: 'technologies/new', element: <TechnologyEditorPage /> },
-          { path: 'technologies/:techId', element: <TechnologyEditorPage /> },
-          { path: 'experiences', element: <ExperiencesListPage /> },
-          { path: 'experiences/new', element: <ExperienceEditorPage /> },
-          { path: 'experiences/:expId', element: <ExperienceEditorPage /> },
-          { path: 'frequencies', element: <FrequenciesListPage /> },
-          { path: 'frequencies/new', element: <FrequencyEditorPage /> },
-          { path: 'frequencies/:freqId', element: <FrequencyEditorPage /> },
-          { path: 'site-copy', element: <SiteCopyListPage /> },
-          { path: 'site-copy/new', element: <SiteCopyEditorPage /> },
-          { path: 'site-copy/:copyKey', element: <SiteCopyEditorPage /> },
-          { path: 'archive', element: <ArchiveRecordsListPage /> },
-          { path: 'archive/new', element: <ArchiveRecordEditorPage /> },
-          { path: 'archive/sections', element: <ArchiveSectionsListPage /> },
-          { path: 'archive/sections/new', element: <ArchiveSectionEditorPage /> },
-          { path: 'archive/sections/:sectionId', element: <ArchiveSectionEditorPage /> },
-          { path: 'archive/:recordId', element: <ArchiveRecordEditorPage /> },
+          { path: CONTROL.pilot, element: <PilotEditorPage /> },
+          { path: CONTROL.missions, element: <MissionsListPage /> },
+          { path: CONTROL.missionNew, element: <MissionEditorPage /> },
+          { path: CONTROL_PATTERNS.missionEdit, element: <MissionEditorPage /> },
+          { path: CONTROL.technologies, element: <TechnologiesListPage /> },
+          { path: CONTROL.technologyNew, element: <TechnologyEditorPage /> },
+          { path: CONTROL_PATTERNS.technologyEdit, element: <TechnologyEditorPage /> },
+          { path: CONTROL.experiences, element: <ExperiencesListPage /> },
+          { path: CONTROL.experienceNew, element: <ExperienceEditorPage /> },
+          { path: CONTROL_PATTERNS.experienceEdit, element: <ExperienceEditorPage /> },
+          { path: CONTROL.frequencies, element: <FrequenciesListPage /> },
+          { path: CONTROL.frequencyNew, element: <FrequencyEditorPage /> },
+          { path: CONTROL_PATTERNS.frequencyEdit, element: <FrequencyEditorPage /> },
+          { path: CONTROL.siteCopy, element: <SiteCopyListPage /> },
+          { path: CONTROL.siteCopyNew, element: <SiteCopyEditorPage /> },
+          { path: CONTROL_PATTERNS.siteCopyEdit, element: <SiteCopyEditorPage /> },
+          { path: CONTROL.archive, element: <ArchiveRecordsListPage /> },
+          { path: CONTROL.archiveNew, element: <ArchiveRecordEditorPage /> },
+          { path: CONTROL.archiveSections, element: <ArchiveSectionsListPage /> },
+          { path: CONTROL.archiveSectionNew, element: <ArchiveSectionEditorPage /> },
+          { path: CONTROL_PATTERNS.archiveSectionEdit, element: <ArchiveSectionEditorPage /> },
+          { path: CONTROL_PATTERNS.archiveEdit, element: <ArchiveRecordEditorPage /> },
         ],
       },
     ],

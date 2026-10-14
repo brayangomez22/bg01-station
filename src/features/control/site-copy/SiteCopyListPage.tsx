@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Heading, Panel, Text } from '@/components/ui';
 import { Seo } from '@/lib/seo/Seo';
@@ -10,15 +10,12 @@ export default function SiteCopyListPage() {
   const [items, setItems] = useState<SiteCopyEntry[] | null>(null);
   const [error, setError] = useState<string | undefined>();
 
-  const load = useCallback(() => {
-    setError(undefined);
+  useEffect(() => {
     siteCopyApi
       .list()
       .then(setItems)
       .catch(() => setError('No se pudo cargar el listado. ¿El API está activo?'));
   }, []);
-
-  useEffect(load, [load]);
 
   async function handleDelete(entry: SiteCopyEntry) {
     if (!window.confirm(`¿Borrar el texto "${entry.key}"?`)) return;

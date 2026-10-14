@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Heading, Panel, Tag, Text } from '@/components/ui';
 import { Seo } from '@/lib/seo/Seo';
@@ -10,15 +10,12 @@ export default function ArchiveRecordsListPage() {
   const [items, setItems] = useState<ArchiveRecordRow[] | null>(null);
   const [error, setError] = useState<string | undefined>();
 
-  const load = useCallback(() => {
-    setError(undefined);
+  useEffect(() => {
     archiveRecordsApi
       .list()
       .then(setItems)
       .catch(() => setError('No se pudo cargar el listado. ¿El API está activo?'));
   }, []);
-
-  useEffect(load, [load]);
 
   async function handleDelete(rec: ArchiveRecordRow) {
     if (!window.confirm(`¿Archivar de baja "${rec.title}"?`)) return;

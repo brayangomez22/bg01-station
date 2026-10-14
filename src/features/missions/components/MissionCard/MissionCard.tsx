@@ -23,7 +23,7 @@ export function MissionCard({ mission }: { mission: Mission }) {
       <Link
         to={ROUTES.missionDetail(mission.id)}
         className={styles['mission-card__link']}
-        onMouseEnter={() => prefetchRoute(ROUTES.missions)}
+        onMouseEnter={() => prefetchRoute(ROUTES.missionDetail(mission.id))}
         aria-label={`Abrir misión ${mission.code}: ${mission.title}`}
       >
         <div className={styles['mission-card__media']}>

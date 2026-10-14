@@ -15,14 +15,17 @@ import styles from './ArchiveRecordPage.module.css';
 
 /** Auto-numbered §01, §02… headings + quiet long-form segments. */
 function RecordBody({ segments }: { segments: ArchiveSegment[] }) {
-  let headingIndex = 0;
+  // Running heading count per segment, so each 'h' knows its § number.
+  const headingCount = segments.reduce<number[]>((counts, seg, i) => {
+    counts.push((counts[i - 1] ?? 0) + (seg.kind === 'h' ? 1 : 0));
+    return counts;
+  }, []);
   return (
     <>
       {segments.map((seg, i) => {
         switch (seg.kind) {
           case 'h': {
-            headingIndex += 1;
-            const n = String(headingIndex).padStart(2, '0');
+            const n = String(headingCount[i]).padStart(2, '0');
             return (
               <h2 key={i} className={styles.record__h}>
                 <span className={styles['record__h-index']} aria-hidden="true">

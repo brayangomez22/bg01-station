@@ -24,18 +24,17 @@ const MODULES: { label: string; hint: string; route?: string }[] = [
 export function ControlGuard() {
   const { status, logout } = useControlAuth();
   const location = useLocation();
-  const [navOpen, setNavOpen] = useState(false);
-
-  // Close the mobile drawer whenever the route changes (link tapped).
-  useEffect(() => {
-    setNavOpen(false);
-  }, [location.pathname]);
+  // The mobile drawer remembers the path it was opened on, so it closes by
+  // itself whenever the route changes (link tapped).
+  const [openedAt, setOpenedAt] = useState<string | null>(null);
+  const navOpen = openedAt === location.pathname;
+  const setNavOpen = (open: boolean) => setOpenedAt(open ? location.pathname : null);
 
   // While the drawer is open, lock body scroll and allow Escape to close it.
   useEffect(() => {
     if (!navOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setNavOpen(false);
+      if (e.key === 'Escape') setOpenedAt(null);
     };
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -68,7 +67,7 @@ export function ControlGuard() {
           aria-label={navOpen ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={navOpen}
           aria-controls="control-rail"
-          onClick={() => setNavOpen((open) => !open)}
+          onClick={() => setNavOpen(!navOpen)}
         >
           <Icon name={navOpen ? 'close' : 'menu'} size={20} />
         </button>

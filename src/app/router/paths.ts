@@ -49,3 +49,15 @@ export const CONTROL = {
   archiveSectionNew: '/control/archive/sections/new',
   archiveSectionEdit: (id: string) => `/control/archive/sections/${id}`,
 } as const;
+
+/** Pattern form of the control routes with params, for route definitions.
+    Param names are read by the editor pages via useParams. */
+export const CONTROL_PATTERNS = {
+  missionEdit: `${CONTROL.missions}/:missionId`,
+  technologyEdit: `${CONTROL.technologies}/:techId`,
+  experienceEdit: `${CONTROL.experiences}/:expId`,
+  frequencyEdit: `${CONTROL.frequencies}/:freqId`,
+  siteCopyEdit: `${CONTROL.siteCopy}/:copyKey`,
+  archiveEdit: `${CONTROL.archive}/:recordId`,
+  archiveSectionEdit: `${CONTROL.archiveSections}/:sectionId`,
+} as const;

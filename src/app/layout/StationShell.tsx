@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { ScrollRestoration, useLocation, useOutlet } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import { useBoot } from '@/app/providers/BootProvider';
@@ -36,17 +36,20 @@ export function StationShell() {
   const location = useLocation();
   const outlet = useOutlet();
 
-  // Deck travel direction: previous deck is read during render (before the
-  // effect commits the new one), so exit and enter animate the same way.
+  // Deck travel direction, derived during render when the deck changes (so
+  // exit and enter animate the same way) and kept until the next trip.
   const deck = deckOf(location.pathname).index;
-  const prevDeckRef = useRef<number | null>(null);
-  const direction =
-    prevDeckRef.current === null ? 0 : travelDirection(prevDeckRef.current, deck);
+  const [travel, setTravel] = useState({ deck, direction: 0 as -1 | 0 | 1 });
+  if (travel.deck !== deck) {
+    setTravel({ deck, direction: travelDirection(travel.deck, deck) });
+  }
+  const direction = travel.direction;
 
+  // Arrival chord only on actual deck changes (silent while sound is off).
+  const arrivedDeckRef = useRef(deck);
   useEffect(() => {
-    // Arrival chord only on actual deck changes (silent while sound is off).
-    if (prevDeckRef.current !== null && prevDeckRef.current !== deck) play('dock');
-    prevDeckRef.current = deck;
+    if (arrivedDeckRef.current !== deck) play('dock');
+    arrivedDeckRef.current = deck;
   }, [deck, play]);
 
   return (

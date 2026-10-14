@@ -27,7 +27,7 @@ export function FeaturedRecord({ record }: FeaturedRecordProps) {
       <Link
         to={ROUTES.archiveRecord(record.id)}
         className={styles.featured}
-        onMouseEnter={() => prefetchRoute(ROUTES.archive)}
+        onMouseEnter={() => prefetchRoute(ROUTES.archiveRecord(record.id))}
       >
         <Panel bracketed className={styles.featured__panel}>
           <div className={styles.featured__meta}>

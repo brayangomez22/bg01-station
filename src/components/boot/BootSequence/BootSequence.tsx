@@ -46,7 +46,9 @@ export function BootSequence() {
   const { complete } = useBoot();
   const { play } = useSound();
   const reduced = usePrefersReducedMotion();
-  const [progress, setProgress] = useState(0);
+  // Reduced motion skips the ramp: the link is established immediately.
+  const [ramp, setProgress] = useState(0);
+  const progress = reduced ? 100 : ramp;
   const fontsReady = useRef(false);
 
   // Docking registers the visit; dockVisitor is idempotent per session. The
@@ -68,10 +70,7 @@ export function BootSequence() {
   }, [complete]);
 
   useEffect(() => {
-    if (reduced) {
-      setProgress(100);
-      return;
-    }
+    if (reduced) return;
 
     document.fonts?.ready.then(() => {
       fontsReady.current = true;

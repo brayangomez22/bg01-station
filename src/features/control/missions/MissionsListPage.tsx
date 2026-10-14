@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Heading, Panel, Tag, Text } from '@/components/ui';
 import { Seo } from '@/lib/seo/Seo';
@@ -11,15 +11,12 @@ export default function MissionsListPage() {
   const [missions, setMissions] = useState<Mission[] | null>(null);
   const [error, setError] = useState<string | undefined>();
 
-  const load = useCallback(() => {
-    setError(undefined);
+  useEffect(() => {
     missionsApi
       .list()
       .then(setMissions)
       .catch(() => setError('No se pudo cargar el listado. ¿El API está activo?'));
   }, []);
-
-  useEffect(load, [load]);
 
   async function handleDelete(mission: Mission) {
     if (!window.confirm(`¿Dar de baja la misión "${mission.title}"?`)) return;

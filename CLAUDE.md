@@ -14,7 +14,7 @@ All user-facing copy is in **Spanish**, written in the station fiction (decks, m
 - `npm run build` — typecheck, client build, SSR build of `src/entry-server.tsx` into `dist-ssr/`, then `scripts/prerender.ts` (see "Prerender"). This is the main verification command.
 - `npm run typecheck` — `tsc -b --noEmit`
 - `npm run preview` — serve the production build
-- `npm run lint` — ESLint (flat config in `eslint.config.js`: typescript-eslint recommended + react-hooks). `rules-of-hooks` is an error; the React Compiler rules bundled with react-hooks v7 (`set-state-in-effect`, `refs`, `immutability`, …) are warnings until the existing code is migrated. `react/no-danger` is a small local rule (eslint-plugin-react doesn't support ESLint 10 yet).
+- `npm run lint` — ESLint (flat config in `eslint.config.js`: typescript-eslint recommended + react-hooks, including the React Compiler rules — `set-state-in-effect`, `refs`, `immutability`… — as errors; `exhaustive-deps` is a warning). `react/no-danger` is a small local rule (eslint-plugin-react doesn't support ESLint 10 yet). Lint is clean; keep it that way.
 - `npm run sync:content` — pull the latest content from the API's `/export` into `src/content/_generated/` (`API_BASE` env, defaults to `http://localhost:8080`)
 - `npm run seed` — one-shot bootstrap: push `_generated/*.json` into an empty API via admin endpoints (`API_BASE`, `SEED_PASSWORD`). Not part of normal work.
 
@@ -22,7 +22,7 @@ There are no tests. Prettier config: single quotes, semicolons, trailing commas,
 
 ## Architecture
 
-Route = "deck". `src/app/router/decks.ts` is the single source of truth mapping routes to decks (index, code, name, hint); the HUD stamp, NavDock, and directional route transitions all derive from it — never duplicate route→deck logic. Route strings live only in `src/app/router/paths.ts` (`ROUTES` for navigation, `ROUTE_PATTERNS` for router definitions); never inline a route string.
+Route = "deck". `src/app/router/decks.ts` is the single source of truth mapping routes to decks (index, code, name, hint); the HUD stamp, NavDock, and directional route transitions all derive from it — never duplicate route→deck logic. Route strings live only in `src/app/router/paths.ts` (`ROUTES` / `CONTROL` for navigation, `ROUTE_PATTERNS` / `CONTROL_PATTERNS` for router definitions); never inline a route string. Hover prefetch (`prefetch.ts`) resolves any path through the route table and each deck page's `handle.prefetch` — no separate route→chunk map.
 
 Composition: `main.tsx` → `App` → `AppProviders` (Motion → Sound → Boot contexts) → `RouterProvider` (`StaticRouterProvider` in `entry-server.tsx`). `routes.tsx` exports the route table (`routes`), never a router instance — the browser router is created in `main.tsx`. All public (deck) routes are children of `StationShell` (`src/app/layout/StationShell.tsx`), which owns the persistent chrome: background FX layers, `HudFrame`, `NavDock`, `CommandConsole` (Ctrl/Cmd+K palette), `StationMap`, `CustomCursor`, the first-session `BootSequence` overlay, and the directional `RouteTransition` driven by deck travel direction.
 

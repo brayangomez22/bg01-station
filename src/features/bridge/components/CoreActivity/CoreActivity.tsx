@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { TelemetryLine } from '@/components/ui';
+import { useHydrated } from '@/hooks/useHydrated';
 import styles from './CoreActivity.module.css';
 
 const GITHUB_USER = 'brayangomez22';
@@ -37,22 +38,29 @@ function relativeTime(iso: string): string {
  * sessionStorage. A failed fetch degrades diegetically ("telemetría
  * diferida") instead of erroring.
  */
+/** Fresh cached telemetry from this session, if any (never in the prerender). */
+function readCache(): Telemetry | undefined {
+  if (typeof window === 'undefined') return undefined;
+  try {
+    const cached = sessionStorage.getItem(CACHE_KEY);
+    if (!cached) return undefined;
+    const { data, at } = JSON.parse(cached) as { data: Telemetry; at: number };
+    return Date.now() - at < CACHE_TTL_MS ? data : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export function CoreActivity() {
-  const [telemetry, setTelemetry] = useState<Telemetry | null | 'pending'>('pending');
+  // The cache only applies after hydration: the prerender always shows the
+  // pending line, and the first client render must match it.
+  const hydrated = useHydrated();
+  const [cached] = useState(readCache);
+  const [fetched, setTelemetry] = useState<Telemetry | null | 'pending'>('pending');
+  const telemetry = hydrated && cached ? cached : fetched;
 
   useEffect(() => {
-    const cached = sessionStorage.getItem(CACHE_KEY);
-    if (cached) {
-      try {
-        const { data, at } = JSON.parse(cached) as { data: Telemetry; at: number };
-        if (Date.now() - at < CACHE_TTL_MS) {
-          setTelemetry(data);
-          return;
-        }
-      } catch {
-        sessionStorage.removeItem(CACHE_KEY);
-      }
-    }
+    if (cached) return;
 
     const controller = new AbortController();
     const headers = { Accept: 'application/vnd.github+json' };
@@ -78,14 +86,18 @@ export function CoreActivity() {
     })()
       .then((data) => {
         if (data) {
-          sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, at: Date.now() }));
+          try {
+            sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, at: Date.now() }));
+          } catch {
+            // Storage unavailable: the next visit simply fetches again.
+          }
         }
         setTelemetry(data);
       })
       .catch(() => setTelemetry(null));
 
     return () => controller.abort();
-  }, []);
+  }, [cached]);
 
   return (
     <div className={styles['core-activity']}>

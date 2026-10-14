@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Heading, Panel, Text } from '@/components/ui';
 import { Seo } from '@/lib/seo/Seo';
@@ -10,15 +10,12 @@ export default function ArchiveSectionsListPage() {
   const [items, setItems] = useState<ArchiveSectionRow[] | null>(null);
   const [error, setError] = useState<string | undefined>();
 
-  const load = useCallback(() => {
-    setError(undefined);
+  useEffect(() => {
     archiveSectionsApi
       .list()
       .then(setItems)
       .catch(() => setError('No se pudo cargar el listado. ¿El API está activo?'));
   }, []);
-
-  useEffect(load, [load]);
 
   async function handleDelete(sec: ArchiveSectionRow) {
     if (!window.confirm(`¿Eliminar la sección "${sec.label}"?`)) return;
