@@ -3,7 +3,9 @@ import { motion, useReducedMotion, useSpring, useTransform } from 'motion/react'
 import type { Variants } from 'motion/react';
 import { useMousePosition } from '@/hooks/useMousePosition';
 import { useHasHover } from '@/hooks/useMediaQuery';
+import { useHydrated } from '@/hooks/useHydrated';
 import { formatMET } from '@/lib/format';
+import { viewportHeight, viewportWidth } from '@/lib/viewport';
 import styles from './EvaScan.module.css';
 
 /**
@@ -96,7 +98,11 @@ function Callout({ path, anchor, textY, label, value, order }: CalloutProps) {
 /* Soft, distant-body response: the scan lags well behind the cursor. */
 const PARALLAX_SPRING = { stiffness: 60, damping: 18, mass: 0.8 };
 
+/* Shown until hydration: the prerender has no mission clock. */
+const MET_PENDING = 'T+ ----:--:--:--';
+
 export function EvaScan() {
+  const hydrated = useHydrated();
   const [met, setMet] = useState(() => formatMET());
   const hasHover = useHasHover();
   const reduceMotion = useReducedMotion();
@@ -104,15 +110,15 @@ export function EvaScan() {
   const { x, y } = useMousePosition();
   // Counter-movement: a far-away body drifts against the cursor, never with it.
   const parallaxX = useSpring(
-    useTransform(x, (v) => -(v / window.innerWidth - 0.5) * 16),
+    useTransform(x, (v) => -(v / viewportWidth() - 0.5) * 16),
     PARALLAX_SPRING,
   );
   const parallaxY = useSpring(
-    useTransform(y, (v) => -(v / window.innerHeight - 0.5) * 12),
+    useTransform(y, (v) => -(v / viewportHeight() - 0.5) * 12),
     PARALLAX_SPRING,
   );
   const tilt = useSpring(
-    useTransform(x, (v) => (v / window.innerWidth - 0.5) * 2),
+    useTransform(x, (v) => (v / viewportWidth() - 0.5) * 2),
     PARALLAX_SPRING,
   );
 
@@ -348,7 +354,7 @@ export function EvaScan() {
           anchor={[168, 173]}
           textY={177}
           label="MET"
-          value={met}
+          value={hydrated ? met : MET_PENDING}
           order={19}
         />
         <Callout

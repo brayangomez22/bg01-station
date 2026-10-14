@@ -3,6 +3,7 @@ import { ScrollRestoration, useLocation, useOutlet } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import { useBoot } from '@/app/providers/BootProvider';
 import { useSound } from '@/app/providers/SoundProvider';
+import { useHydrated } from '@/hooks/useHydrated';
 import { useStationShift } from '@/hooks/useStationShift';
 import { deckOf, travelDirection } from '@/app/router/decks';
 import { RouteTransition } from '@/app/router/RouteTransition';
@@ -19,7 +20,8 @@ import { CommandConsole } from '@/components/console/CommandConsole/CommandConso
 import { StationMap } from '@/components/map/StationMap/StationMap';
 import styles from './StationShell.module.css';
 
-// Heavy background canvas: lazy + mounted after first paint, never blocks content.
+// Heavy background canvas: lazy + mounted after hydration, never blocks content
+// (and never part of the prerendered HTML).
 const Starfield = lazy(() =>
   import('@/components/fx/Starfield/Starfield').then((m) => ({
     default: m.Starfield,
@@ -30,6 +32,7 @@ export function StationShell() {
   const { booting } = useBoot();
   const { play } = useSound();
   const shift = useStationShift();
+  const hydrated = useHydrated();
   const location = useLocation();
   const outlet = useOutlet();
 
@@ -52,9 +55,11 @@ export function StationShell() {
       {/* Background layers (decorative, non-interactive) */}
       <div className={styles['station-shell__bg']} aria-hidden="true">
         <NebulaBackdrop />
-        <Suspense fallback={null}>
-          <Starfield />
-        </Suspense>
+        {hydrated && (
+          <Suspense fallback={null}>
+            <Starfield />
+          </Suspense>
+        )}
         {/* Painted over the starfield: the planet occludes stars, never
             the other way around. */}
         <DeepSpace />

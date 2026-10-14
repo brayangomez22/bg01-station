@@ -8,14 +8,14 @@ BG-01 es una estación espacial operativa habitada por un ingeniero de software.
 Cada sección es un módulo real de la estación: navegas sus cubiertas, consultas su bitácora
 y abres un canal de comunicaciones — todo con la sobriedad de un centro de control aeroespacial.
 
-[![Deploy](https://github.com/brayangomez22/brayangomez22.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/brayangomez22/brayangomez22.github.io/actions/workflows/deploy.yml)
+[![Deploy](https://github.com/brayangomez22/bg01-station/actions/workflows/deploy.yml/badge.svg)](https://github.com/brayangomez22/bg01-station/actions/workflows/deploy.yml)
 [![React](https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vite.dev)
 [![React Router](https://img.shields.io/badge/React_Router-7-CA4245?logo=reactrouter&logoColor=white)](https://reactrouter.com)
 [![Motion](https://img.shields.io/badge/Motion-12-FFF42B?logo=framer&logoColor=black)](https://motion.dev)
 
-**🟢 Estado: en órbita** · [**Acoplar con la estación →**](https://brayangomez22.github.io/)
+**🟢 Estado: en órbita** · [**Acoplar con la estación →**](https://brayangomez.dev)
 
 </div>
 
@@ -41,9 +41,10 @@ y abres un canal de comunicaciones — todo con la sobriedad de un centro de con
 - **Archivo de conocimiento** — blog técnico con búsqueda, filtros por sección y registros destacados.
 - **Misiones** — proyectos presentados como expedientes de misión, con briefing, filtros y página de detalle.
 - **Bitácora** — la trayectoria profesional como diario de vuelo.
-- **Sistema de comunicaciones** — formulario de contacto con máquina de estados de transmisión y validación en vivo.
+- **Sistema de comunicaciones** — formulario de contacto con máquina de estados de transmisión y validación en vivo, entregado vía Web3Forms.
+- **Centro de Control** — panel autenticado en `/control` para editar todo el contenido de la estación y publicarlo sin tocar el código.
 - **Diseño responsivo** — del puente de mando en ultrawide a la consola de bolsillo en móvil.
-- **Accesibilidad como sistema crítico** — sonido desactivado por defecto, respeto global a `prefers-reduced-motion`, capas decorativas ocultas a tecnologías de asistencia y cero rastreo (sin cookies ni llamadas externas).
+- **Accesibilidad como sistema crítico** — sonido desactivado por defecto, respeto global a `prefers-reduced-motion`, capas decorativas ocultas a tecnologías de asistencia y cero rastreo (sin cookies ni analítica de terceros).
 
 ---
 
@@ -65,8 +66,9 @@ Bajo el casco, el código sigue la misma disciplina que la estación:
 
 - **`src/features/<cubierta>/`** — un módulo por ruta, con sus componentes y hooks locales. Cada cubierta se carga como chunk independiente.
 - **`src/app/router/decks.ts`** — la única fuente de verdad ruta → cubierta; HUD, navegación y transiciones derivan de ella.
-- **`src/content/`** — todo el contenido (piloto, misiones, experiencia, archivo) como constantes tipadas, separado de la presentación.
-- **`src/lib/`** — utilidades sin framework: motor de audio, variantes de movimiento, SEO y manifiesto de visitante.
+- **`src/content/`** — accesores tipados sobre el contenido; los datos llegan como JSON en `src/content/_generated/` desde el CMS (ver abajo).
+- **`src/features/control/`** — el Centro de Control (`/control`): una rama del router aparte, fuera de las cubiertas.
+- **`src/lib/`** — utilidades sin framework: motor de audio, variantes de movimiento, SEO, manifiesto de visitante y cliente del API de control.
 - **`src/styles/tokens/`** — el sistema de diseño completo como custom properties de CSS.
 
 ---
@@ -91,8 +93,8 @@ Sin frameworks de UI, sin librerías de componentes, sin archivos de audio: la e
 Requisitos: **Node.js 22+** y **npm**.
 
 ```bash
-git clone https://github.com/brayangomez22/brayangomez22.github.io.git
-cd brayangomez22.github.io
+git clone https://github.com/brayangomez22/bg01-station.git
+cd bg01-station
 npm install
 ```
 
@@ -101,22 +103,49 @@ npm install
 ```bash
 npm run dev        # servidor de desarrollo (Vite)
 npm run typecheck  # verificación de tipos sin emitir
+npm run lint       # ESLint (typescript-eslint + react-hooks)
 ```
+
+Para usar el Centro de Control en local, copia `.env.example` a `.env.local` y apunta
+`VITE_API_BASE_URL` a una instancia de [bg01-api](https://github.com/brayangomez22/bg01-api).
 
 ## 📦 Build
 
 ```bash
-npm run build      # typecheck + build de producción en dist/
+npm run build      # typecheck + build + prerender de todas las rutas en dist/
 npm run preview    # sirve el build de producción en local
+```
+
+## 🛰️ Contenido y CMS
+
+El contenido de la estación no vive en este repositorio: su fuente de verdad es la base de datos de
+[**bg01-api**](https://github.com/brayangomez22/bg01-api), un CMS en Go desplegado en Fly.io
+(`https://api.brayangomez.dev`).
+
+1. El contenido se edita en el **Centro de Control** (`/control`).
+2. **Publicar estación** pide al API que dispare un `repository_dispatch` (`content-updated`) en este repo.
+3. El workflow de despliegue ejecuta `npm run sync:content`, que descarga `/export` del API y regenera
+   `src/content/_generated/*.json`, y después construye y publica el sitio.
+4. Si el API no responde, la sincronización se omite sin fallar y el build usa la última instantánea commiteada.
+
+> ⚠️ `src/content/_generated/` es salida generada: **no se edita a mano**. Cualquier cambio se
+> sobrescribe en la siguiente publicación. Los cambios de contenido se hacen desde `/control`.
+
+```bash
+API_BASE=https://api.brayangomez.dev npm run sync:content   # refresca la instantánea local
 ```
 
 ## 🛸 Despliegue
 
-El despliegue es continuo: cada push a `main` dispara el workflow de GitHub Actions
-([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)), que construye el proyecto
-y lo publica en **GitHub Pages**. El workflow copia `index.html` como `404.html` para que
-los enlaces profundos de la SPA (`/missions/...`, `/archive/...`) arranquen el router
-en lugar de fallar.
+El despliegue es continuo: cada push a `main` —o cada publicación desde el Centro de Control—
+dispara el workflow de GitHub Actions ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)),
+que sincroniza el contenido, construye el proyecto y lo publica en **GitHub Pages** bajo el dominio
+[brayangomez.dev](https://brayangomez.dev).
+
+El build **prerenderiza** cada cubierta, misión y registro del archivo a su propio HTML
+(`/pilot` → `pilot.html`), con el contenido real y los metadatos de la ruta en el HTML inicial:
+cada URL responde 200 y React hidrata sobre ese marcado. También genera `sitemap.xml` y un
+`404.html` real para las rutas que no existen.
 
 ---
 
@@ -134,21 +163,23 @@ en lugar de fallar.
 
 La inmersión no se paga con segundos de carga:
 
+- **HTML prerenderizado** — cada ruta llega con su contenido y metadatos desde el primer byte; React hidrata sin volver a pintar.
 - **Un chunk por cubierta** — cada módulo se carga bajo demanda; React y Motion viajan en chunks de vendor independientes y cacheables.
 - **Carga inicial intacta** — la pausa escénica del cargador de telemetría solo aplica en navegaciones posteriores, nunca en la primera impresión ni para visitantes con movimiento reducido.
 - **SVG antes que imágenes pesadas** — avatar, insignias y portadas son vectoriales.
 - **Tipografía autoalojada** — subconjuntos woff2 servidos desde el mismo origen, sin ida y vuelta a Google Fonts.
 - **Audio sintetizado** — el ambiente sonoro se genera con Web Audio: cero descargas de archivos de audio.
-- **Cero rastreo** — sin cookies, sin analítica externa, sin peticiones a terceros.
+- **Cero rastreo** — sin cookies ni analítica de terceros; solo un pulso anónimo por sesión al API propio para el contador de tráfico.
 
 ---
 
 ## 🗺️ Roadmap
 
 - [ ] **Telemetría visual** — capturas y demo animada de los módulos en este README.
-- [ ] **Enlace de transmisión real** — conectar el módulo de comunicaciones a un proveedor de entrega (hoy la transmisión se simula).
+- [x] **Enlace de transmisión real** — el módulo de comunicaciones entrega vía Web3Forms.
 - [ ] **Evidencia de misiones** — enlaces a repositorios y despliegues reales en cada expediente.
-- [ ] **Diagnósticos automáticos** — ESLint y suite de pruebas integrados en el pipeline.
+- [x] **Diagnósticos locales** — ESLint (typescript-eslint + react-hooks) con `npm run lint`.
+- [ ] **Diagnósticos automáticos** — lint y suite de pruebas integrados en el pipeline.
 - [ ] **Auditoría continua** — presupuesto Lighthouse verificado en CI.
 - [ ] **Canal en inglés** — versión EN de la estación para tripulación internacional.
 
@@ -161,7 +192,7 @@ La inmersión no se paga con segundos de carga:
 Especializado en sistemas robustos y escalables con **Go**, **NestJS**, **MongoDB** y **AWS**.
 
 [![GitHub](https://img.shields.io/badge/GitHub-brayangomez22-181717?logo=github)](https://github.com/brayangomez22)
-[![Portfolio](https://img.shields.io/badge/Estación-BG--01-0B3D91)](https://brayangomez22.github.io/)
+[![Portfolio](https://img.shields.io/badge/Estación-BG--01-0B3D91)](https://brayangomez.dev)
 
 ---
 

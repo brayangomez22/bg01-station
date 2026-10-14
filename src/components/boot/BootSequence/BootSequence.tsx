@@ -49,8 +49,11 @@ export function BootSequence() {
   const [progress, setProgress] = useState(0);
   const fontsReady = useRef(false);
 
-  // Docking registers the visit; dockVisitor is idempotent per session.
-  const [lines] = useState(() => bootLines(dockVisitor()));
+  // Docking registers the visit; dockVisitor is idempotent per session. The
+  // prerender has no visitor (the log starts empty, so nothing to mismatch).
+  const [lines] = useState(() =>
+    bootLines(typeof window === 'undefined' ? null : dockVisitor()),
+  );
 
   const ready = progress >= 100;
   const visibleLines = Math.ceil((progress / 100) * lines.length);
@@ -102,6 +105,8 @@ export function BootSequence() {
   return (
     <motion.div
       className={styles['boot-sequence']}
+      // Hook for the pre-paint docked/no-JS rules in global.css.
+      data-boot-overlay
       role="dialog"
       aria-label="Secuencia de conexión a la estación BG-01"
       initial={{ opacity: 1 }}

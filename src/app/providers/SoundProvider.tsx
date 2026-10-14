@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { useHydrated } from '@/hooks/useHydrated';
 import { audioEngine, type SoundName } from '@/lib/audio/engine';
 
 interface SoundContextValue {
@@ -20,17 +21,31 @@ const SoundContext = createContext<SoundContextValue | null>(null);
 
 const STORAGE_KEY = 'bg01:sound';
 
-/** Sound is OFF by default (accessibility). Preference persists locally. */
-export function SoundProvider({ children }: { children: ReactNode }) {
-  const [enabled, setEnabled] = useState<boolean>(() => {
-    if (typeof localStorage === 'undefined') return false;
+function storedPreference(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
     return localStorage.getItem(STORAGE_KEY) === 'on';
-  });
+  } catch {
+    return false;
+  }
+}
+
+/** Sound is OFF by default (accessibility). Preference persists locally.
+    The stored preference only applies after hydration: the prerender (and
+    the hydration render matching it) always reports sound off. */
+export function SoundProvider({ children }: { children: ReactNode }) {
+  const hydrated = useHydrated();
+  const [stored, setStored] = useState<boolean>(storedPreference);
+  const enabled = hydrated && stored;
 
   const toggle = useCallback(() => {
-    setEnabled((v) => {
+    setStored((v) => {
       const next = !v;
-      localStorage.setItem(STORAGE_KEY, next ? 'on' : 'off');
+      try {
+        localStorage.setItem(STORAGE_KEY, next ? 'on' : 'off');
+      } catch {
+        // Storage unavailable: the preference lasts for this page only.
+      }
       // The toggle click is a user gesture: safe to start/stop the engine here.
       if (next) audioEngine.enable();
       else audioEngine.disable();

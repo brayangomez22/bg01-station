@@ -4,6 +4,7 @@ import {
   useCallback,
   useMemo,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from 'react';
 
@@ -16,18 +17,37 @@ interface BootContextValue {
 
 const BootContext = createContext<BootContextValue | null>(null);
 
+/** Also read by the pre-paint script in index.html — keep both in sync. */
 const SESSION_KEY = 'bg01:docked';
 
+function isDocked(): boolean {
+  try {
+    return sessionStorage.getItem(SESSION_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+/** Docking is only ever written by `complete` below, which also sets state. */
+const subscribe = () => () => {};
+
 export function BootProvider({ children }: { children: ReactNode }) {
-  // Skip the boot sequence on subsequent navigations within the same session.
-  const [booting, setBooting] = useState<boolean>(() => {
-    if (typeof sessionStorage === 'undefined') return true;
-    return sessionStorage.getItem(SESSION_KEY) !== 'true';
-  });
+  // The prerendered HTML can't know whether this browser session already
+  // docked, so it always ships the overlay and the hydration render matches
+  // it (server snapshot: not docked). For docked sessions the pre-paint
+  // script in index.html hides the overlay (html[data-docked]) until React
+  // re-renders with the real snapshot and unmounts it.
+  const docked = useSyncExternalStore(subscribe, isDocked, () => false);
+  const [completed, setCompleted] = useState(false);
+  const booting = !docked && !completed;
 
   const complete = useCallback(() => {
-    sessionStorage.setItem(SESSION_KEY, 'true');
-    setBooting(false);
+    try {
+      sessionStorage.setItem(SESSION_KEY, 'true');
+    } catch {
+      // Storage unavailable: the boot simply plays again next load.
+    }
+    setCompleted(true);
   }, []);
 
   const value = useMemo<BootContextValue>(

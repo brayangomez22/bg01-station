@@ -38,6 +38,17 @@
     <meta name="twitter:image" content="https://brayangomez.dev/og-image.png" />
 
     <!-- Fonts are self-hosted via @fontsource (imported in src/styles/index.css). -->
+
+    <!-- Pre-paint: the prerendered HTML always ships the boot overlay; hide it
+         for sessions that already docked (key shared with BootProvider). -->
+    <script>
+      try {
+        if (sessionStorage.getItem('bg01:docked') === 'true') {
+          document.documentElement.dataset.docked = '';
+        }
+      } catch {}
+    </script>
+    <noscript><style>[data-boot-overlay] { display: none; }</style></noscript>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Saltar al contenido</a>

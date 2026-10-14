@@ -6,7 +6,7 @@
   "description": "BG-01 Space Station — Immersive portfolio for Brayan Gomez",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && NODE_ENV=production tsx scripts/prerender.ts",
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",

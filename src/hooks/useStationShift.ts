@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 /**
  * Station operating shift, derived from the visitor's local hour. The
@@ -12,19 +12,17 @@ export function shiftForHour(hour: number): StationShift {
   return 'nocturno';
 }
 
-/** Current shift, re-evaluated once per minute (state only changes at shift
+/** Re-evaluated once per minute (the snapshot only changes at shift
     boundaries, so consumers re-render at most three times a day). */
+const subscribe = (onChange: () => void) => {
+  const id = setInterval(onChange, 60_000);
+  return () => clearInterval(id);
+};
+
+const currentShift = () => shiftForHour(new Date().getHours());
+
+/** Current shift. The prerender has no visitor clock and reports 'alfa';
+    hydration then switches to the visitor's real shift. */
 export function useStationShift(): StationShift {
-  const [shift, setShift] = useState<StationShift>(() =>
-    shiftForHour(new Date().getHours()),
-  );
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setShift(shiftForHour(new Date().getHours()));
-    }, 60_000);
-    return () => clearInterval(id);
-  }, []);
-
-  return shift;
+  return useSyncExternalStore(subscribe, currentShift, () => 'alfa');
 }

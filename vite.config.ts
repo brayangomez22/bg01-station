@@ -3,8 +3,11 @@ import react from '@vitejs/plugin-react';
 import { fileURLToPath, URL } from 'node:url';
 
 // https://vite.dev/config/
-export default defineConfig({
+// `isSsrBuild` is the prerender bundle (entry-server.tsx → dist-ssr/), run once
+// by scripts/prerender.ts at build time; it never needs public/ assets.
+export default defineConfig(({ isSsrBuild }) => ({
   plugins: [react()],
+  publicDir: isSsrBuild ? false : 'public',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -42,4 +45,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

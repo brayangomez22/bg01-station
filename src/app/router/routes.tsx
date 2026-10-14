@@ -1,5 +1,5 @@
-import { lazy } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { lazy, type ComponentType } from 'react';
+import type { RouteObject } from 'react-router-dom';
 import { StationShell } from '@/app/layout/StationShell';
 import { ControlShell } from '@/app/layout/ControlShell';
 import { ControlGuard } from '@/features/control/components/ControlGuard';
@@ -9,12 +9,14 @@ import { ROUTES, ROUTE_PATTERNS, CONTROL } from './paths';
    telemetry loader (and its crew scene) holds long enough to be read.
    React.lazy only runs each factory once, so revisits never wait. The
    initial page load / deep links stay instant (first impression is the
-   boot's job), and reduced-motion visitors are never held on decoration. */
+   boot's job), and reduced-motion visitors are never held on decoration.
+   The prerender (no window) never waits either. */
 const APP_START = performance.now();
 const SCENE_HOLD_MS = 1300;
 const INITIAL_GRACE_MS = 1500;
 
 function paced<T>(load: () => Promise<T>): Promise<T> {
+  if (typeof window === 'undefined') return load();
   const isInitialLoad = performance.now() - APP_START < INITIAL_GRACE_MS;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (isInitialLoad || reduced) return load();
@@ -24,26 +26,48 @@ function paced<T>(load: () => Promise<T>): Promise<T> {
   ]).then(([module]) => module);
 }
 
+type PageModule = { default: ComponentType };
+
+/** A deck page: the lazy component plus a `handle.preload` that main.tsx
+    awaits before hydrating the prerendered route. Once preloaded, the lazy
+    factory hands React a synchronously-resolved thenable, so React.lazy
+    renders the page in the hydration pass instead of suspending (a suspended
+    boundary would be thrown away and client-rendered, losing the markup). */
+function deckPage(load: () => Promise<PageModule>) {
+  let loaded: PageModule | undefined;
+  const preload = () => load().then((module) => (loaded = module));
+  const Page = lazy(() => {
+    const module = loaded;
+    if (!module) return paced(load);
+    return {
+      then: (resolve: (m: PageModule) => void) => resolve(module),
+    } as Promise<PageModule>;
+  });
+  return { element: <Page />, handle: { preload } satisfies RouteHandle };
+}
+
+export interface RouteHandle {
+  preload?: () => Promise<unknown>;
+}
+
 /* Lazy route components — one chunk per feature. Pages use default exports
    as required by React.lazy (documented exception to the named-export rule). */
-const BridgePage = lazy(() => paced(() => import('@/features/bridge/BridgePage')));
-const PilotPage = lazy(() => paced(() => import('@/features/pilot/PilotPage')));
-const SystemsPage = lazy(() => paced(() => import('@/features/systems/SystemsPage')));
-const MissionsPage = lazy(() => paced(() => import('@/features/missions/MissionsPage')));
-const MissionDetailPage = lazy(() =>
-  paced(() => import('@/features/missions/MissionDetailPage')),
-);
-const LogbookPage = lazy(() => paced(() => import('@/features/logbook/LogbookPage')));
-const CommsPage = lazy(() => paced(() => import('@/features/comms/CommsPage')));
-const ArchivePage = lazy(() => paced(() => import('@/features/archive/ArchivePage')));
-const ArchiveRecordPage = lazy(() =>
-  paced(() => import('@/features/archive/ArchiveRecordPage')),
-);
+const bridgePage = deckPage(() => import('@/features/bridge/BridgePage'));
+const pilotPage = deckPage(() => import('@/features/pilot/PilotPage'));
+const systemsPage = deckPage(() => import('@/features/systems/SystemsPage'));
+const missionsPage = deckPage(() => import('@/features/missions/MissionsPage'));
+const missionDetailPage = deckPage(() => import('@/features/missions/MissionDetailPage'));
+const logbookPage = deckPage(() => import('@/features/logbook/LogbookPage'));
+const commsPage = deckPage(() => import('@/features/comms/CommsPage'));
+const archivePage = deckPage(() => import('@/features/archive/ArchivePage'));
+const archiveRecordPage = deckPage(() => import('@/features/archive/ArchiveRecordPage'));
 // Control center pages (lazy; loaded only when an admin visits /control).
 const ControlLoginPage = lazy(() => import('@/features/control/LoginPage'));
 const ControlOverviewPage = lazy(() => import('@/features/control/OverviewPage'));
 const PilotEditorPage = lazy(() => import('@/features/control/pilot/PilotEditorPage'));
-const MissionsListPage = lazy(() => import('@/features/control/missions/MissionsListPage'));
+const MissionsListPage = lazy(
+  () => import('@/features/control/missions/MissionsListPage'),
+);
 const MissionEditorPage = lazy(
   () => import('@/features/control/missions/MissionEditorPage'),
 );
@@ -87,20 +111,25 @@ const ArchiveSectionEditorPage = lazy(
 // 404 is eager (lightweight, must render even if a chunk fails to load).
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
 
-export const router = createBrowserRouter([
+/**
+ * Route table, shared by the browser router (main.tsx) and the build-time
+ * prerender (entry-server.tsx). Never create the router here: the browser
+ * router needs `window`, which the prerender doesn't have.
+ */
+export const routes: RouteObject[] = [
   {
     path: ROUTES.bridge,
     element: <StationShell />,
     children: [
-      { index: true, element: <BridgePage /> },
-      { path: ROUTES.pilot, element: <PilotPage /> },
-      { path: ROUTES.systems, element: <SystemsPage /> },
-      { path: ROUTES.missions, element: <MissionsPage /> },
-      { path: ROUTE_PATTERNS.missionDetail, element: <MissionDetailPage /> },
-      { path: ROUTES.logbook, element: <LogbookPage /> },
-      { path: ROUTES.comms, element: <CommsPage /> },
-      { path: ROUTES.archive, element: <ArchivePage /> },
-      { path: ROUTE_PATTERNS.archiveRecord, element: <ArchiveRecordPage /> },
+      { index: true, ...bridgePage },
+      { path: ROUTES.pilot, ...pilotPage },
+      { path: ROUTES.systems, ...systemsPage },
+      { path: ROUTES.missions, ...missionsPage },
+      { path: ROUTE_PATTERNS.missionDetail, ...missionDetailPage },
+      { path: ROUTES.logbook, ...logbookPage },
+      { path: ROUTES.comms, ...commsPage },
+      { path: ROUTES.archive, ...archivePage },
+      { path: ROUTE_PATTERNS.archiveRecord, ...archiveRecordPage },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
@@ -141,4 +170,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];

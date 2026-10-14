@@ -8,7 +8,7 @@ import styles from './NotFoundPage.module.css';
 export function NotFoundPage() {
   return (
     <Container>
-      <Seo {...seoByRoute.notFound} />
+      <Seo {...seoByRoute.notFound} noindex />
       <div className={styles['signal-lost']}>
         <Text variant="mono" tone="accent">
           ERROR 404 · SEÑAL PERDIDA

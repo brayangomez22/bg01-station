@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, useSpring, useTransform } from 'motion/react';
 import { useMousePosition } from '@/hooks/useMousePosition';
+import { viewportHeight, viewportWidth } from '@/lib/viewport';
 import { useHasHover } from '@/hooks/useMediaQuery';
 import styles from './CustomCursor.module.css';
 
@@ -24,8 +25,8 @@ export function CustomCursor() {
   const ringY = useSpring(y, { stiffness: 350, damping: 32 });
 
   // The dot tracks the pointer exactly; the ring stops at the screen edge.
-  const boundedX = useTransform(ringX, (v) => clampToViewport(v, window.innerWidth));
-  const boundedY = useTransform(ringY, (v) => clampToViewport(v, window.innerHeight));
+  const boundedX = useTransform(ringX, (v) => clampToViewport(v, viewportWidth()));
+  const boundedY = useTransform(ringY, (v) => clampToViewport(v, viewportHeight()));
 
   useEffect(() => {
     if (!hasHover) return;

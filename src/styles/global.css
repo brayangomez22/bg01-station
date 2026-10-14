@@ -83,3 +83,10 @@ time,
 [data-readout] {
   font-variant-numeric: tabular-nums;
 }
+
+/* Boot overlay in prerendered HTML: hidden before paint for sessions that
+   already docked (the script in index.html sets html[data-docked]) and for
+   visitors without JS, who could never dismiss it. */
+html[data-docked] [data-boot-overlay] {
+  display: none;
+}

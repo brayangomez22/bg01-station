@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useHydrated } from '@/hooks/useHydrated';
 import { useStationShift, type StationShift } from '@/hooks/useStationShift';
 import styles from './AmbientStatus.module.css';
 
@@ -40,16 +41,17 @@ const ROTATE_MS = 45_000;
 
 export function AmbientStatus() {
   const shift = useStationShift();
-  const events = useMemo(
-    () => [...SHIFT_EVENTS[shift], ...GENERIC_EVENTS],
-    [shift],
-  );
+  const events = useMemo(() => [...SHIFT_EVENTS[shift], ...GENERIC_EVENTS], [shift]);
 
-  // Hour-seeded start so the first line varies between visits.
-  const [index, setIndex] = useState(() => new Date().getHours());
+  // Hour-seeded start so the first line varies between visits. The seed
+  // applies after hydration (the prerender has no visitor clock).
+  const hydrated = useHydrated();
+  const [seed] = useState(() => new Date().getHours());
+  const [ticks, setTicks] = useState(0);
+  const index = (hydrated ? seed : 0) + ticks;
 
   useEffect(() => {
-    const id = setInterval(() => setIndex((i) => i + 1), ROTATE_MS);
+    const id = setInterval(() => setTicks((t) => t + 1), ROTATE_MS);
     return () => clearInterval(id);
   }, []);
 
