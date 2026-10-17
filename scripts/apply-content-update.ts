@@ -23,10 +23,14 @@ import type {
   Pilot,
   Technology,
 } from '../src/types/domain';
-import type { LabelledValue } from '../src/types/common';
+import type { LabelledValue, MediaRef } from '../src/types/common';
 
 const BASE = process.env.API_BASE ?? 'http://localhost:8080';
 const APPLY = process.argv.includes('--apply');
+/** Write the target missions and archive into src/content/_generated/ to
+    review them locally before applying. Never touches the API; undo with
+    `git checkout src/content/_generated`. */
+const PREVIEW_LOCAL = process.argv.includes('--preview-local');
 
 /** Admin row: the frontend type plus the list order the API keeps. */
 type ArchiveRecordRow = ArchiveRecord & { order: number };
@@ -359,6 +363,108 @@ const EXPERIENCE_ORDER = [
   'log-2021-freelance',
 ];
 
+const FRONTEND_MIGRATION_RECORD: Omit<ArchiveRecordRow, 'order'> = {
+  id: 'migracion-angular-react',
+  code: 'REG-006',
+  title: 'Migrar de Angular a React sin que el cliente lo notara',
+  abstract:
+    'Dos desarrolladores, 5 meses y más de 40 módulos reescritos sobre una arquitectura nueva de React, sin detener el producto. La meta: que cada pantalla funcionara y se viera exactamente igual.',
+  section: 'ing',
+  tags: ['REACT', 'ANGULAR', 'MIGRACIÓN', 'FRONTEND'],
+  archivedAt: '2026-10-17',
+  readingMinutes: 5,
+  refs: ['migracion-java-go-por-endpoint'],
+  body: [
+    {
+      kind: 'p',
+      text: 'En Hibot Chat lideré la migración de las aplicaciones estratégicas de Angular a React. Éramos dos desarrolladores, tomó 5 meses y el producto nunca dejó de recibir features: migramos módulo a módulo, más de 40 en total.',
+    },
+    { kind: 'h', text: 'Módulo a módulo, sobre la arquitectura nueva' },
+    {
+      kind: 'p',
+      text: 'Cada módulo se reescribía directamente sobre la arquitectura nueva de React, en lugar de traducir el código de Angular línea por línea. Así cada módulo migrado nacía con la estructura y las convenciones del destino, y el producto seguía operando mientras el resto esperaba su turno.',
+    },
+    { kind: 'h', text: 'Dos roles: migrar y revisar' },
+    {
+      kind: 'p',
+      text: 'Además de migrar, me encargaba de revisar las nuevas implementaciones: que cumplieran los requisitos y las buenas prácticas de la arquitectura nueva. En un equipo de dos, esa revisión era lo que mantenía la consistencia entre módulos migrados en momentos distintos. La migración dejó además un sistema de componentes reutilizables compartido entre productos.',
+    },
+    { kind: 'h', text: 'Lo difícil: que nadie notara el cambio' },
+    {
+      kind: 'p',
+      text: 'El objetivo era que el cliente no percibiera un cambio drástico: cada módulo en React tenía que funcionar igual y verse igual que su versión en Angular. Esa doble paridad, funcional y visual, fue lo más exigente. Una migración bien hecha es invisible para quien usa el producto.',
+    },
+    { kind: 'h', text: 'Cómo medimos el resultado' },
+    {
+      kind: 'p',
+      text: 'El bundle inicial lo comparamos en la salida del build, antes y después: bajó un 38 %. El rendimiento lo medimos con el tiempo de carga de las mismas pantallas en ambas versiones: alrededor de un 40 % más rápido.',
+    },
+    { kind: 'h', text: 'Lecciones' },
+    {
+      kind: 'list',
+      items: [
+        'Reescribir sobre la arquitectura destino, no traducir: un módulo migrado debe parecer nativo del nuevo stack.',
+        'La paridad visual importa tanto como la funcional cuando el usuario no pidió el cambio.',
+        'En un equipo pequeño, revisar cada implementación nueva evita que la arquitectura se degrade a mitad de camino.',
+        'Migrar por módulos permite seguir entregando features mientras la migración avanza.',
+      ],
+    },
+  ],
+};
+
+const MIGRATION_RECORD: Omit<ArchiveRecordRow, 'order'> = {
+  id: 'migracion-java-go-por-endpoint',
+  code: 'REG-005',
+  title: 'Migrar de Java a Go endpoint por endpoint, sin apagar nada',
+  abstract:
+    'Tres desarrolladores, cuatro meses y más de 8 microservicios de Spring Boot a Go, con ambos stacks en producción hasta el final. Lo difícil no fue escribir Go: fue entender el código que había que replicar.',
+  section: 'ing',
+  tags: ['GO', 'JAVA', 'MIGRACIÓN', 'ARQUITECTURA'],
+  archivedAt: '2026-10-17',
+  readingMinutes: 5,
+  refs: ['idempotencia-en-pagos'],
+  body: [
+    {
+      kind: 'p',
+      text: 'En Hibot Chat migramos más de 8 microservicios legacy de Java (Spring Boot) a Go con arquitectura limpia. Éramos tres desarrolladores, tardamos cuatro meses y en ningún momento apagamos el servicio: Java y Go convivieron en producción hasta el último endpoint.',
+    },
+    { kind: 'h', text: 'Por qué endpoint por endpoint' },
+    {
+      kind: 'p',
+      text: 'Migrar un servicio completo de una vez obliga a validar todo su comportamiento en un solo salto. Migrar endpoint por endpoint reduce cada cambio a una superficie pequeña: un contrato de entrada, un contrato de salida y la lógica entre ambos. Si algo fallaba, el alcance del problema era un endpoint, no un servicio entero.',
+    },
+    {
+      kind: 'list',
+      items: [
+        'Entender la implementación en Java: qué validaba, qué casos borde cubría y qué esperaban sus consumidores.',
+        'Reescribirla en Go con arquitectura limpia, respetando exactamente el mismo contrato.',
+        'Ponerla en producción mientras el resto del servicio seguía en Java.',
+        'Medir y pasar al siguiente endpoint.',
+      ],
+    },
+    { kind: 'h', text: 'Lo difícil no fue escribir Go' },
+    {
+      kind: 'p',
+      text: 'La parte más costosa fue el análisis: entender cómo funcionaba el código existente para migrar la lógica tal cual, sin romper nada. Una migración no es el momento de corregir reglas de negocio de las que dependen otros sistemas; cualquier cambio de comportamiento, por bien intencionado que sea, es un bug para quien consume la API.',
+    },
+    { kind: 'h', text: 'Cómo medimos la mejora' },
+    {
+      kind: 'p',
+      text: 'Comparamos la latencia media de las APIs críticas antes y después de migrarlas, con las métricas que ya teníamos en Prometheus y Grafana. El resultado fue una reducción de alrededor del 35 %: de 800 ms a 520 ms en promedio.',
+    },
+    { kind: 'h', text: 'Lecciones' },
+    {
+      kind: 'list',
+      items: [
+        'Migrar por endpoint convierte una reescritura grande en muchos cambios pequeños y reversibles.',
+        'El análisis del código existente es la mayor parte del trabajo; escribir el código nuevo es lo rápido.',
+        '«Tal cual» es un requisito, no una sugerencia: la migración y los cambios de negocio van por separado.',
+        'Sin una línea base medida antes de empezar, no hay forma de demostrar la mejora.',
+      ],
+    },
+  ],
+};
+
 const NEW_ARCHIVE_RECORD: Omit<ArchiveRecordRow, 'order'> = {
   id: 'desarrollo-con-agentes-claude-code',
   code: 'REG-004',
@@ -444,6 +550,115 @@ const NEW_ARCHIVE_RECORD: Omit<ArchiveRecordRow, 'order'> = {
         'La revisión humana no desaparece, se enfoca: el PR me dice dónde mirar con lupa.',
       ],
     },
+  ],
+};
+
+/** Real captures of each product (1440×900 WebP in public/gallery/). */
+const shot = (mission: string, file: string, alt: string): MediaRef => ({
+  src: `/gallery/${mission}/${file}.webp`,
+  alt,
+  width: 1440,
+  height: 900,
+});
+
+const GALLERIES: Record<string, MediaRef[]> = {
+  cuadra: [
+    shot(
+      'm-007',
+      '01-pos',
+      'Punto de venta de un comercio de demostración: productos escaneados por código de barras, cable vendido por metros (12,5 m), IVA desglosado y total',
+    ),
+    shot(
+      'm-007',
+      '02-cobro',
+      'Cobro con pago mixto en efectivo y tarjeta, con lo recibido y el cambio calculados en vivo',
+    ),
+    shot(
+      'm-007',
+      '03-cierre',
+      'Cierre de caja con arqueo ciego: esperado contra contado, faltante y reporte imprimible en formato de tirilla',
+    ),
+    shot(
+      'm-007',
+      '04-inventario',
+      'Inventario por sede con existencias en la unidad de cada producto y costo promedio',
+    ),
+  ],
+  'payments-mcp': [
+    shot(
+      'm-008',
+      '01-mcp',
+      'Sesión MCP real: el agente no recibe la tool refund_payment por falta de scope, y el reembolso exige vista previa y confirmación',
+    ),
+    shot(
+      'm-008',
+      '02-grafana',
+      'Dashboard de Grafana con tráfico de prueba: requests por ruta y estado, latencias p95/p99, pagos por estado y tools MCP',
+    ),
+    shot(
+      'm-008',
+      '03-swagger',
+      'API REST documentada con OpenAPI: las mismas operaciones que expone el servidor MCP',
+    ),
+  ],
+  findme: [
+    shot('m-009', '01-inicio', 'Pantalla de inicio de FindMe'),
+    shot(
+      'm-009',
+      '02-mapa',
+      'Mapa en vivo sobre Medellín con tres contactos de demostración compartiendo su ubicación por WebSockets',
+    ),
+    shot(
+      'm-009',
+      '03-movil',
+      'Vista móvil: tu posición en El Poblado y tus contactos en el mapa',
+    ),
+  ],
+  // No public code or screens (former employer): an illustrative schematic.
+  'recurring-payments-system': [
+    {
+      src: '/gallery/m-001/01-flujo-de-cobro.svg',
+      alt: 'Esquemático ilustrativo del flujo de un cobro recurrente: motor en Go, capa de idempotencia que hace seguro el reintento, pasarelas de terceros y conciliación de estados',
+      width: 1440,
+      height: 900,
+    },
+  ],
+  'angular-react-migration': [
+    {
+      src: '/gallery/m-002/01-migracion.svg',
+      alt: 'Esquemático ilustrativo de la migración módulo a módulo de Angular a React, con ambos conviviendo en el producto y un sistema de componentes reutilizables',
+      width: 1440,
+      height: 900,
+    },
+  ],
+  'multichannel-bots': [
+    {
+      src: '/gallery/m-003/01-canales.svg',
+      alt: 'Esquemático ilustrativo de la arquitectura hexagonal: WhatsApp, Facebook, Instagram y Telegram como adaptadores que normalizan los mensajes hacia el núcleo de ruteo en Go',
+      width: 1440,
+      height: 900,
+    },
+  ],
+  'go-microservices-reengineering': [
+    {
+      src: '/gallery/m-005/01-migracion.svg',
+      alt: 'Esquemático ilustrativo de la migración: servicios Java (Spring Boot) migrados a Go endpoint por endpoint mientras ambos stacks seguían en producción, y latencia media de 800 a 520 ms',
+      width: 1440,
+      height: 900,
+    },
+  ],
+  'bg01-station': [
+    shot('m-010', '01-puente', 'Puente de mando: la portada del portafolio'),
+    shot(
+      'm-010',
+      '02-mapa',
+      'Esquemático de la estación: navegación entre las siete cubiertas',
+    ),
+    shot(
+      'm-010',
+      '03-sistemas',
+      'Sistema orbital: cada tecnología como planeta, con desde cuándo la uso y en qué misiones',
+    ),
   ],
 };
 
@@ -564,6 +779,17 @@ function target(current: Bundle): Bundle {
   ];
 
   for (const m of next.missions) m.featured = FEATURED_MISSIONS.has(m.id);
+  for (const [id, gallery] of Object.entries(GALLERIES))
+    byId(next.missions, id).gallery = gallery;
+
+  // Case study: the payments mission links to its archive record.
+  const m001 = byId(next.missions, 'recurring-payments-system');
+  m001.links = { ...m001.links, caseStudy: '/archive/idempotencia-en-pagos' };
+  m005.links = { ...m005.links, caseStudy: '/archive/migracion-java-go-por-endpoint' };
+  const m002 = byId(next.missions, 'angular-react-migration');
+  m002.period = { start: '2025-09-01', end: '2026-02-01' };
+  m002.durationLabel = '5 meses';
+  m002.links = { ...m002.links, caseStudy: '/archive/migracion-angular-react' };
   applyOrder(next.missions, MISSION_ORDER);
 
   // Bitácora
@@ -590,12 +816,15 @@ function target(current: Bundle): Bundle {
   applyOrder(next.experience, EXPERIENCE_ORDER);
 
   // Archivo: the new record goes first (featured); the rest keep their order.
+  // Newest first: REG-006, REG-005, then REG-004.
+  const added = [FRONTEND_MIGRATION_RECORD, MIGRATION_RECORD, NEW_ARCHIVE_RECORD];
+  const addedIds = added.map((r) => r.id);
   const previous = [...current.archiveRecords]
     .sort((a, b) => a.order - b.order)
     .map((r) => r.id)
-    .filter((id) => id !== NEW_ARCHIVE_RECORD.id);
-  upsert(next.archiveRecords, NEW_ARCHIVE_RECORD as ArchiveRecordRow);
-  applyOrder(next.archiveRecords, [NEW_ARCHIVE_RECORD.id, ...previous]);
+    .filter((id) => !addedIds.includes(id));
+  for (const r of added) upsert(next.archiveRecords, r as ArchiveRecordRow);
+  applyOrder(next.archiveRecords, [...addedIds, ...previous]);
 
   checkConsistency(next);
   return next;
@@ -650,7 +879,8 @@ function canon(v: unknown): string {
 }
 
 const same = (a: unknown, b: unknown) => canon(a) === canon(b);
-const show = (v: unknown) => (typeof v === 'string' ? `"${v}"` : canon(v));
+const show = (v: unknown) =>
+  v === undefined ? '∅' : typeof v === 'string' ? `"${v}"` : canon(v);
 
 function diffValue(
   path: string,
@@ -858,6 +1088,23 @@ function print(changes: Change[]) {
   }
 }
 
+/** Mirrors scripts/sync-content.ts for the files this update changes. */
+function writePreview(b: Bundle) {
+  const dir = fileURLToPath(new URL('../src/content/_generated/', import.meta.url));
+  const write = (name: string, data: unknown) =>
+    writeFileSync(`${dir}${name}.json`, `${JSON.stringify(data, null, 2)}\n`);
+  write('missions', b.missions);
+  write('archive-records', b.archiveRecords);
+  write(
+    'archive-manifest',
+    b.archiveRecords.map(({ body: _body, refs: _refs, ...meta }) => meta),
+  );
+  console.log(
+    '\nVista previa local escrita en src/content/_generated/ (la API no se tocó).',
+  );
+  console.log('Para deshacerla: git checkout src/content/_generated');
+}
+
 function backup(bundle: unknown): string {
   const dir = fileURLToPath(new URL('../backups/', import.meta.url));
   mkdirSync(dir, { recursive: true });
@@ -885,6 +1132,10 @@ async function main() {
   print(changes);
   console.log(`\n${changes.length} registros con cambios.`);
 
+  if (PREVIEW_LOCAL) {
+    writePreview(desired);
+    return;
+  }
   if (!APPLY) {
     console.log(
       'Dry-run: no se escribió nada. Vuelve a ejecutar con --apply para aplicar.',

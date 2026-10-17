@@ -1,5 +1,37 @@
 [
   {
+    "id": "migracion-angular-react",
+    "code": "REG-006",
+    "title": "Migrar de Angular a React sin que el cliente lo notara",
+    "abstract": "Dos desarrolladores, 5 meses y más de 40 módulos reescritos sobre una arquitectura nueva de React, sin detener el producto. La meta: que cada pantalla funcionara y se viera exactamente igual.",
+    "section": "ing",
+    "tags": [
+      "REACT",
+      "ANGULAR",
+      "MIGRACIÓN",
+      "FRONTEND"
+    ],
+    "archivedAt": "2026-10-17",
+    "readingMinutes": 5,
+    "order": 1
+  },
+  {
+    "id": "migracion-java-go-por-endpoint",
+    "code": "REG-005",
+    "title": "Migrar de Java a Go endpoint por endpoint, sin apagar nada",
+    "abstract": "Tres desarrolladores, cuatro meses y más de 8 microservicios de Spring Boot a Go, con ambos stacks en producción hasta el final. Lo difícil no fue escribir Go: fue entender el código que había que replicar.",
+    "section": "ing",
+    "tags": [
+      "GO",
+      "JAVA",
+      "MIGRACIÓN",
+      "ARQUITECTURA"
+    ],
+    "archivedAt": "2026-10-17",
+    "readingMinutes": 5,
+    "order": 2
+  },
+  {
     "id": "desarrollo-con-agentes-claude-code",
     "code": "REG-004",
     "title": "Desarrollar con un agente sin perder el control: mi flujo con Claude Code",
@@ -13,7 +45,7 @@
     ],
     "archivedAt": "2026-10-16",
     "readingMinutes": 7,
-    "order": 1
+    "order": 3
   },
   {
     "id": "contenedores-go-12mb",
@@ -29,7 +61,7 @@
     ],
     "archivedAt": "2026-05-28",
     "readingMinutes": 6,
-    "order": 2
+    "order": 4
   },
   {
     "id": "idempotencia-en-pagos",
@@ -44,7 +76,7 @@
     ],
     "archivedAt": "2026-04-22",
     "readingMinutes": 10,
-    "order": 3
+    "order": 5
   },
   {
     "id": "goroutines-que-no-mueren",
@@ -59,6 +91,6 @@
     ],
     "archivedAt": "2026-03-14",
     "readingMinutes": 8,
-    "order": 4
+    "order": 6
   }
 ]

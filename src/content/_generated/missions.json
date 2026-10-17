@@ -52,6 +52,32 @@
       "width": 1200,
       "height": 675
     },
+    "gallery": [
+      {
+        "src": "/gallery/m-007/01-pos.webp",
+        "alt": "Punto de venta de un comercio de demostración: productos escaneados por código de barras, cable vendido por metros (12,5 m), IVA desglosado y total",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/gallery/m-007/02-cobro.webp",
+        "alt": "Cobro con pago mixto en efectivo y tarjeta, con lo recibido y el cambio calculados en vivo",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/gallery/m-007/03-cierre.webp",
+        "alt": "Cierre de caja con arqueo ciego: esperado contra contado, faltante y reporte imprimible en formato de tirilla",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/gallery/m-007/04-inventario.webp",
+        "alt": "Inventario por sede con existencias en la unidad de cada producto y costo promedio",
+        "width": 1440,
+        "height": 900
+      }
+    ],
     "featured": true,
     "order": 1
   },
@@ -107,6 +133,26 @@
       "width": 1200,
       "height": 675
     },
+    "gallery": [
+      {
+        "src": "/gallery/m-008/01-mcp.webp",
+        "alt": "Sesión MCP real: el agente no recibe la tool refund_payment por falta de scope, y el reembolso exige vista previa y confirmación",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/gallery/m-008/02-grafana.webp",
+        "alt": "Dashboard de Grafana con tráfico de prueba: requests por ruta y estado, latencias p95/p99, pagos por estado y tools MCP",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/gallery/m-008/03-swagger.webp",
+        "alt": "API REST documentada con OpenAPI: las mismas operaciones que expone el servidor MCP",
+        "width": 1440,
+        "height": 900
+      }
+    ],
     "featured": true,
     "order": 2
   },
@@ -155,13 +201,23 @@
         "value": "0"
       }
     ],
-    "links": {},
+    "links": {
+      "caseStudy": "/archive/migracion-java-go-por-endpoint"
+    },
     "cover": {
       "src": "/covers/m-005.svg",
       "alt": "Esquemático de reingeniería: módulo legado fragmentado transferido a un núcleo de capas concéntricas de arquitectura limpia",
       "width": 1200,
       "height": 675
     },
+    "gallery": [
+      {
+        "src": "/gallery/m-005/01-migracion.svg",
+        "alt": "Esquemático ilustrativo de la migración: servicios Java (Spring Boot) migrados a Go endpoint por endpoint mientras ambos stacks seguían en producción, y latencia media de 800 a 520 ms",
+        "width": 1440,
+        "height": 900
+      }
+    ],
     "featured": true,
     "order": 3
   },
@@ -206,13 +262,23 @@
         "value": "0"
       }
     ],
-    "links": {},
+    "links": {
+      "caseStudy": "/archive/idempotencia-en-pagos"
+    },
     "cover": {
       "src": "/covers/m-001.svg",
       "alt": "Diagrama orbital del sistema de pagos: núcleo de transacciones con nodos de servicio e idempotencia",
       "width": 1200,
       "height": 675
     },
+    "gallery": [
+      {
+        "src": "/gallery/m-001/01-flujo-de-cobro.svg",
+        "alt": "Esquemático ilustrativo del flujo de un cobro recurrente: motor en Go, capa de idempotencia que hace seguro el reintento, pasarelas de terceros y conciliación de estados",
+        "width": 1440,
+        "height": 900
+      }
+    ],
     "featured": true,
     "order": 4
   },
@@ -224,10 +290,10 @@
     "description": "Lideré la migración de los proyectos núcleo de Angular a React. Estrategia incremental por módulos para mantener el producto operativo durante toda la transición, con un sistema de componentes reutilizables que elevó el rendimiento, la mantenibilidad y la velocidad del equipo.",
     "status": "completed",
     "role": "Líder técnico de la migración",
-    "durationLabel": "18 meses",
+    "durationLabel": "5 meses",
     "period": {
-      "start": "2023-06-01",
-      "end": "2024-12-01"
+      "start": "2025-09-01",
+      "end": "2026-02-01"
     },
     "technologies": [
       "react",
@@ -257,13 +323,23 @@
         "value": "+40%"
       }
     ],
-    "links": {},
+    "links": {
+      "caseStudy": "/archive/migracion-angular-react"
+    },
     "cover": {
       "src": "/covers/m-002.svg",
       "alt": "Matriz de módulos del producto con traza de progreso de la migración",
       "width": 1200,
       "height": 675
     },
+    "gallery": [
+      {
+        "src": "/gallery/m-002/01-migracion.svg",
+        "alt": "Esquemático ilustrativo de la migración módulo a módulo de Angular a React, con ambos conviviendo en el producto y un sistema de componentes reutilizables",
+        "width": 1440,
+        "height": 900
+      }
+    ],
     "featured": true,
     "order": 5
   },
@@ -315,6 +391,14 @@
       "width": 1200,
       "height": 675
     },
+    "gallery": [
+      {
+        "src": "/gallery/m-003/01-canales.svg",
+        "alt": "Esquemático ilustrativo de la arquitectura hexagonal: WhatsApp, Facebook, Instagram y Telegram como adaptadores que normalizan los mensajes hacia el núcleo de ruteo en Go",
+        "width": 1440,
+        "height": 900
+      }
+    ],
     "featured": false,
     "order": 6
   },
@@ -366,6 +450,26 @@
       "width": 1200,
       "height": 675
     },
+    "gallery": [
+      {
+        "src": "/gallery/m-009/01-inicio.webp",
+        "alt": "Pantalla de inicio de FindMe",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/gallery/m-009/02-mapa.webp",
+        "alt": "Mapa en vivo sobre Medellín con tres contactos de demostración compartiendo su ubicación por WebSockets",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/gallery/m-009/03-movil.webp",
+        "alt": "Vista móvil: tu posición en El Poblado y tus contactos en el mapa",
+        "width": 1440,
+        "height": 900
+      }
+    ],
     "featured": false,
     "order": 7
   },
@@ -421,6 +525,26 @@
       "width": 1200,
       "height": 675
     },
+    "gallery": [
+      {
+        "src": "/gallery/m-010/01-puente.webp",
+        "alt": "Puente de mando: la portada del portafolio",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/gallery/m-010/02-mapa.webp",
+        "alt": "Esquemático de la estación: navegación entre las siete cubiertas",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/gallery/m-010/03-sistemas.webp",
+        "alt": "Sistema orbital: cada tecnología como planeta, con desde cuándo la uso y en qué misiones",
+        "width": 1440,
+        "height": 900
+      }
+    ],
     "featured": false,
     "order": 8
   },
