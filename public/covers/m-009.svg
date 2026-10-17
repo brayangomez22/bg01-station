@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" font-family="ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#38e1ff" stroke-opacity="0.05"/>
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffb547" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ffb547" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="#0b0e16"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <rect x="24" y="24" width="1152" height="627" fill="none" stroke="#1e2740"/>
+  <path d="M24 64V24H64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1136 24H1176V64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1176 611V651H1136" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M64 651H24V611" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+
+  <!-- motif: contact mesh with a live position pulse, fed by a pub/sub bus -->
+  <g transform="translate(560,170)">
+    <!-- mesh links -->
+    <g stroke="#38e1ff" stroke-opacity="0.3" stroke-width="1.5" fill="none">
+      <path d="M40 60 200 20 330 110 480 50M40 60 120 200 330 110 260 260M200 20 120 200M480 50 520 220 330 110M260 260 520 220"/>
+    </g>
+    <!-- contacts -->
+    <g fill="#0b0e16" stroke="#38e1ff" stroke-width="2">
+      <circle cx="40" cy="60" r="8"/><circle cx="200" cy="20" r="8"/><circle cx="480" cy="50" r="8"/>
+      <circle cx="120" cy="200" r="8"/><circle cx="260" cy="260" r="8"/><circle cx="520" cy="220" r="8"/>
+    </g>
+    <!-- live position -->
+    <circle cx="330" cy="110" r="90" fill="url(#glow)"/>
+    <circle cx="330" cy="110" r="58" fill="none" stroke="#ffb547" stroke-opacity="0.25"/>
+    <circle cx="330" cy="110" r="34" fill="none" stroke="#ffb547" stroke-opacity="0.5"/>
+    <circle cx="330" cy="110" r="10" fill="#ffb547"/>
+    <!-- pub/sub bus -->
+    <path d="M0 340H560" stroke="#38e1ff" stroke-width="2"/>
+    <g stroke="#38e1ff" stroke-opacity="0.45" stroke-dasharray="3 5">
+      <path d="M120 208V340M260 268V340M520 228V340"/>
+    </g>
+    <g fill="#38e1ff">
+      <rect x="60" y="334" width="16" height="12"/><rect x="300" y="334" width="16" height="12" opacity="0.6"/><rect x="440" y="334" width="16" height="12" opacity="0.35"/>
+    </g>
+    <text x="0" y="375" fill="#5c6680" font-size="12" letter-spacing="3">WEBSOCKETS · REDIS PUB/SUB · POSTGIS</text>
+  </g>
+
+  <text x="64" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-009</text>
+  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">FINDME · UBICACIÓN EN TIEMPO REAL</text>
+  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">GO · POSTGRESQL · REDIS · REACT</text>
+
+  <text x="64" y="615" fill="#5c6680" font-size="12" letter-spacing="3">BG-01 STATION ARCHIVE · STATUS: COMPLETED</text>
+  <text x="1136" y="615" fill="#38e1ff" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.6">LIVE POSITION TRACKING</text>
+</svg>

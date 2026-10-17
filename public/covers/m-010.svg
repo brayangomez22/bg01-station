@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" font-family="ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#38e1ff" stroke-opacity="0.05"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="675" fill="#0b0e16"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <rect x="24" y="24" width="1152" height="627" fill="none" stroke="#1e2740"/>
+  <path d="M24 64V24H64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1136 24H1176V64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1176 611V651H1136" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M64 651H24V611" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+
+  <!-- motif: publish pipeline CMS → event → build → static pages -->
+  <g transform="translate(470,250)">
+    <g font-size="12" letter-spacing="3" fill="#a9b2c7" text-anchor="middle">
+      <rect x="0" y="0" width="120" height="60" fill="#0b0e16" stroke="#38e1ff" stroke-width="1.5"/>
+      <text x="60" y="27">CMS</text><text x="60" y="45" fill="#5c6680" font-size="10">GO · SQLITE</text>
+      <rect x="200" y="0" width="120" height="60" fill="#0b0e16" stroke="#ffb547" stroke-width="1.5"/>
+      <text x="260" y="27">EVENTO</text><text x="260" y="45" fill="#5c6680" font-size="10">DISPATCH</text>
+      <rect x="400" y="0" width="120" height="60" fill="#0b0e16" stroke="#38e1ff" stroke-width="1.5"/>
+      <text x="460" y="27">BUILD</text><text x="460" y="45" fill="#5c6680" font-size="10">PRERENDER</text>
+    </g>
+    <g fill="none" stroke="#38e1ff" stroke-width="2">
+      <path d="M120 30H200M320 30H400"/>
+      <path d="M192 24 200 30 192 36M392 24 400 30 392 36"/>
+      <path d="M460 60V105H421V142" stroke-opacity="0.5"/>
+      <path d="M415 134 421 142 427 134" stroke-opacity="0.5"/>
+    </g>
+    <!-- static pages -->
+    <g fill="none" stroke="#38e1ff" stroke-width="1.5">
+      <rect x="0" y="150" width="62" height="80" stroke-opacity="0.9"/>
+      <rect x="78" y="150" width="62" height="80" stroke-opacity="0.75"/>
+      <rect x="156" y="150" width="62" height="80" stroke-opacity="0.6"/>
+      <rect x="234" y="150" width="62" height="80" stroke-opacity="0.45"/>
+      <rect x="312" y="150" width="62" height="80" stroke-opacity="0.3"/>
+      <rect x="390" y="150" width="62" height="80" stroke="#ffb547" stroke-opacity="0.8"/>
+    </g>
+    <g stroke="#38e1ff" stroke-opacity="0.35">
+      <path d="M12 170H50M12 182H40M90 170H128M90 182H118M168 170H206M168 182H196M246 170H284M246 182H274M324 170H362M324 182H352M402 170H440M402 182H430"/>
+    </g>
+    <text x="0" y="270" fill="#5c6680" font-size="12" letter-spacing="3">PUBLICACIÓN EN 1 CLIC · 100% PRERENDERIZADO</text>
+  </g>
+
+  <text x="64" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-010</text>
+  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">BG-01 · ESTA ESTACIÓN</text>
+  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">REACT · TYPESCRIPT · GO · DOCKER</text>
+
+  <text x="64" y="615" fill="#5c6680" font-size="12" letter-spacing="3">BG-01 STATION ARCHIVE · STATUS: OPERATIONAL</text>
+  <text x="1136" y="615" fill="#38e1ff" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.6">STATION PUBLISHING LINE</text>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" font-family="ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#38e1ff" stroke-opacity="0.05"/>
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38e1ff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#38e1ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="#0b0e16"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+
+  <rect x="24" y="24" width="1152" height="627" fill="none" stroke="#1e2740"/>
+  <path d="M24 64V24H64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1136 24H1176V64" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M1176 611V651H1136" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+  <path d="M64 651H24V611" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+
+  <!-- motif: hexagonal modular core inside a ring of isolated tenant cells -->
+  <g transform="translate(800,318) scale(0.82)">
+    <circle r="230" fill="url(#glow)"/>
+    <circle r="200" fill="none" stroke="#38e1ff" stroke-opacity="0.22"/>
+    <!-- tenant cells, separated by isolation partitions (row-level security) -->
+    <g fill="#0b0e16" stroke="#38e1ff" stroke-width="1.5">
+      <rect x="-22" y="-222" width="44" height="44"/>
+      <rect x="135" y="-160" width="44" height="44"/>
+      <rect x="178" y="-22" width="44" height="44" stroke="#ffb547"/>
+      <rect x="135" y="116" width="44" height="44"/>
+      <rect x="-22" y="178" width="44" height="44"/>
+      <rect x="-179" y="116" width="44" height="44"/>
+      <rect x="-222" y="-22" width="44" height="44"/>
+      <rect x="-179" y="-160" width="44" height="44"/>
+    </g>
+    <g stroke="#1e2740" stroke-width="2">
+      <path d="M0 -172V-228M122 -122 161 -161M172 0H228M122 122 161 161M0 172V228M-122 122-161 161M-172 0H-228M-122 -122-161 -161" transform="rotate(22.5)"/>
+    </g>
+    <!-- core: hexagonal architecture -->
+    <path d="M0 -110 95 -55 95 55 0 110 -95 55 -95 -55Z" fill="#0b0e16" stroke="#38e1ff" stroke-width="2"/>
+    <path d="M0 -70 61 -35 61 35 0 70 -61 35 -61 -35Z" fill="none" stroke="#38e1ff" stroke-opacity="0.35" stroke-dasharray="4 6"/>
+    <!-- modules -->
+    <g fill="#38e1ff" opacity="0.85">
+      <rect x="-30" y="-30" width="24" height="24"/><rect x="6" y="-30" width="24" height="24"/>
+      <rect x="-30" y="6" width="24" height="24"/><rect x="6" y="6" width="24" height="24" fill="#ffb547"/>
+    </g>
+  </g>
+  <text x="800" y="545" fill="#5c6680" font-size="12" letter-spacing="3" text-anchor="middle">MULTI-TENANT · ROW-LEVEL SECURITY</text>
+
+  <text x="64" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-007</text>
+  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">CUADRA · SAAS PARA PYMES</text>
+  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">GO · POSTGRESQL · REACT</text>
+
+  <text x="64" y="615" fill="#5c6680" font-size="12" letter-spacing="3">BG-01 STATION ARCHIVE · STATUS: IN PROGRESS</text>
+  <text x="1136" y="615" fill="#38e1ff" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.6">COMMERCE OPERATIONS CORE</text>
+</svg>

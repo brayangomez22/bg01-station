@@ -27,7 +27,7 @@
       <path d="M-44 52H-60V-30" stroke-opacity="0.3" stroke-width="2" stroke-dasharray="3 7"/>
       <path d="M-38 -28 -14 -28M-38 -10 -4 -10M-38 8 -14 8M-38 26 -22 26" stroke-opacity="0.5"/>
     </g>
-    <text x="-25" y="84" fill="#5c6680" font-size="12" letter-spacing="2" text-anchor="middle">LEGACY</text>
+    <text x="-25" y="84" fill="#5c6680" font-size="12" letter-spacing="2" text-anchor="middle">JAVA LEGACY</text>
     <!-- transfer beam -->
     <g stroke="#38e1ff" fill="none">
       <path d="M34 0H148" stroke-opacity="0.6" stroke-width="2" stroke-dasharray="10 8"/>
@@ -58,8 +58,8 @@
   </g>
 
   <text x="64" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-005</text>
-  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">REINGENIERÍA DE MICROSERVICIOS GO</text>
-  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">GO · DOCKER · AZURE</text>
+  <text x="64" y="130" fill="#a9b2c7" font-size="15" letter-spacing="3">MIGRACIÓN JAVA → GO</text>
+  <text x="64" y="156" fill="#5c6680" font-size="13" letter-spacing="2">GO · JAVA · SPRING BOOT · DOCKER</text>
 
   <text x="64" y="615" fill="#5c6680" font-size="12" letter-spacing="3">BG-01 STATION ARCHIVE · STATUS: COMPLETED</text>
   <text x="1136" y="615" fill="#38e1ff" font-size="12" letter-spacing="3" text-anchor="end" opacity="0.6">BACKEND REBUILD TIER</text>
