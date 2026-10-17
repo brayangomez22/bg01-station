@@ -1,9 +1,120 @@
 [
   {
+    "id": "cuadra",
+    "code": "M-007",
+    "title": "Cuadra · SaaS de gestión para pymes",
+    "summary": "SaaS multi-tenant para comercios colombianos (punto de venta, inventario y caja) en Go y PostgreSQL con Row-Level Security. Desarrollado con Claude Code: plan aprobado, tests en rojo y revisión humana de cada PR.",
+    "description": "SaaS multi-tenant de gestión para comercios colombianos (ferreterías, tiendas, droguerías, almacenes), en desarrollo activo. Monolito modular en Go con arquitectura hexagonal, PostgreSQL con Row-Level Security para aislar a cada comercio, API contract-first con OpenAPI y trabajos en segundo plano con River. Observabilidad con OpenTelemetry, Prometheus, Loki, Tempo y Grafana, con alertas y SLOs como código. Desarrollado con Claude Code mediante comandos propios que imponen rama → plan aprobado → tests en rojo → implementación → verificación, con revisión humana de cada PR. En curso: infraestructura con Terraform, pruebas end-to-end y de carga, y facturación electrónica ante la DIAN.",
+    "status": "in-progress",
+    "role": "Desarrollador único · producto propio",
+    "durationLabel": "En curso",
+    "period": {
+      "start": "2026-10-01"
+    },
+    "technologies": [
+      "go",
+      "postgresql",
+      "react",
+      "typescript",
+      "docker",
+      "observability",
+      "claude-code"
+    ],
+    "highlights": [
+      "Aislamiento multi-tenant en la propia base de datos con Row-Level Security de PostgreSQL.",
+      "Punto de venta con lector de código de barras, pagos mixtos, tirilla térmica y cierre de caja a ciegas.",
+      "CI con golangci-lint, govulncheck, gosec y Trivy; tests de integración con testcontainers."
+    ],
+    "challenges": [
+      "Un núcleo genérico que sirva a una ferretería, una droguería o un almacén de ropa por configuración, no con forks.",
+      "Sostener calidad de producción desarrollando con agentes de IA: cada cambio pasa por plan aprobado, tests en rojo y revisión humana."
+    ],
+    "metrics": [
+      {
+        "label": "PRs revisados",
+        "value": "40+"
+      },
+      {
+        "label": "Archivos de tests",
+        "value": "110+"
+      },
+      {
+        "label": "Fase hacia el piloto",
+        "value": "2 de 5"
+      }
+    ],
+    "links": {
+      "repo": "https://github.com/brayangomez22/cuadra-app"
+    },
+    "cover": {
+      "src": "/covers/m-007.svg",
+      "alt": "Esquemático de Cuadra: núcleo hexagonal de módulos rodeado por un anillo de tenants aislados",
+      "width": 1200,
+      "height": 675
+    },
+    "featured": true,
+    "order": 1
+  },
+  {
+    "id": "payments-mcp",
+    "code": "M-008",
+    "title": "payments-mcp · Pagos para agentes de IA",
+    "summary": "Middleware de pagos que expone la misma lógica por REST y por un servidor MCP, con OAuth2 según la spec MCP, tools filtradas por scope y reembolso en dos pasos. Incluye un agente con Claude que pide aprobación humana.",
+    "description": "Middleware de pagos que expone la misma lógica de negocio a dos tipos de clientes: servicios internos por una API REST documentada con OpenAPI y agentes de IA por un servidor MCP. Autorización OAuth2 (client credentials, JWT ES256 + JWKS) según la spec MCP, tools filtradas por scope y reembolso en dos pasos (vista previa → confirmación). Idempotencia compartida entre REST y MCP, bloqueos FOR UPDATE contra reembolsos concurrentes y outbox transaccional hacia SQS con entrega at-least-once. Construido con Spec Driven Development: requisitos, diseño y tareas antes del código.",
+    "status": "completed",
+    "role": "Desarrollador único · proyecto propio",
+    "durationLabel": "1 semana",
+    "period": {
+      "start": "2026-10-01",
+      "end": "2026-10-01"
+    },
+    "technologies": [
+      "typescript",
+      "postgresql",
+      "mcp",
+      "terraform",
+      "observability"
+    ],
+    "highlights": [
+      "Agente demo con Claude (Anthropic SDK) que descubre las tools por MCP y pide aprobación humana antes de reembolsar.",
+      "Un reintento nunca cobra dos veces: la Idempotency-Key se comparte entre REST y MCP.",
+      "Infraestructura como código con Terraform (SQS con DLQ, VPC y EKS) y métricas en Prometheus, Grafana y Loki."
+    ],
+    "challenges": [
+      "Dar a un agente de IA acceso a operaciones con dinero sin darle más permisos de los necesarios.",
+      "Evitar reembolsos dobles bajo concurrencia y no perder eventos si la cola falla."
+    ],
+    "metrics": [
+      {
+        "label": "Cobertura de tests",
+        "value": "≥85%"
+      },
+      {
+        "label": "Clientes (REST y MCP)",
+        "value": "2"
+      },
+      {
+        "label": "Pasos para reembolsar",
+        "value": "2"
+      }
+    ],
+    "links": {
+      "repo": "https://github.com/brayangomez22/payments-mcp"
+    },
+    "cover": {
+      "src": "/covers/m-008.svg",
+      "alt": "Esquemático de payments-mcp: núcleo de pagos con dos puertas de entrada, REST y MCP, y una compuerta de confirmación",
+      "width": 1200,
+      "height": 675
+    },
+    "featured": true,
+    "order": 2
+  },
+  {
     "id": "go-microservices-reengineering",
     "code": "M-005",
-    "title": "Reingeniería de Microservicios Go",
-    "summary": "Reconstrucción de microservicios Go existentes y construcción de servicios nuevos desde cero en Hibot Chat, con arquitectura limpia y buenas prácticas.",
+    "title": "Migración Java → Go y reingeniería de microservicios",
+    "summary": "Lideré la migración de 8+ microservicios legacy de Java (Spring Boot) a Go con arquitectura limpia, manteniendo ambos stacks en producción durante la transición.",
     "description": "Reconstrucción progresiva de microservicios en Go que arrastraban deuda técnica, junto con el diseño y construcción de proyectos nuevos desde cero. Aplicación rigurosa de arquitectura limpia, principios SOLID y buenas prácticas de ingeniería para obtener servicios desacoplados, testeables y fáciles de mantener — sin interrumpir la operación del producto durante las reescrituras.",
     "status": "completed",
     "role": "Full Stack Developer · backend en Go",
@@ -16,7 +127,10 @@
       "go",
       "docker",
       "azure",
-      "mongodb"
+      "mongodb",
+      "java",
+      "spring-boot",
+      "observability"
     ],
     "highlights": [
       "Microservicios legados reconstruidos con arquitectura limpia, manteniendo compatibilidad de contratos.",
@@ -29,12 +143,12 @@
     ],
     "metrics": [
       {
-        "label": "Servicios reconstruidos",
+        "label": "Servicios migrados",
         "value": "8+"
       },
       {
-        "label": "Desde cero",
-        "value": "4"
+        "label": "Latencia media (800 → 520 ms)",
+        "value": "−35%"
       },
       {
         "label": "Downtime en reescrituras",
@@ -49,7 +163,7 @@
       "height": 675
     },
     "featured": true,
-    "order": 1
+    "order": 3
   },
   {
     "id": "recurring-payments-system",
@@ -84,8 +198,8 @@
         "value": "12k+"
       },
       {
-        "label": "Facturación manual",
-        "value": "0%"
+        "label": "Trabajo manual eliminado",
+        "value": "~20 h/mes"
       },
       {
         "label": "Cargos duplicados",
@@ -100,7 +214,7 @@
       "height": 675
     },
     "featured": true,
-    "order": 2
+    "order": 4
   },
   {
     "id": "angular-react-migration",
@@ -139,8 +253,8 @@
         "value": "−38%"
       },
       {
-        "label": "Tiempo de carga",
-        "value": "−40%"
+        "label": "Rendimiento del frontend",
+        "value": "+40%"
       }
     ],
     "links": {},
@@ -151,7 +265,7 @@
       "height": 675
     },
     "featured": true,
-    "order": 3
+    "order": 5
   },
   {
     "id": "multichannel-bots",
@@ -202,7 +316,113 @@
       "height": 675
     },
     "featured": false,
-    "order": 4
+    "order": 6
+  },
+  {
+    "id": "findme",
+    "code": "M-009",
+    "title": "FindMe · Ubicación en tiempo real",
+    "summary": "App tipo «Buscar» de Apple: backend en Go con WebSockets, PostgreSQL + PostGIS y Redis pub/sub para escalar horizontalmente. JWT con refresh tokens rotativos y detección de robo.",
+    "description": "App web de ubicación en tiempo real entre contactos, al estilo de «Buscar» de Apple: cada usuario comparte su posición con contactos aprobados y la ve en un mapa en vivo. Backend en Go con WebSockets y arquitectura hexagonal, PostgreSQL + PostGIS para los datos geográficos y Redis pub/sub para que varias instancias de la API compartan las actualizaciones. Access token JWT corto y refresh tokens opacos rotativos: si llega un token ya rotado se asume robo y se revocan todas las sesiones. Frontend en React 19 + TypeScript con Mapbox.",
+    "status": "completed",
+    "role": "Desarrollador único · proyecto propio",
+    "durationLabel": "MVP · 2 semanas",
+    "period": {
+      "start": "2026-08-01",
+      "end": "2026-09-01"
+    },
+    "technologies": [
+      "go",
+      "postgresql",
+      "redis",
+      "react",
+      "typescript"
+    ],
+    "highlights": [
+      "Posiciones en vivo por WebSockets, con un hub concurrente probado con el detector de carreras.",
+      "Redis pub/sub para escalar la API horizontalmente sin perder actualizaciones entre instancias.",
+      "Refresh tokens de 256 bits guardados con hash, rotados en cada uso y con detección de robo."
+    ],
+    "challenges": [
+      "Sincronizar ubicaciones entre varias instancias de la API sin estado compartido en memoria.",
+      "Poder revocar sesiones robadas manteniendo tokens de acceso cortos y sin estado."
+    ],
+    "metrics": [
+      {
+        "label": "Tiempo real",
+        "value": "WebSockets"
+      },
+      {
+        "label": "Escalado horizontal",
+        "value": "Redis pub/sub"
+      }
+    ],
+    "links": {
+      "repo": "https://github.com/brayangomez22/findme"
+    },
+    "cover": {
+      "src": "/covers/m-009.svg",
+      "alt": "Esquemático de FindMe: malla de nodos con un pulso de posición y un bus de mensajes pub/sub",
+      "width": 1200,
+      "height": 675
+    },
+    "featured": false,
+    "order": 7
+  },
+  {
+    "id": "bg01-station",
+    "code": "M-010",
+    "title": "BG-01 · Esta estación",
+    "summary": "Este portafolio: sitio estático prerenderizado en React y un CMS headless en Go (SQLite + Litestream en Fly.io) que publica por evento a GitHub Actions. Construido con Claude Code.",
+    "description": "Este portafolio. El sitio es una SPA en React 19 + TypeScript que se prerenderiza a HTML estático por ruta y se hidrata en el navegador, desplegada en GitHub Pages. El contenido vive en bg01-api, un CMS headless en Go (net/http, sqlc y SQLite replicado con Litestream) desplegado en Fly.io. Al pulsar «Publicar» en el Centro de Control, la API dispara un evento a GitHub Actions que sincroniza el contenido, compila y despliega. Construido con Claude Code. Código: github.com/brayangomez22/bg01-station y github.com/brayangomez22/bg01-api.",
+    "status": "completed",
+    "role": "Desarrollador único · proyecto propio",
+    "durationLabel": "En operación",
+    "period": {
+      "start": "2026-06-01"
+    },
+    "technologies": [
+      "react",
+      "typescript",
+      "go",
+      "docker",
+      "claude-code"
+    ],
+    "highlights": [
+      "Cada ruta pública se prerenderiza a HTML estático y se hidrata en el cliente, sin servidor.",
+      "CMS headless en Go (bg01-api) con SQLite replicado a R2 con Litestream.",
+      "Publicación en un clic: repository_dispatch → sincronización del contenido → build → GitHub Pages."
+    ],
+    "challenges": [
+      "Una experiencia inmersiva que no sacrifique accesibilidad, rendimiento ni una lectura clara en 10 segundos.",
+      "Mantener el sitio estático y casi gratuito sin renunciar a editar el contenido desde un panel."
+    ],
+    "metrics": [
+      {
+        "label": "Repos",
+        "value": "2"
+      },
+      {
+        "label": "Publicación desde el panel",
+        "value": "1 clic"
+      },
+      {
+        "label": "Rutas públicas prerenderizadas",
+        "value": "100%"
+      }
+    ],
+    "links": {
+      "live": "https://brayangomez.dev",
+      "repo": "https://github.com/brayangomez22/bg01-station"
+    },
+    "cover": {
+      "src": "/covers/m-010.svg",
+      "alt": "Esquemático de BG-01: el CMS emite un evento que recorre build y despliegue hasta las páginas de la estación",
+      "width": 1200,
+      "height": 675
+    },
+    "featured": false,
+    "order": 8
   },
   {
     "id": "rofe-platforms",
@@ -212,10 +432,10 @@
     "description": "Desarrollo freelance end-to-end de dos plataformas para la Fundación ROFÉ: Mujeres ROFÉ, orientada a la independencia económica de mujeres, y Jóvenes creaTIvos, enfocada en formación para el trabajo. Backend en NestJS, frontend en Angular y despliegues de producción en Microsoft Azure.",
     "status": "completed",
     "role": "Freelance Full Stack Developer",
-    "durationLabel": "15 meses",
+    "durationLabel": "16 meses",
     "period": {
-      "start": "2021-03-01",
-      "end": "2022-06-01"
+      "start": "2020-01-01",
+      "end": "2021-04-01"
     },
     "technologies": [
       "nestjs",
@@ -254,20 +474,20 @@
       "height": 675
     },
     "featured": false,
-    "order": 5
+    "order": 9
   },
   {
     "id": "kimsa-climate-systems",
     "code": "M-006",
-    "title": "Sistemas KIMSA · Inteligencia Climática",
-    "summary": "Plataforma de cambio climático para la consultora KIMSA: seguimiento de huella de carbono, datos ambientales y reportes de sostenibilidad para sus clientes.",
-    "description": "Desarrollo freelance end-to-end de los sistemas de información de KIMSA, consultora de cambio climático. Backend en NestJS que centraliza la captura de datos ambientales y el cálculo de huella de carbono, con frontends en Angular y React para la gestión y la visualización de reportes de sostenibilidad. Sistemas desacoplados, integrados vía APIs REST y desplegados en producción.",
+    "title": "Sistemas KIMSA · Consultoría ambiental",
+    "summary": "Sistemas administrativos para KIMSA, firma de consultoría ambiental: backend en NestJS y frontends en Angular y React.",
+    "description": "Desarrollo freelance end-to-end de los sistemas administrativos de KIMSA, firma de consultoría ambiental. Backend en NestJS y frontends en Angular y React, integrados vía APIs REST y desplegados en producción en Heroku y Hostinger.",
     "status": "completed",
     "role": "Freelance Full Stack Developer",
-    "durationLabel": "13 meses",
+    "durationLabel": "16 meses",
     "period": {
-      "start": "2021-11-01",
-      "end": "2022-12-01"
+      "start": "2020-01-01",
+      "end": "2021-04-01"
     },
     "technologies": [
       "nestjs",
@@ -276,12 +496,12 @@
       "typescript"
     ],
     "highlights": [
-      "Backend en NestJS para captura de datos ambientales y cálculo de huella de carbono.",
-      "Frontends en Angular y React para gestión y visualización de reportes de sostenibilidad.",
-      "Sistemas desacoplados e integrados vía APIs REST, desplegados en producción."
+      "Backend en NestJS que centraliza la operación administrativa de la consultora.",
+      "Frontends en Angular y React sobre el mismo backend.",
+      "Sistemas integrados vía APIs REST y desplegados en Heroku y Hostinger."
     ],
     "challenges": [
-      "Modelar el dominio de cambio climático para que datos dispersos fueran accionables.",
+      "Llevar los procesos administrativos de una consultora ambiental a sistemas desacoplados.",
       "Mantener consistencia entre múltiples frontends sobre un mismo backend."
     ],
     "metrics": [
@@ -301,11 +521,11 @@
     "links": {},
     "cover": {
       "src": "/covers/m-006.svg",
-      "alt": "Esquemático de telemetría climática: fuentes de datos ambientales agregadas hacia un panel de monitoreo con tendencia de huella de carbono",
+      "alt": "Esquemático de los sistemas de KIMSA: fuentes de datos hacia una API en NestJS y un panel de indicadores",
       "width": 1200,
       "height": 675
     },
     "featured": false,
-    "order": 6
+    "order": 10
   }
 ]

@@ -1,10 +1,10 @@
 {
   "name": "Brayan Gómez",
   "callsign": "BG-01",
-  "role": "Full Stack Developer",
+  "role": "Full Stack Developer Semi Senior · Go & Java",
   "available": true,
   "location": "Medellín, Colombia · Remoto",
-  "bio": "Construyo sistemas pensados para durar en producción, no solo para pasar la demo. 5+ años en backend con Go: microservicios reconstruidos sin downtime y APIs que sostienen el día a día del producto.",
+  "bio": "Desarrollador Full Stack con 5+ años en Go y Java. Construyo con agentes de IA bajo un proceso claro (spec, plan aprobado, tests primero y revisión humana) y construyo servicios que los agentes pueden usar de forma segura (MCP).",
   "manifesto": "Construyo sistemas como quien diseña una nave: cada componente con un propósito claro, listo para resistir la carga real y fácil de operar a años luz de su lanzamiento.",
   "stats": [
     {
@@ -13,11 +13,11 @@
     },
     {
       "label": "Misiones documentadas",
-      "value": "6"
+      "value": "10"
     },
     {
-      "label": "Sistemas dominados",
-      "value": "10"
+      "label": "Sistemas en órbita",
+      "value": "17"
     }
   ],
   "avatar": {

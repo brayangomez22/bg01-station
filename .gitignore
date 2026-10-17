@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Content backups (scripts/apply-content-update.ts)
+backups/

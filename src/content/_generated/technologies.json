@@ -5,11 +5,14 @@
     "category": "language",
     "proficiency": 90,
     "since": "2021-05-01",
-    "description": "Lenguaje principal en backend: microservicios, APIs REST y sistemas de pago con arquitectura limpia.",
+    "description": "Lenguaje principal en backend desde 2021: microservicios, APIs REST, pagos y tiempo real (WebSockets), con arquitectura hexagonal.",
     "usedInMissions": [
+      "cuadra",
       "go-microservices-reengineering",
       "recurring-payments-system",
-      "multichannel-bots"
+      "multichannel-bots",
+      "findme",
+      "bg01-station"
     ],
     "planet": {
       "color": "--color-accent",
@@ -20,24 +23,44 @@
     "order": 1
   },
   {
-    "id": "typescript",
-    "name": "TypeScript",
+    "id": "java",
+    "name": "Java",
     "category": "language",
-    "proficiency": 88,
-    "since": "2020-06-01",
-    "description": "Tipado estático en todo el stack: frontends en Angular y React y servicios en NestJS.",
+    "proficiency": 0,
+    "since": "2021-05-01",
+    "description": "Backend empresarial en Hibot Chat; servicios que luego migré a Go manteniendo ambos en producción durante la transición.",
     "usedInMissions": [
-      "angular-react-migration",
-      "multichannel-bots",
-      "kimsa-climate-systems"
+      "go-microservices-reengineering"
     ],
     "planet": {
-      "color": "--color-accent",
+      "color": "--color-status-danger",
       "size": "l",
       "orbit": 1
     },
     "featured": true,
     "order": 2
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "category": "framework",
+    "proficiency": 85,
+    "since": "2021-06-01",
+    "description": "Lideré la migración Angular → React de productos núcleo; interfaces rápidas, mantenibles y reutilizables.",
+    "usedInMissions": [
+      "cuadra",
+      "angular-react-migration",
+      "findme",
+      "bg01-station",
+      "kimsa-climate-systems"
+    ],
+    "planet": {
+      "color": "--color-accent",
+      "size": "m",
+      "orbit": 2
+    },
+    "featured": true,
+    "order": 3
   },
   {
     "id": "angular",
@@ -57,26 +80,87 @@
       "orbit": 2
     },
     "featured": true,
-    "order": 3
+    "order": 4
   },
   {
-    "id": "react",
-    "name": "React",
-    "category": "framework",
-    "proficiency": 85,
-    "since": "2021-06-01",
-    "description": "Lideré la migración Angular → React de productos núcleo; interfaces rápidas, mantenibles y reutilizables.",
+    "id": "mcp",
+    "name": "IA (MCP)",
+    "category": "tooling",
+    "proficiency": 0,
+    "since": "2026-10-01",
+    "description": "Model Context Protocol: servidores MCP con autorización OAuth2, tools filtradas por scope y confirmación humana para acciones sensibles.",
     "usedInMissions": [
+      "payments-mcp"
+    ],
+    "planet": {
+      "color": "--color-accent",
+      "size": "m",
+      "orbit": 1
+    },
+    "featured": true,
+    "order": 5
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "category": "language",
+    "proficiency": 88,
+    "since": "2020-06-01",
+    "description": "Tipado estático en todo el stack: frontends en Angular y React y servicios en NestJS.",
+    "usedInMissions": [
+      "cuadra",
+      "payments-mcp",
       "angular-react-migration",
+      "multichannel-bots",
+      "findme",
+      "bg01-station",
       "kimsa-climate-systems"
+    ],
+    "planet": {
+      "color": "--color-accent",
+      "size": "l",
+      "orbit": 1
+    },
+    "featured": true,
+    "order": 6
+  },
+  {
+    "id": "spring-boot",
+    "name": "Spring Boot",
+    "category": "framework",
+    "proficiency": 0,
+    "since": "2021-05-01",
+    "description": "Spring MVC, Spring Data JPA, Hibernate y JUnit en los microservicios legacy de Hibot Chat.",
+    "usedInMissions": [
+      "go-microservices-reengineering"
+    ],
+    "planet": {
+      "color": "--color-status-ok",
+      "size": "m",
+      "orbit": 2
+    },
+    "featured": false,
+    "order": 7
+  },
+  {
+    "id": "postgresql",
+    "name": "PostgreSQL",
+    "category": "database",
+    "proficiency": 0,
+    "since": "2026-08-01",
+    "description": "Multi-tenant con Row-Level Security, PostGIS y bloqueos FOR UPDATE contra concurrencia.",
+    "usedInMissions": [
+      "cuadra",
+      "payments-mcp",
+      "findme"
     ],
     "planet": {
       "color": "--color-accent",
       "size": "m",
       "orbit": 2
     },
-    "featured": true,
-    "order": 4
+    "featured": false,
+    "order": 8
   },
   {
     "id": "nestjs",
@@ -95,7 +179,46 @@
       "orbit": 2
     },
     "featured": true,
-    "order": 5
+    "order": 9
+  },
+  {
+    "id": "claude-code",
+    "name": "Claude Code",
+    "category": "tooling",
+    "proficiency": 0,
+    "since": "2026-06-01",
+    "description": "Desarrollo con agentes: CLAUDE.md por proyecto, comandos propios (rama → plan aprobado → tests en rojo → implementación) y revisión humana de cada PR.",
+    "usedInMissions": [
+      "cuadra",
+      "bg01-station"
+    ],
+    "planet": {
+      "color": "--color-secondary",
+      "size": "s",
+      "orbit": 2
+    },
+    "featured": false,
+    "order": 10
+  },
+  {
+    "id": "docker",
+    "name": "Docker",
+    "category": "tooling",
+    "proficiency": 80,
+    "since": "2022-01-01",
+    "description": "Contenedores para entornos reproducibles de desarrollo, integración y despliegue.",
+    "usedInMissions": [
+      "cuadra",
+      "go-microservices-reengineering",
+      "bg01-station"
+    ],
+    "planet": {
+      "color": "--color-secondary",
+      "size": "m",
+      "orbit": 4
+    },
+    "featured": true,
+    "order": 11
   },
   {
     "id": "mongodb",
@@ -115,58 +238,7 @@
       "orbit": 3
     },
     "featured": true,
-    "order": 6
-  },
-  {
-    "id": "mysql",
-    "name": "MySQL",
-    "category": "database",
-    "proficiency": 75,
-    "since": "2021-06-01",
-    "description": "Bases relacionales para sistemas administrativos, reportes y datos transaccionales.",
-    "usedInMissions": [
-      "rofe-platforms"
-    ],
-    "planet": {
-      "color": "--color-secondary",
-      "size": "s",
-      "orbit": 3
-    },
-    "featured": false,
-    "order": 7
-  },
-  {
-    "id": "redis",
-    "name": "Redis",
-    "category": "database",
-    "proficiency": 72,
-    "since": "2022-06-01",
-    "description": "Caché y estructuras en memoria para acelerar servicios de alto tráfico.",
-    "planet": {
-      "color": "--color-status-danger",
-      "size": "s",
-      "orbit": 3
-    },
-    "featured": false,
-    "order": 8
-  },
-  {
-    "id": "docker",
-    "name": "Docker",
-    "category": "tooling",
-    "proficiency": 80,
-    "since": "2022-01-01",
-    "description": "Contenedores para entornos reproducibles de desarrollo, integración y despliegue.",
-    "usedInMissions": [
-      "go-microservices-reengineering"
-    ],
-    "planet": {
-      "color": "--color-secondary",
-      "size": "m",
-      "orbit": 4
-    },
-    "featured": true,
-    "order": 9
+    "order": 12
   },
   {
     "id": "azure",
@@ -186,6 +258,80 @@
       "orbit": 4
     },
     "featured": true,
-    "order": 10
+    "order": 13
+  },
+  {
+    "id": "observability",
+    "name": "Prometheus · Grafana · Loki",
+    "category": "tooling",
+    "proficiency": 0,
+    "since": "2023-01-01",
+    "description": "Observabilidad con OpenTelemetry, dashboards, alertas y SLOs como código.",
+    "usedInMissions": [
+      "cuadra",
+      "payments-mcp",
+      "go-microservices-reengineering"
+    ],
+    "planet": {
+      "color": "--color-status-ok",
+      "size": "s",
+      "orbit": 4
+    },
+    "featured": false,
+    "order": 14
+  },
+  {
+    "id": "terraform",
+    "name": "Terraform",
+    "category": "cloud",
+    "proficiency": 0,
+    "since": "2026-10-01",
+    "description": "Infraestructura como código: colas SQS con DLQ, VPC y EKS.",
+    "usedInMissions": [
+      "payments-mcp"
+    ],
+    "planet": {
+      "color": "--color-secondary",
+      "size": "s",
+      "orbit": 4
+    },
+    "featured": false,
+    "order": 15
+  },
+  {
+    "id": "redis",
+    "name": "Redis",
+    "category": "database",
+    "proficiency": 72,
+    "since": "2022-06-01",
+    "description": "Caché y estructuras en memoria para acelerar servicios de alto tráfico.",
+    "usedInMissions": [
+      "findme"
+    ],
+    "planet": {
+      "color": "--color-status-danger",
+      "size": "s",
+      "orbit": 3
+    },
+    "featured": false,
+    "order": 16
+  },
+  {
+    "id": "mysql",
+    "name": "MySQL",
+    "category": "database",
+    "proficiency": 75,
+    "since": "2021-06-01",
+    "description": "Bases relacionales para sistemas administrativos, reportes y datos transaccionales.",
+    "usedInMissions": [
+      "rofe-platforms"
+    ],
+    "planet": {
+      "color": "--color-secondary",
+      "size": "s",
+      "orbit": 3
+    },
+    "featured": false,
+    "order": 17
   }
 ]

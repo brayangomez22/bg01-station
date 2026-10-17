@@ -1,5 +1,38 @@
 [
   {
+    "id": "log-2026-independiente",
+    "period": {
+      "start": "2026-05-01",
+      "end": "present"
+    },
+    "company": "Desarrollo independiente · Proyectos propios",
+    "role": "Full Stack Developer",
+    "location": "Remoto",
+    "summary": "Productos propios en Go y TypeScript, desarrollados con agentes de IA bajo un proceso definido y con calidad de producción.",
+    "responsibilities": [
+      "Desarrollo con Claude Code: spec, plan aprobado, tests primero y revisión humana de cada cambio.",
+      "Diseño de servicios para agentes de IA con MCP y autorización OAuth2.",
+      "Observabilidad, CI con análisis de seguridad e infraestructura como código."
+    ],
+    "achievements": [
+      "Cuadra: SaaS multi-tenant para pymes en desarrollo activo (Go, PostgreSQL con RLS, OpenAPI).",
+      "payments-mcp: pagos para agentes de IA con idempotencia, outbox hacia SQS y cobertura ≥ 85 %.",
+      "FindMe: ubicación en tiempo real con WebSockets, PostGIS y Redis pub/sub."
+    ],
+    "technologies": [
+      "go",
+      "typescript",
+      "postgresql",
+      "react",
+      "mcp",
+      "claude-code",
+      "docker",
+      "terraform"
+    ],
+    "type": "freelance",
+    "order": 1
+  },
+  {
     "id": "log-2022-hibot-fullstack",
     "period": {
       "start": "2022-05-01",
@@ -17,9 +50,11 @@
       "Participación en decisiones de arquitectura, estimaciones técnicas y ceremonias ágiles."
     ],
     "achievements": [
-      "Reingeniería de microservicios en Go: servicios legados reconstruidos y nuevos proyectos desde cero.",
-      "Migración Angular → React que mejoró rendimiento, mantenibilidad y reutilización de componentes.",
-      "Sistema de pagos recurrentes que automatizó por completo los flujos de facturación."
+      "Lideré la migración de 8+ microservicios legacy de Java (Spring Boot) a Go con arquitectura limpia: latencia media de APIs críticas −35 % (800 → 520 ms).",
+      "Lideré la migración de Angular a React de aplicaciones estratégicas: rendimiento del frontend +40 %.",
+      "Diseñé el sistema de pagos recurrentes: ~20 horas/mes de facturación manual eliminadas.",
+      "Optimicé CI/CD en Azure DevOps con Docker y GitHub Actions: tiempo de despliegue −50 %.",
+      "Subí la cobertura con tests unitarios y de integración: bugs en producción −30 %."
     ],
     "technologies": [
       "go",
@@ -28,10 +63,12 @@
       "typescript",
       "mongodb",
       "azure",
-      "docker"
+      "docker",
+      "java",
+      "spring-boot"
     ],
     "type": "full-time",
-    "order": 1
+    "order": 2
   },
   {
     "id": "log-2021-hibot-junior",
@@ -59,18 +96,18 @@
       "mongodb"
     ],
     "type": "full-time",
-    "order": 2
+    "order": 3
   },
   {
     "id": "log-2021-freelance",
     "period": {
-      "start": "2021-01-01",
-      "end": "2022-12-01"
+      "start": "2020-01-01",
+      "end": "2021-04-01"
     },
     "company": "Freelance · Fundación ROFÉ & KIMSA",
     "role": "Full Stack Developer",
-    "location": "remote",
-    "summary": "Soluciones digitales para impacto social (Fundación ROFÉ) y sistemas empresariales para consultoría de cambio climático (KIMSA).",
+    "location": "Remoto",
+    "summary": "Soluciones digitales para impacto social (Fundación ROFÉ) y sistemas empresariales para consultoría ambiental (KIMSA).",
     "responsibilities": [
       "Desarrollo de la plataforma Mujeres ROFÉ y del sistema Jóvenes creaTIvos para la Fundación ROFÉ.",
       "Sistemas de información administrativos para KIMSA: backend en NestJS, frontends en Angular y React.",
@@ -89,6 +126,6 @@
       "azure"
     ],
     "type": "freelance",
-    "order": 3
+    "order": 4
   }
 ]

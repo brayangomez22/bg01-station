@@ -1,5 +1,21 @@
 [
   {
+    "id": "desarrollo-con-agentes-claude-code",
+    "code": "REG-004",
+    "title": "Desarrollar con un agente sin perder el control: mi flujo con Claude Code",
+    "abstract": "Cuadra lleva 8 días, 39 PRs integrados y 161 decisiones registradas, desarrollado con Claude Code. Lo que lo hace funcionar no es el modelo: es un flujo que el agente no puede saltarse.",
+    "section": "ing",
+    "tags": [
+      "IA",
+      "CLAUDE CODE",
+      "PROCESO",
+      "TESTING"
+    ],
+    "archivedAt": "2026-10-16",
+    "readingMinutes": 7,
+    "order": 1
+  },
+  {
     "id": "contenedores-go-12mb",
     "code": "REG-003",
     "title": "Contenedores de 12 MB: multi-stage para binarios Go",
@@ -13,7 +29,7 @@
     ],
     "archivedAt": "2026-05-28",
     "readingMinutes": 6,
-    "order": 1
+    "order": 2
   },
   {
     "id": "idempotencia-en-pagos",
@@ -28,7 +44,7 @@
     ],
     "archivedAt": "2026-04-22",
     "readingMinutes": 10,
-    "order": 2
+    "order": 3
   },
   {
     "id": "goroutines-que-no-mueren",
@@ -43,6 +59,6 @@
     ],
     "archivedAt": "2026-03-14",
     "readingMinutes": 8,
-    "order": 3
+    "order": 4
   }
 ]

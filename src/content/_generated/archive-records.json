@@ -1,5 +1,118 @@
 [
   {
+    "id": "desarrollo-con-agentes-claude-code",
+    "code": "REG-004",
+    "title": "Desarrollar con un agente sin perder el control: mi flujo con Claude Code",
+    "abstract": "Cuadra lleva 8 días, 39 PRs integrados y 161 decisiones registradas, desarrollado con Claude Code. Lo que lo hace funcionar no es el modelo: es un flujo que el agente no puede saltarse.",
+    "section": "ing",
+    "tags": [
+      "IA",
+      "CLAUDE CODE",
+      "PROCESO",
+      "TESTING"
+    ],
+    "archivedAt": "2026-10-16",
+    "readingMinutes": 7,
+    "body": [
+      {
+        "kind": "p",
+        "text": "Cuadra es un SaaS multi-tenant que maneja dinero, inventario y datos de muchos comercios en una misma base de datos. Es el tipo de sistema donde un error no aparece en la demo: aparece en el cierre de caja de un cliente. Lo desarrollo solo, con Claude Code, y la pregunta nunca fue si el agente escribe buen código —muchas veces lo hace—, sino cómo garantizar que cada cambio sea revisable, probado y dentro del alcance cuando buena parte del código lo propone un agente."
+      },
+      {
+        "kind": "h",
+        "text": "El problema no es el código, es el alcance"
+      },
+      {
+        "kind": "p",
+        "text": "Un agente sin límites tiende a hacer de más: arregla algo que vio de paso, agrega una dependencia «útil», refactoriza el módulo vecino. Cada cosa por separado es razonable; juntas producen PRs imposibles de revisar. La solución fue convertir el proceso en algo que el agente ejecuta, no en algo que yo tengo que recordar."
+      },
+      {
+        "kind": "h",
+        "text": "Las reglas viven en el repositorio"
+      },
+      {
+        "kind": "p",
+        "text": "CLAUDE.md es el contrato. No es documentación para humanos: son las instrucciones que el agente carga en cada sesión. Arquitectura hexagonal por módulo, cómo se aísla cada tenant, float prohibido para dinero, API contract-first con OpenAPI y qué puede ir en un span y qué no. Las reglas críticas son verificables:"
+      },
+      {
+        "kind": "code",
+        "lang": "markdown",
+        "code": "## Multi-tenant (crítico)\n- Toda operación de BD de negocio corre dentro de `platform/db.WithTenantTx(ctx, fn)`.\n- El `tenant_id` sale solo del token autenticado (contexto), nunca del body o de la URL.\n- Cada repositorio nuevo lleva un test de aislamiento: los datos del tenant A\n  no se ven ni se modifican desde el tenant B."
+      },
+      {
+        "kind": "h",
+        "text": "/tarea: rama → plan → tests en rojo → implementación"
+      },
+      {
+        "kind": "p",
+        "text": "El flujo es un comando propio. /tarea T23 crea la rama desde main actualizada, lee el plan de la fase y los pendientes que le tocan, y presenta un plan corto. Ahí se detiene: nada se escribe hasta que yo lo apruebo."
+      },
+      {
+        "kind": "list",
+        "items": [
+          "Rama: una por tarea. Si hay cambios sin commit en otra, se detiene y avisa.",
+          "Plan: archivos, cambios al contrato OpenAPI, nombres de los tests en español, spans y métricas, preguntas abiertas. Espera aprobación.",
+          "Tests en rojo: escribe solo los tests y muestra que fallan por la razón esperada.",
+          "Implementación: lo mínimo para que pasen; después, refactor.",
+          "Verificación: make check en verde. Nunca se salta ni se desactiva un test."
+        ]
+      },
+      {
+        "kind": "p",
+        "text": "El paso que más valor aporta es el tercero. Ver el test fallar por la razón correcta es la prueba de que mide algo; un test escrito después de la implementación tiende a confirmar lo que el código ya hace."
+      },
+      {
+        "kind": "h",
+        "text": "Lo que queda fuera no se pierde"
+      },
+      {
+        "kind": "p",
+        "text": "Regla: si el agente ve algo que mejorar fuera del alcance, lo anota; no lo hace. Esas notas van a docs/plan/pendientes.md con su origen y su destino, la tarea posterior que lo cubre. Al empezar una tarea, /tarea lee los pendientes que le corresponden y los mete en el plan. Hoy hay unos 40 registrados, desde el rate limit del registro hasta los paneles de Grafana de la caja."
+      },
+      {
+        "kind": "h",
+        "text": "Cerrar es un permiso, no un hábito"
+      },
+      {
+        "kind": "p",
+        "text": "El agente no hace commits, push ni PRs por su cuenta. /cerrar-tarea es la autorización explícita y viene con herramientas acotadas: commit, push, abrir el PR y esperar el CI. El merge solo ocurre con squash y con todos los checks en verde. Nunca push directo a main, nunca --force, nunca --admin."
+      },
+      {
+        "kind": "p",
+        "text": "Cada PR trae una sección fija, «Revisar con lupa», que señala dónde están el dinero, el stock, los permisos, el tenant y los datos sensibles de ese cambio. En la tarea de la caja (T23) apuntaba a la cuenta del esperado en el arqueo, a las ventas anuladas antes y después del cierre, a quién puede cerrar una caja y a que los logs lleven solo IDs, nunca montos. Mi revisión empieza ahí."
+      },
+      {
+        "kind": "h",
+        "text": "Los números"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "8 días desde el primer commit (del 9 al 16 de octubre de 2026).",
+          "42 PRs abiertos, 39 integrados.",
+          "161 decisiones registradas con fecha y motivo en docs/decisiones.md.",
+          "110+ archivos de tests entre Go y el frontend."
+        ]
+      },
+      {
+        "kind": "h",
+        "text": "Lecciones"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "El proceso tiene que vivir en el repo y ser ejecutable: un comando que el agente sigue vale más que una buena intención.",
+          "Detenerse a pedir aprobación es una funcionalidad: el plan es el punto más barato para corregir el rumbo.",
+          "Tests en rojo primero: es la única forma de saber que el test prueba algo.",
+          "Lo que depende de disciplina se rompe con un agente. Prefiero lo que impone la herramienta: RLS en la base de datos, CSS Modules en lugar de BEM.",
+          "La revisión humana no desaparece, se enfoca: el PR me dice dónde mirar con lupa."
+        ]
+      }
+    ],
+    "refs": [],
+    "order": 1
+  },
+  {
     "id": "contenedores-go-12mb",
     "code": "REG-003",
     "title": "Contenedores de 12 MB: multi-stage para binarios Go",
@@ -71,7 +184,7 @@
     "refs": [
       "goroutines-que-no-mueren"
     ],
-    "order": 1
+    "order": 2
   },
   {
     "id": "idempotencia-en-pagos",
@@ -157,7 +270,7 @@
     "refs": [
       "goroutines-que-no-mueren"
     ],
-    "order": 2
+    "order": 3
   },
   {
     "id": "goroutines-que-no-mueren",
@@ -244,6 +357,6 @@
       "idempotencia-en-pagos",
       "contenedores-go-12mb"
     ],
-    "order": 3
+    "order": 4
   }
 ]
