@@ -13,7 +13,7 @@ export default function SystemsPage() {
       <SectionHeader
         eyebrow="MÓDULO 02 · SISTEMAS"
         title="Sistema orbital"
-        description="Cada tecnología es un planeta en órbita. Selecciona uno para inspeccionar su dominio y las misiones donde fue clave."
+        description="Cada tecnología es un planeta en órbita. Selecciona uno para ver desde cuándo lo uso y las misiones donde fue clave."
         level={1}
       />
       <SystemView technologies={technologies} missions={missions} />

@@ -4,7 +4,6 @@ import { Panel, Heading, Text, Tag } from '@/components/ui';
 import { ROUTES } from '@/app/router/paths';
 import { yearOf } from '@/lib/format';
 import type { Technology, Mission } from '@/types/domain';
-import { ProficiencyMeter } from '../ProficiencyMeter/ProficiencyMeter';
 import styles from './TechnologyPanel.module.css';
 
 interface TechnologyPanelProps {
@@ -45,8 +44,6 @@ export function TechnologyPanel({ tech, missions }: TechnologyPanelProps) {
             {tech.name}
           </Heading>
           <Text tone="muted">{tech.description}</Text>
-
-          <ProficiencyMeter value={tech.proficiency} />
 
           <div className={styles['technology-panel__missions']}>
             <Text variant="mono" tone="accent">

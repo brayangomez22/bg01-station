@@ -40,6 +40,10 @@
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
   color: var(--color-text-muted);
+  /* Long names ("Prometheus · Grafana · Loki") wrap instead of crossing orbits. */
+  max-width: 16ch;
+  text-align: center;
+  text-wrap: balance;
 }
 
 .technology-item--selected {
