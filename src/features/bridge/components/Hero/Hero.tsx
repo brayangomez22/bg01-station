@@ -2,15 +2,10 @@ import { motion } from 'motion/react';
 import { Button, Heading, Text } from '@/components/ui';
 import { ROUTES } from '@/app/router/paths';
 import { pilot } from '@/content/pilot';
-import { technologies } from '@/content/technologies';
+import { featuredStack } from '@/content/technologies';
 import { staggerContainer, fadeInUp, revealMask } from '@/lib/motion/variants';
 import { EvaScan } from '../EvaScan/EvaScan';
 import styles from './Hero.module.css';
-
-const STACK = technologies
-  .filter((t) => t.featured)
-  .sort((a, b) => a.order - b.order)
-  .slice(0, 5);
 
 export function Hero() {
   return (
@@ -41,7 +36,7 @@ export function Hero() {
         </motion.div>
 
         <motion.ul variants={fadeInUp} className={styles.hero__stack} role="list">
-          {STACK.map((tech) => (
+          {featuredStack.map((tech) => (
             <li key={tech.id} className={styles['hero__stack-chip']}>
               {tech.name}
             </li>

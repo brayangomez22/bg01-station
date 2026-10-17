@@ -24,9 +24,9 @@ export function pageTitle(title: string): string {
 
 export const seoByRoute = {
   bridge: {
-    title: pageTitle('Puente de mando'),
+    title: 'Brayan Gómez — Full Stack Developer (Go · Java · IA)',
     description:
-      'Conéctate a la estación BG-01: el portafolio inmersivo de Brayan Gómez, Full Stack Developer especializado en Go, React y Angular.',
+      'Portafolio de Brayan Gómez, Full Stack Developer Semi Senior en Go y Java (Spring Boot), React y Angular, que desarrolla con agentes de IA y construye servidores MCP.',
   },
   pilot: {
     title: pageTitle('Ficha del piloto'),
@@ -36,12 +36,12 @@ export const seoByRoute = {
   systems: {
     title: pageTitle('Sistemas orbitales'),
     description:
-      'Las tecnologías de Brayan como planetas en órbita: Go, TypeScript, Angular, React, NestJS, MongoDB y Azure.',
+      'Las tecnologías de Brayan como planetas en órbita: Go, Java, Spring Boot, React, Angular, PostgreSQL, MCP y más, con los años de uso de cada una.',
   },
   missions: {
     title: pageTitle('Registro de misiones'),
     description:
-      'Proyectos de Brayan Gómez: migración Angular → React, pagos recurrentes en Go, bots multicanal y plataformas de impacto social.',
+      'Proyectos de Brayan Gómez: Cuadra (SaaS en Go), pagos para agentes de IA con MCP, migración Java → Go, pagos recurrentes y migración Angular → React.',
   },
   logbook: {
     title: pageTitle('Bitácora de vuelo'),

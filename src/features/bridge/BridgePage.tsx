@@ -3,6 +3,8 @@ import { Seo } from '@/lib/seo/Seo';
 import { seoByRoute, SITE } from '@/lib/seo/seo.config';
 import { ROUTES } from '@/app/router/paths';
 import { pilot } from '@/content/pilot';
+import { frequencies } from '@/content/socials';
+import { featuredStack } from '@/content/technologies';
 import { Hero } from './components/Hero/Hero';
 import { CoreActivity } from './components/CoreActivity/CoreActivity';
 import { ModuleNav } from './components/ModuleNav/ModuleNav';
@@ -14,7 +16,9 @@ const personJsonLd = {
   name: pilot.name,
   jobTitle: pilot.role,
   url: SITE.url,
-  sameAs: ['https://github.com/brayangomez22'],
+  // Public profiles (GitHub, LinkedIn) — every channel that isn't mailto.
+  sameAs: frequencies.map((f) => f.url).filter((url) => url.startsWith('https://')),
+  knowsAbout: featuredStack.map((t) => t.name),
 };
 
 export default function BridgePage() {

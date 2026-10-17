@@ -7,6 +7,12 @@ import data from './_generated/technologies.json';
  */
 export const technologies = data as unknown as Technology[];
 
+/** The five featured technologies, in display order: the Puente tags. */
+export const featuredStack = technologies
+  .filter((t) => t.featured)
+  .sort((a, b) => a.order - b.order)
+  .slice(0, 5);
+
 /** Lookup helper. */
 export const technologyById = (id: string): Technology | undefined =>
   technologies.find((t) => t.id === id);
