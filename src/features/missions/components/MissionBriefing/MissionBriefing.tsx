@@ -6,6 +6,7 @@ import { technologyById } from '@/content/technologies';
 import { formatMonthYear } from '@/lib/format';
 import { fadeInUp, staggerContainer } from '@/lib/motion/variants';
 import type { Mission, MissionStatus } from '@/types/domain';
+import { MissionGallery } from '../MissionGallery/MissionGallery';
 import styles from './MissionBriefing.module.css';
 
 const STATUS: Record<MissionStatus, { label: string; tone: 'ok' | 'warn' | 'default' }> =
@@ -92,6 +93,10 @@ export function MissionBriefing({ mission }: { mission: Mission }) {
         <Text>{mission.description}</Text>
       </Reveal>
 
+      {mission.gallery && mission.gallery.length > 0 && (
+        <MissionGallery code={mission.code} images={mission.gallery} />
+      )}
+
       <div className={styles['mission-briefing__columns']}>
         <List title="Logros clave" items={mission.highlights} />
         <List title="Desafíos" items={mission.challenges} />
@@ -140,6 +145,17 @@ export function MissionBriefing({ mission }: { mission: Mission }) {
             Ver en órbita
           </Button>
         )}
+        {mission.links.caseStudy &&
+          (mission.links.caseStudy.startsWith('/') ? (
+            // A station path (an archive record): navigate inside the SPA.
+            <Button to={mission.links.caseStudy} variant="ghost" iconRight="arrow-right">
+              Leer el caso
+            </Button>
+          ) : (
+            <Button href={mission.links.caseStudy} variant="ghost" iconRight="external">
+              Leer el caso
+            </Button>
+          ))}
         {mission.links.repo && (
           <Button href={mission.links.repo} variant="ghost" icon="github">
             Código fuente

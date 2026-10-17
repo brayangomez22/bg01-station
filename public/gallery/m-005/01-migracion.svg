@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" font-family="ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#38e1ff" stroke-opacity="0.05"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10" fill="none" stroke="#38e1ff" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <rect width="1440" height="900" fill="#0b0e16"/>
+  <rect width="1440" height="900" fill="url(#grid)"/>
+  <rect x="24" y="24" width="1392" height="852" fill="none" stroke="#1e2740"/>
+  <path d="M24 64V24H64M1376 24H1416V64M1416 836V876H1376M64 876H24V836" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+
+  <text x="72" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-005 · MIGRACIÓN JAVA → GO</text>
+  <text x="72" y="130" fill="#5c6680" font-size="14" letter-spacing="2">8+ MICROSERVICIOS · 3 DESARROLLADORES · 4 MESES · AMBOS STACKS EN PRODUCCIÓN</text>
+
+  <!-- consumers: the same contract all along -->
+  <rect x="470" y="180" width="500" height="64" fill="#0b0e16" stroke="#a9b2c7" stroke-opacity="0.6"/>
+  <text x="720" y="210" fill="#a9b2c7" font-size="16" letter-spacing="3" text-anchor="middle">CONSUMIDORES</text>
+  <text x="720" y="232" fill="#5c6680" font-size="12" letter-spacing="2" text-anchor="middle">mismos contratos de API en las tres fases</text>
+  <g stroke="#a9b2c7" stroke-opacity="0.3" stroke-dasharray="4 6">
+    <path d="M560 244 245 296M720 244V296M880 244 1195 296"/>
+  </g>
+
+  <!-- phase columns -->
+  <g font-size="13" letter-spacing="3" fill="#5c6680" text-anchor="middle">
+    <text x="245" y="320">FASE 1 · ANTES</text>
+    <text x="720" y="320">FASE 2 · CONVIVENCIA</text>
+    <text x="1195" y="320">FASE 3 · DESPUÉS</text>
+  </g>
+  <g fill="none" stroke="#1e2740">
+    <rect x="80" y="340" width="330" height="330"/>
+    <rect x="555" y="340" width="330" height="330"/>
+    <rect x="1030" y="340" width="330" height="330"/>
+  </g>
+
+  <!-- phase 1: all Java -->
+  <g fill="#ffb547" fill-opacity="0.12" stroke="#ffb547" stroke-opacity="0.8">
+    <rect x="110" y="370" width="120" height="56"/><rect x="260" y="370" width="120" height="56"/>
+    <rect x="110" y="446" width="120" height="56"/><rect x="260" y="446" width="120" height="56"/>
+    <rect x="110" y="522" width="120" height="56"/><rect x="260" y="522" width="120" height="56"/>
+  </g>
+  <g fill="#ffb547" font-size="13" text-anchor="middle">
+    <text x="170" y="403">JAVA</text><text x="320" y="403">JAVA</text>
+    <text x="170" y="479">JAVA</text><text x="320" y="479">JAVA</text>
+    <text x="170" y="555">JAVA</text><text x="320" y="555">JAVA</text>
+  </g>
+  <text x="245" y="630" fill="#a9b2c7" font-size="13" text-anchor="middle">Spring Boot · legado</text>
+
+  <!-- phase 2: mixed, both in production -->
+  <g fill="#38e1ff" fill-opacity="0.12" stroke="#38e1ff">
+    <rect x="585" y="370" width="120" height="56"/><rect x="735" y="446" width="120" height="56"/><rect x="585" y="522" width="120" height="56"/>
+  </g>
+  <g fill="#ffb547" fill-opacity="0.12" stroke="#ffb547" stroke-opacity="0.8">
+    <rect x="735" y="370" width="120" height="56"/><rect x="585" y="446" width="120" height="56"/><rect x="735" y="522" width="120" height="56"/>
+  </g>
+  <g font-size="13" text-anchor="middle">
+    <text x="645" y="403" fill="#38e1ff">GO</text><text x="795" y="403" fill="#ffb547">JAVA</text>
+    <text x="645" y="479" fill="#ffb547">JAVA</text><text x="795" y="479" fill="#38e1ff">GO</text>
+    <text x="645" y="555" fill="#38e1ff">GO</text><text x="795" y="555" fill="#ffb547">JAVA</text>
+  </g>
+  <text x="720" y="630" fill="#a9b2c7" font-size="13" text-anchor="middle">endpoint por endpoint, sin apagar nada</text>
+
+  <!-- phase 3: all Go, clean architecture -->
+  <g fill="#38e1ff" fill-opacity="0.12" stroke="#38e1ff">
+    <rect x="1060" y="370" width="120" height="56"/><rect x="1210" y="370" width="120" height="56"/>
+    <rect x="1060" y="446" width="120" height="56"/><rect x="1210" y="446" width="120" height="56"/>
+    <rect x="1060" y="522" width="120" height="56"/><rect x="1210" y="522" width="120" height="56"/>
+  </g>
+  <g fill="#38e1ff" font-size="13" text-anchor="middle">
+    <text x="1120" y="403">GO</text><text x="1270" y="403">GO</text>
+    <text x="1120" y="479">GO</text><text x="1270" y="479">GO</text>
+    <text x="1120" y="555">GO</text><text x="1270" y="555">GO</text>
+  </g>
+  <text x="1195" y="630" fill="#a9b2c7" font-size="13" text-anchor="middle">arquitectura limpia</text>
+
+  <g stroke="#38e1ff" stroke-width="2" fill="none" marker-end="url(#arrow)">
+    <path d="M420 505H545"/><path d="M895 505H1020"/>
+  </g>
+
+  <!-- measured result -->
+  <text x="80" y="730" fill="#5c6680" font-size="13" letter-spacing="3">LATENCIA MEDIA DE APIS CRÍTICAS</text>
+  <rect x="80" y="748" width="700" height="26" fill="#ffb547" fill-opacity="0.18" stroke="#ffb547" stroke-opacity="0.7"/>
+  <text x="96" y="767" fill="#ffb547" font-size="14">ANTES · 800 ms</text>
+  <rect x="80" y="786" width="455" height="26" fill="#38e1ff" fill-opacity="0.18" stroke="#38e1ff"/>
+  <text x="96" y="805" fill="#38e1ff" font-size="14">DESPUÉS · 520 ms</text>
+  <text x="560" y="805" fill="#a9b2c7" font-size="20" letter-spacing="2">−35 %</text>
+
+  <text x="1360" y="840" fill="#5c6680" font-size="11" letter-spacing="2" text-anchor="end">ESQUEMÁTICO ILUSTRATIVO · NO REPRESENTA LA ARQUITECTURA REAL DEL CLIENTE</text>
+</svg>

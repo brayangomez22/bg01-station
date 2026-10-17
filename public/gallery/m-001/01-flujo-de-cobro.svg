@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" font-family="ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#38e1ff" stroke-opacity="0.05"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10" fill="none" stroke="#38e1ff" stroke-width="1.5"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10" fill="none" stroke="#ffb547" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <rect width="1440" height="900" fill="#0b0e16"/>
+  <rect width="1440" height="900" fill="url(#grid)"/>
+  <rect x="24" y="24" width="1392" height="852" fill="none" stroke="#1e2740"/>
+  <path d="M24 64V24H64M1376 24H1416V64M1416 836V876H1376M64 876H24V836" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+
+  <text x="72" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-001 · FLUJO DE UN COBRO RECURRENTE</text>
+  <text x="72" y="130" fill="#5c6680" font-size="14" letter-spacing="2">MOTOR EN GO · CAPA DE IDEMPOTENCIA · CONCILIACIÓN CON CADA PASARELA</text>
+
+  <g font-size="15" letter-spacing="2" text-anchor="middle">
+    <!-- 1. billing cycle -->
+    <rect x="80" y="260" width="220" height="110" fill="#0b0e16" stroke="#a9b2c7" stroke-opacity="0.6"/>
+    <text x="190" y="305" fill="#a9b2c7">CICLO DE</text>
+    <text x="190" y="328" fill="#a9b2c7">FACTURACIÓN</text>
+    <text x="190" y="352" fill="#5c6680" font-size="11">cobro programado</text>
+
+    <!-- 2. engine -->
+    <rect x="380" y="240" width="260" height="150" fill="#38e1ff" fill-opacity="0.06" stroke="#38e1ff"/>
+    <text x="510" y="295" fill="#38e1ff">MOTOR DE COBROS</text>
+    <text x="510" y="320" fill="#38e1ff" font-size="12">Go · arquitectura limpia</text>
+
+    <!-- 3. idempotency gate -->
+    <rect x="720" y="240" width="220" height="150" fill="#ffb547" fill-opacity="0.08" stroke="#ffb547" stroke-opacity="0.9"/>
+    <text x="830" y="295" fill="#ffb547">IDEMPOTENCIA</text>
+    <text x="830" y="320" fill="#ffb547" font-size="12">una clave por cobro</text>
+    <text x="830" y="342" fill="#ffb547" font-size="12">el reintento no duplica</text>
+
+    <!-- 4. gateways -->
+    <rect x="1040" y="220" width="300" height="56" fill="#0b0e16" stroke="#a9b2c7" stroke-opacity="0.5"/>
+    <rect x="1040" y="287" width="300" height="56" fill="#0b0e16" stroke="#a9b2c7" stroke-opacity="0.5"/>
+    <rect x="1040" y="354" width="300" height="56" fill="#0b0e16" stroke="#a9b2c7" stroke-opacity="0.5"/>
+    <text x="1190" y="254" fill="#a9b2c7" font-size="13">PASARELA DE TERCEROS</text>
+    <text x="1190" y="321" fill="#a9b2c7" font-size="13">PASARELA DE TERCEROS</text>
+    <text x="1190" y="388" fill="#a9b2c7" font-size="13">PASARELA DE TERCEROS</text>
+  </g>
+
+  <g stroke="#38e1ff" stroke-width="2" fill="none" marker-end="url(#arrow)">
+    <path d="M300 315H372"/><path d="M640 315H712"/><path d="M940 315H1032"/>
+  </g>
+
+  <!-- retry loop on timeout -->
+  <path d="M830 390V450H510V398" fill="none" stroke="#ffb547" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#arrow-amber)"/>
+  <text x="670" y="474" fill="#ffb547" font-size="12" letter-spacing="2" text-anchor="middle">REINTENTO SEGURO ANTE TIMEOUT</text>
+
+  <!-- reconciliation back to the product -->
+  <path d="M1190 410V560H190V378" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="520" y="535" width="400" height="50" fill="#0b0e16" stroke="#38e1ff" stroke-opacity="0.6"/>
+  <text x="720" y="565" fill="#38e1ff" font-size="14" letter-spacing="3" text-anchor="middle">CONCILIACIÓN DE ESTADOS</text>
+  <text x="720" y="610" fill="#5c6680" font-size="12" text-anchor="middle">trazabilidad completa de cada transacción</text>
+
+  <!-- confirmed results -->
+  <g font-size="13" letter-spacing="3" fill="#5c6680">
+    <text x="80" y="720">COBROS AL MES</text>
+    <text x="520" y="720">CARGOS DUPLICADOS</text>
+    <text x="960" y="720">TRABAJO MANUAL ELIMINADO</text>
+  </g>
+  <g font-size="40" fill="#38e1ff">
+    <text x="80" y="772">12k+</text>
+    <text x="520" y="772">0</text>
+    <text x="960" y="772">~20 h/mes</text>
+  </g>
+
+  <text x="1360" y="840" fill="#5c6680" font-size="11" letter-spacing="2" text-anchor="end">ESQUEMÁTICO ILUSTRATIVO · NO REPRESENTA LA ARQUITECTURA REAL DEL CLIENTE</text>
+</svg>

@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from 'react';
 import { Icon } from '@/components/ui';
-import type { LabelledValue } from '@/types/common';
+import type { LabelledValue, MediaRef } from '@/types/common';
 import styles from './Form.module.css';
 
 /** Grouped section of a form, with a stamped legend. */
@@ -181,6 +181,72 @@ export function MetricListField({ label, items, onChange }: MetricListFieldProps
       ))}
       <button type="button" className={styles.list__add} onClick={add}>
         + Añadir
+      </button>
+    </div>
+  );
+}
+
+interface MediaListFieldProps {
+  label: string;
+  items: MediaRef[];
+  onChange: (items: MediaRef[]) => void;
+}
+
+/** Editable list of images (src, alt, intrinsic size) — a mission's gallery. */
+export function MediaListField({ label, items, onChange }: MediaListFieldProps) {
+  const set = (i: number, patch: Partial<MediaRef>) =>
+    onChange(items.map((item, idx) => (idx === i ? { ...item, ...patch } : item)));
+  const remove = (i: number) => onChange(items.filter((_, idx) => idx !== i));
+  const add = () => onChange([...items, { src: '', alt: '', width: 1600, height: 1000 }]);
+  const size = (v: string) => Math.max(0, Number.parseInt(v, 10) || 0);
+
+  return (
+    <div className={styles.list}>
+      <span className={styles.field__label}>{label}</span>
+      {items.map((item, i) => (
+        <div key={i} className={styles['list__row--media']}>
+          <input
+            className={styles.field__control}
+            value={item.src}
+            placeholder="/gallery/m-007/01-pos.webp"
+            aria-label={`Imagen ${i + 1}: ruta`}
+            onChange={(e) => set(i, { src: e.target.value })}
+          />
+          <input
+            className={styles.field__control}
+            value={item.alt}
+            placeholder="Texto alternativo (también es el pie de foto)"
+            aria-label={`Imagen ${i + 1}: texto alternativo`}
+            onChange={(e) => set(i, { alt: e.target.value })}
+          />
+          <input
+            className={styles.field__control}
+            type="number"
+            min={0}
+            value={item.width}
+            aria-label={`Imagen ${i + 1}: ancho`}
+            onChange={(e) => set(i, { width: size(e.target.value) })}
+          />
+          <input
+            className={styles.field__control}
+            type="number"
+            min={0}
+            value={item.height}
+            aria-label={`Imagen ${i + 1}: alto`}
+            onChange={(e) => set(i, { height: size(e.target.value) })}
+          />
+          <button
+            type="button"
+            className={styles.list__remove}
+            onClick={() => remove(i)}
+            aria-label={`Eliminar imagen ${i + 1}`}
+          >
+            <Icon name="close" size={14} />
+          </button>
+        </div>
+      ))}
+      <button type="button" className={styles.list__add} onClick={add}>
+        + Añadir imagen
       </button>
     </div>
   );

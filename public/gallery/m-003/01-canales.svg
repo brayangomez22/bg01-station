@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" font-family="ui-monospace, Menlo, Consolas, monospace">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#38e1ff" stroke-opacity="0.05"/>
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38e1ff" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#38e1ff" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10" fill="none" stroke="#38e1ff" stroke-width="1.5"/>
+    </marker>
+  </defs>
+
+  <rect width="1440" height="900" fill="#0b0e16"/>
+  <rect width="1440" height="900" fill="url(#grid)"/>
+  <rect x="24" y="24" width="1392" height="852" fill="none" stroke="#1e2740"/>
+  <path d="M24 64V24H64M1376 24H1416V64M1416 836V876H1376M64 876H24V836" fill="none" stroke="#38e1ff" stroke-opacity="0.5" stroke-width="2"/>
+
+  <text x="72" y="96" fill="#38e1ff" font-size="26" letter-spacing="6">M-003 · RED DE BOTS MULTICANAL</text>
+  <text x="72" y="130" fill="#5c6680" font-size="14" letter-spacing="2">ARQUITECTURA HEXAGONAL · CADA CANAL ES UN ADAPTADOR</text>
+
+  <!-- channel adapters (left) -->
+  <g font-size="15" letter-spacing="2" text-anchor="middle">
+    <g fill="#0b0e16" stroke="#a9b2c7" stroke-opacity="0.6">
+      <rect x="80" y="220" width="250" height="64"/><rect x="80" y="320" width="250" height="64"/>
+      <rect x="80" y="420" width="250" height="64"/><rect x="80" y="520" width="250" height="64"/>
+    </g>
+    <g fill="#a9b2c7">
+      <text x="205" y="258">WHATSAPP</text><text x="205" y="358">FACEBOOK</text>
+      <text x="205" y="458">INSTAGRAM</text><text x="205" y="558">TELEGRAM</text>
+    </g>
+  </g>
+  <text x="205" y="200" fill="#5c6680" font-size="12" letter-spacing="3" text-anchor="middle">ADAPTADORES DE CANAL</text>
+
+  <!-- normalization into the core -->
+  <g stroke="#38e1ff" stroke-opacity="0.7" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
+    <path d="M330 252C450 252 470 370 548 390"/>
+    <path d="M330 352C440 352 480 395 548 400"/>
+    <path d="M330 452C440 452 480 412 548 410"/>
+    <path d="M330 552C450 552 470 430 548 420"/>
+  </g>
+  <text x="440" y="610" fill="#5c6680" font-size="12" letter-spacing="2" text-anchor="middle">mensaje normalizado</text>
+
+  <!-- hexagonal core -->
+  <g transform="translate(700,402)">
+    <circle r="210" fill="url(#glow)"/>
+    <path d="M0 -150 130 -75 130 75 0 150 -130 75 -130 -75Z" fill="#0b0e16" stroke="#38e1ff" stroke-width="2"/>
+    <path d="M0 -104 90 -52 90 52 0 104 -90 52 -90 -52Z" fill="none" stroke="#38e1ff" stroke-opacity="0.35" stroke-dasharray="4 6"/>
+    <text y="-8" fill="#38e1ff" font-size="16" letter-spacing="3" text-anchor="middle">NÚCLEO DE RUTEO</text>
+    <text y="18" fill="#38e1ff" font-size="13" text-anchor="middle">Go</text>
+  </g>
+
+  <!-- analytics (right) -->
+  <path d="M832 402H1012" fill="none" stroke="#38e1ff" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="1020" y="330" width="320" height="144" fill="#38e1ff" fill-opacity="0.06" stroke="#38e1ff" stroke-opacity="0.7"/>
+  <text x="1180" y="380" fill="#38e1ff" font-size="15" letter-spacing="2" text-anchor="middle">MONGODB</text>
+  <text x="1180" y="406" fill="#a9b2c7" font-size="12" text-anchor="middle">pipelines de agregación</text>
+  <text x="1180" y="428" fill="#a9b2c7" font-size="12" text-anchor="middle">métricas de conversación</text>
+
+  <!-- confirmed results -->
+  <g font-size="13" letter-spacing="3" fill="#5c6680">
+    <text x="80" y="720">CANALES</text>
+    <text x="520" y="720">CONVERSACIONES AL DÍA</text>
+    <text x="960" y="720">OPERACIÓN</text>
+  </g>
+  <g font-size="40" fill="#38e1ff">
+    <text x="80" y="772">4</text>
+    <text x="520" y="772">5k+</text>
+    <text x="960" y="772">24/7</text>
+  </g>
+
+  <text x="1360" y="840" fill="#5c6680" font-size="11" letter-spacing="2" text-anchor="end">ESQUEMÁTICO ILUSTRATIVO · NO REPRESENTA LA ARQUITECTURA REAL DEL CLIENTE</text>
+</svg>

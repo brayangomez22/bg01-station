@@ -8,6 +8,7 @@ import type { Mission } from '@/types/domain';
 import {
   CheckboxField,
   Fieldset,
+  MediaListField,
   MetricListField,
   NumberField,
   SelectField,
@@ -204,7 +205,7 @@ export default function MissionEditorPage() {
             onChange={(v) => patch({ links: { ...draft.links, repo: v || undefined } })}
           />
           <Field
-            label="Caso de estudio"
+            label="Caso de estudio (URL o /archive/<id>)"
             name="linkCase"
             value={draft.links.caseStudy ?? ''}
             onChange={(v) =>
@@ -239,6 +240,14 @@ export default function MissionEditorPage() {
               onChange={(v) => patch({ cover: { ...draft.cover, height: v } })}
             />
           </div>
+        </Fieldset>
+
+        <Fieldset legend="Registro visual (galería)">
+          <MediaListField
+            label="Capturas, en orden"
+            items={draft.gallery ?? []}
+            onChange={(v) => patch({ gallery: v.length ? v : undefined })}
+          />
         </Fieldset>
 
         <Fieldset legend="Orden y visibilidad">
