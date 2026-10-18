@@ -1,5 +1,312 @@
 [
   {
+    "id": "rotacion-de-refresh-tokens",
+    "code": "REG-009",
+    "title": "Refresh tokens que delatan al ladrón",
+    "abstract": "Un refresh token robado da semanas de acceso. Rotarlo en cada uso permite detectar cuando dos personas usan el mismo. Lo difícil es no cerrarle la sesión a un usuario legítimo con dos peticiones en paralelo.",
+    "section": "ing",
+    "tags": [
+      "SEGURIDAD",
+      "AUTH",
+      "GO"
+    ],
+    "archivedAt": "2026-10-17",
+    "readingMinutes": 8,
+    "body": [
+      {
+        "kind": "p",
+        "text": "En FindMe (ubicación en tiempo real) la sesión tiene dos piezas: un access token corto que vive en memoria y un refresh token que vive en una cookie HttpOnly, fuera del alcance del JavaScript. El access token caduca en minutos; el refresh token dura semanas. Si alguien lo roba, tiene acceso todo ese tiempo, salvo que el servidor pueda notarlo."
+      },
+      {
+        "kind": "h",
+        "text": "Opaco, no JWT"
+      },
+      {
+        "kind": "p",
+        "text": "El refresh token no es un JWT. Un JWT es válido hasta que expira y no se puede revocar antes sin añadir una lista de bloqueo. Este es un valor aleatorio de 256 bits y en la base solo se guarda su hash:"
+      },
+      {
+        "kind": "code",
+        "lang": "go",
+        "code": "// SHA-256 y no bcrypt: el token ya es aleatorio de 256 bits, no hace falta\n// un hash lento y sí una búsqueda por índice.\nfunc hashRefreshToken(plain string) []byte {\n    sum := sha256.Sum256([]byte(plain))\n    return sum[:]\n}"
+      },
+      {
+        "kind": "p",
+        "text": "Si se filtra la tabla, los hashes no sirven para nada."
+      },
+      {
+        "kind": "h",
+        "text": "Rotar para detectar"
+      },
+      {
+        "kind": "p",
+        "text": "Cada vez que el cliente renueva la sesión, el servidor revoca el refresh token que recibió y emite otro. En uso normal, cada token se presenta una sola vez. Si llega uno que ya fue rotado, alguien tiene una copia vieja: o el atacante o la víctima. El servidor no puede saber quién es quién, así que revoca todas las sesiones de ese usuario. Los dos tienen que volver a entrar, y solo uno conoce la contraseña."
+      },
+      {
+        "kind": "h",
+        "text": "La carrera"
+      },
+      {
+        "kind": "p",
+        "text": "Hay un detalle fácil de pasar por alto. Si la comprobación y la revocación son dos pasos (leer el token, ver que no esté revocado y marcarlo como revocado), queda una ventana: dos peticiones simultáneas con el mismo token pasan la comprobación antes de que cualquiera de las dos lo revoque, y las dos reciben un token nuevo. La detección fallaría justo cuando importa: cuando un atacante y la víctima renuevan a la vez."
+      },
+      {
+        "kind": "p",
+        "text": "En Cuadra la rotación es atómica. El UPDATE que revoca es condicional y va en la misma transacción que crea el sucesor. Si no afectó ninguna fila, otro ya lo había rotado:"
+      },
+      {
+        "kind": "code",
+        "lang": "go",
+        "code": "affected, err := q.RevokeRefreshToken(ctx, params) // ... WHERE id = $2 AND revoked_at IS NULL\nif err != nil {\n    return err\n}\nif affected == 0 {\n    return domain.ErrRefreshTokenReused\n}\nreturn createToken(ctx, q, next)"
+      },
+      {
+        "kind": "p",
+        "text": "Cuadra además agrupa los tokens en familias. Una reutilización revoca solo la familia de esa sesión, no las del resto de dispositivos del usuario, y se cuenta en una métrica para ver si alguna vez pasa de verdad."
+      },
+      {
+        "kind": "h",
+        "text": "El falso positivo que más duele"
+      },
+      {
+        "kind": "p",
+        "text": "Con detección de reutilización, el peor enemigo es tu propio frontend. Si dos peticiones encuentran el access token caducado a la vez y cada una pide su renovación, la segunda presenta un token que la primera acaba de rotar. El servidor lo interpreta como robo y cierra la sesión sin que nadie haya hecho nada malo. En desarrollo, el doble montaje de StrictMode en React lo provoca siempre."
+      },
+      {
+        "kind": "p",
+        "text": "En el cliente de FindMe hay una sola renovación en curso, compartida por todas las peticiones. Si otra petición ya renovó, la que reintenta usa el token nuevo en vez de pedir otro. La renovación se adelanta un minuto al vencimiento, porque el WebSocket se autentica al conectar y una reconexión necesita un token vivo. Y un fallo de red no cierra la sesión: solo lo hace un 401."
+      },
+      {
+        "kind": "h",
+        "text": "Lecciones"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "Refresh tokens opacos y hasheados: se pueden revocar y no sirven si se filtra la base.",
+          "La rotación convierte la reutilización en una señal de robo.",
+          "La comprobación y la revocación tienen que ser una sola operación atómica, o la detección tiene un hueco.",
+          "Antes de activar la detección, asegúrate de que tu cliente nunca renueva dos veces en paralelo."
+        ]
+      }
+    ],
+    "refs": [
+      "multi-tenant-con-rls",
+      "oauth-para-agentes-mcp"
+    ],
+    "order": 1
+  },
+  {
+    "id": "multi-tenant-con-rls",
+    "code": "REG-008",
+    "title": "Multi-tenant con Row-Level Security: que la base no confíe en mi código",
+    "abstract": "En Cuadra todos los comercios comparten una base de datos. Cómo hago que PostgreSQL impida ver datos de otro cliente aunque el código tenga un bug, y tres trampas que encontré por el camino.",
+    "section": "ing",
+    "tags": [
+      "POSTGRESQL",
+      "MULTI-TENANT",
+      "SEGURIDAD"
+    ],
+    "archivedAt": "2026-10-17",
+    "readingMinutes": 9,
+    "body": [
+      {
+        "kind": "p",
+        "text": "Cuadra es un SaaS de gestión para pymes colombianas (punto de venta, inventario y caja) en Go y PostgreSQL. Todos los comercios viven en la misma base y cada tabla de negocio lleva una columna tenant_id. La forma barata de aislarlos es añadir WHERE tenant_id = $1 a cada consulta. El problema es que basta con olvidarlo una vez para que una ferretería vea las ventas de otra. Quería que esa garantía la diera la base de datos, no mi disciplina."
+      },
+      {
+        "kind": "h",
+        "text": "La política"
+      },
+      {
+        "kind": "p",
+        "text": "Cada tabla de negocio tiene Row-Level Security activado y forzado, con una política que compara contra el tenant de la transacción en curso:"
+      },
+      {
+        "kind": "code",
+        "lang": "sql",
+        "code": "CREATE FUNCTION current_tenant_id() RETURNS uuid LANGUAGE sql STABLE AS\n$$ SELECT NULLIF(current_setting('app.tenant_id', true), '')::uuid $$;\n\nALTER TABLE products ENABLE ROW LEVEL SECURITY;\nALTER TABLE products FORCE ROW LEVEL SECURITY;\n\nCREATE POLICY tenant_isolation ON products\n    USING (tenant_id = current_tenant_id())\n    WITH CHECK (tenant_id = current_tenant_id());"
+      },
+      {
+        "kind": "p",
+        "text": "Falla cerrada: si no hay tenant, la consulta no ve ni escribe ninguna fila. No lanza error, pero tampoco filtra nada. WITH CHECK impide insertar filas a nombre de otro tenant o moverlas con un UPDATE."
+      },
+      {
+        "kind": "h",
+        "text": "El tenant viaja con la transacción"
+      },
+      {
+        "kind": "p",
+        "text": "El código de negocio solo llega a la base a través de un helper que abre una transacción y fija el tenant:"
+      },
+      {
+        "kind": "code",
+        "lang": "go",
+        "code": "return d.WithTx(ctx, func(tx pgx.Tx) error {\n    _, err := tx.Exec(ctx, \"SELECT set_config('app.tenant_id', $1, true)\", tenantID.String())\n    if err != nil {\n        return fmt.Errorf(\"db: set tenant: %w\", err)\n    }\n    return fn(tx)\n})"
+      },
+      {
+        "kind": "p",
+        "text": "El true del final es lo importante: hace que el ajuste sea local a la transacción. Con un pool de conexiones, un SET de sesión se quedaría pegado a la conexión y lo heredaría la siguiente petición, de otro comercio."
+      },
+      {
+        "kind": "h",
+        "text": "Trampa 1: el rol que se salta todo"
+      },
+      {
+        "kind": "p",
+        "text": "RLS no aplica a los superusuarios, a los roles con BYPASSRLS ni al dueño de la tabla. Un error de configuración, como conectar la API con el usuario que corre las migraciones, haría desaparecer el aislamiento sin que nada fallara."
+      },
+      {
+        "kind": "p",
+        "text": "Por eso la API comprueba su propio rol al arrancar y se niega a iniciar si podría saltarse RLS. Las migraciones corren con otro rol, dueño del esquema, y el rol de la aplicación solo tiene SELECT, INSERT, UPDATE y DELETE. Tampoco tiene TRUNCATE, que ignora las políticas."
+      },
+      {
+        "kind": "h",
+        "text": "Trampa 2: las claves foráneas no ven RLS"
+      },
+      {
+        "kind": "p",
+        "text": "PostgreSQL comprueba las claves foráneas sin aplicar las políticas. Con una FK simple, un producto del tenant A podría apuntar a una categoría del tenant B y la base lo aceptaría. La solución es que la FK incluya el tenant:"
+      },
+      {
+        "kind": "code",
+        "lang": "sql",
+        "code": "ALTER TABLE products\n    ADD FOREIGN KEY (tenant_id, category_id) REFERENCES categories (tenant_id, id);"
+      },
+      {
+        "kind": "h",
+        "text": "Trampa 3: el índice que nunca se usó"
+      },
+      {
+        "kind": "p",
+        "text": "La búsqueda de productos tenía un índice trigram para acelerar los LIKE. Al medir, resultó que nunca se usaba. Con RLS forzado, PostgreSQL no evalúa antes de la política un operador que no esté marcado como LEAKPROOF, porque podría filtrar datos de filas que el usuario no debe ver. LIKE no lo es."
+      },
+      {
+        "kind": "p",
+        "text": "Con 20.000 productos, la búsqueda tardaba 2,1 ms sin RLS y 7,2 ms con RLS, recorriendo los productos del tenant por el índice de tenant_id. Marcar el operador como LEAKPROOF exige ser superusuario, que en Azure no está disponible, y una función SECURITY DEFINER abriría justo el tipo de puerta entre tenants que RLS cierra. Quité el índice y acepté el costo: crece con el catálogo de un solo comercio, no con la tabla entera. Lo vuelvo a medir con pruebas de carga antes de crecer."
+      },
+      {
+        "kind": "h",
+        "text": "Lecciones"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "Si el aislamiento depende de no olvidar un WHERE, tarde o temprano se rompe. Que lo imponga la base.",
+          "set_config(..., true): con un pool, el tenant tiene que vivir en la transacción, no en la conexión.",
+          "El código debe comprobar que su rol no puede saltarse RLS; una revisión manual no basta.",
+          "Las FK no pasan por RLS: inclúyeles el tenant_id.",
+          "RLS tiene costo en el planificador. Hay que medirlo con datos reales, no suponerlo."
+        ]
+      }
+    ],
+    "refs": [
+      "rotacion-de-refresh-tokens",
+      "idempotencia-en-pagos"
+    ],
+    "order": 2
+  },
+  {
+    "id": "oauth-para-agentes-mcp",
+    "code": "REG-007",
+    "title": "OAuth para agentes: darle a un modelo acceso a pagos sin darle las llaves",
+    "abstract": "Un agente de IA que puede cobrar y reembolsar necesita algo más que un token. Cómo resolví en payments-mcp qué ve el modelo, para quién actúa y cuándo hace falta permiso humano.",
+    "section": "ing",
+    "tags": [
+      "MCP",
+      "IA",
+      "SEGURIDAD"
+    ],
+    "archivedAt": "2026-10-17",
+    "readingMinutes": 9,
+    "body": [
+      {
+        "kind": "p",
+        "text": "En payments-mcp la misma lógica de pagos se ofrece a dos tipos de clientes: los servicios internos, por una API REST, y los agentes de IA, por un servidor MCP. La parte REST es terreno conocido: OAuth2 con client credentials, un JWT firmado y scopes por ruta. Con un agente la pregunta cambia. El cliente es un modelo que lee texto de terceros (la nota de un pedido, un correo, la descripción de un producto) y cualquiera de esos textos puede intentar darle instrucciones. La seguridad no puede depender de que el modelo se porte bien."
+      },
+      {
+        "kind": "h",
+        "text": "Cómo encuentra el agente a quién pedir el token"
+      },
+      {
+        "kind": "p",
+        "text": "La especificación de MCP delega la autorización en OAuth. Si alguien llama a POST /mcp sin un token válido, el servidor responde 401 con una cabecera WWW-Authenticate que apunta a su Protected Resource Metadata (RFC 9728): un JSON que dice qué recurso es, quién emite sus tokens y qué scopes existen. El cliente lo lee, va al servidor de autorización y pide el token por su cuenta. El agente no lleva URLs de autenticación configuradas a mano."
+      },
+      {
+        "kind": "code",
+        "lang": "json",
+        "code": "{\n  \"resource\": \"https://payments.example.com/mcp\",\n  \"authorization_servers\": [\"https://payments.example.com\"],\n  \"scopes_supported\": [\"payments:read\", \"payments:write\", \"payments:refund\"],\n  \"bearer_methods_supported\": [\"header\"]\n}"
+      },
+      {
+        "kind": "h",
+        "text": "Un token, un recurso"
+      },
+      {
+        "kind": "p",
+        "text": "El cliente pide el token indicando para qué recurso lo quiere (resource, RFC 8707) y ese valor termina en el claim aud. La API REST solo acepta tokens con su propia audiencia y el endpoint MCP solo los suyos. Un token emitido para el agente no sirve contra la API REST, y al revés tampoco."
+      },
+      {
+        "kind": "p",
+        "text": "Parece un detalle, pero evita el *token passthrough*: un servidor MCP que reenvía a otra API el token que recibió se convierte en un intermediario con más poder del que debería (el problema del *confused deputy*). La verificación también fija el algoritmo (ES256) en vez de confiar en la cabecera del propio token, que es la puerta clásica de los ataques con alg: none."
+      },
+      {
+        "kind": "h",
+        "text": "Lo que el modelo no ve, no lo puede llamar"
+      },
+      {
+        "kind": "p",
+        "text": "El endpoint MCP no guarda estado: cada petición construye un servidor nuevo a partir del token verificado, así que cualquier pod puede atenderla sin sesiones pegajosas. Al construirlo, cada tool se registra solo si el token trae su scope."
+      },
+      {
+        "kind": "code",
+        "lang": "ts",
+        "code": "const can = (scope: Scope): boolean => auth.scopes.has(scope);\n\nif (can('payments:read')) registerReadTools(server, deps);\nif (can('payments:write')) registerCreatePayment(server, deps);\nif (can('payments:refund')) registerRefundPayment(server, deps);"
+      },
+      {
+        "kind": "p",
+        "text": "El agente de la tienda A tiene read y write, pero no refund, así que refund_payment ni siquiera aparece en tools/list. Un prompt malicioso no puede convencer al modelo de usar una herramienta que no existe para él."
+      },
+      {
+        "kind": "p",
+        "text": "La segunda decisión va en la misma línea: ninguna tool recibe el comercio como argumento. El merchantId sale del token y las tools lo capturan al crearse. Si un texto inyectado le pide al modelo «consulta los pagos del comercio B», no hay ningún parámetro que manipular."
+      },
+      {
+        "kind": "h",
+        "text": "Mover dinero con dos llaves"
+      },
+      {
+        "kind": "p",
+        "text": "Un reembolso no se puede deshacer, así que refund_payment funciona en dos pasos. Sin confirm: true devuelve una vista previa: aplica las mismas validaciones que el reembolso real, no tiene ningún efecto y le indica al modelo que pida aprobación. Solo una segunda llamada con los mismos argumentos y confirm: true mueve el dinero."
+      },
+      {
+        "kind": "p",
+        "text": "El agente de demostración añade un segundo candado en el cliente: antes de ejecutar una tool marcada como destructiva con confirm: true, le pregunta a la persona. Si no hay forma de preguntar, la rechaza por defecto. El servidor no confía en el cliente y el cliente no confía en el modelo."
+      },
+      {
+        "kind": "p",
+        "text": "Las descripciones de las tools también son parte del contrato, porque el modelo las lee. create_payment exige una idempotencyKey y explica qué hacer ante un timeout: reintentar con la misma clave y, si el pago queda pending, consultarlo más tarde en vez de cobrar otra vez con una clave nueva."
+      },
+      {
+        "kind": "h",
+        "text": "Lecciones"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "La autorización la impone el servidor. Las instrucciones al modelo ayudan, pero no protegen.",
+          "Un token por recurso (aud): un token nunca debe servir donde no se pidió.",
+          "Filtrar las tools por scope reduce la superficie de ataque: el modelo solo ve lo que puede hacer.",
+          "La identidad (para qué comercio se actúa) sale del token, nunca de un argumento que el modelo pueda elegir.",
+          "Para lo irreversible: vista previa, confirmación explícita y aprobación humana."
+        ]
+      }
+    ],
+    "refs": [
+      "idempotencia-en-pagos",
+      "desarrollo-con-agentes-claude-code"
+    ],
+    "order": 3
+  },
+  {
     "id": "migracion-angular-react",
     "code": "REG-006",
     "title": "Migrar de Angular a React sin que el cliente lo notara",
@@ -67,7 +374,7 @@
     "refs": [
       "migracion-java-go-por-endpoint"
     ],
-    "order": 1
+    "order": 4
   },
   {
     "id": "migracion-java-go-por-endpoint",
@@ -138,7 +445,7 @@
     "refs": [
       "idempotencia-en-pagos"
     ],
-    "order": 2
+    "order": 5
   },
   {
     "id": "desarrollo-con-agentes-claude-code",
@@ -251,7 +558,7 @@
       }
     ],
     "refs": [],
-    "order": 3
+    "order": 6
   },
   {
     "id": "contenedores-go-12mb",
@@ -325,7 +632,7 @@
     "refs": [
       "goroutines-que-no-mueren"
     ],
-    "order": 4
+    "order": 7
   },
   {
     "id": "idempotencia-en-pagos",
@@ -411,7 +718,7 @@
     "refs": [
       "goroutines-que-no-mueren"
     ],
-    "order": 5
+    "order": 8
   },
   {
     "id": "goroutines-que-no-mueren",
@@ -498,6 +805,6 @@
       "idempotencia-en-pagos",
       "contenedores-go-12mb"
     ],
-    "order": 6
+    "order": 9
   }
 ]

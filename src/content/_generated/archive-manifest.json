@@ -1,5 +1,50 @@
 [
   {
+    "id": "rotacion-de-refresh-tokens",
+    "code": "REG-009",
+    "title": "Refresh tokens que delatan al ladrón",
+    "abstract": "Un refresh token robado da semanas de acceso. Rotarlo en cada uso permite detectar cuando dos personas usan el mismo. Lo difícil es no cerrarle la sesión a un usuario legítimo con dos peticiones en paralelo.",
+    "section": "ing",
+    "tags": [
+      "SEGURIDAD",
+      "AUTH",
+      "GO"
+    ],
+    "archivedAt": "2026-10-17",
+    "readingMinutes": 8,
+    "order": 1
+  },
+  {
+    "id": "multi-tenant-con-rls",
+    "code": "REG-008",
+    "title": "Multi-tenant con Row-Level Security: que la base no confíe en mi código",
+    "abstract": "En Cuadra todos los comercios comparten una base de datos. Cómo hago que PostgreSQL impida ver datos de otro cliente aunque el código tenga un bug, y tres trampas que encontré por el camino.",
+    "section": "ing",
+    "tags": [
+      "POSTGRESQL",
+      "MULTI-TENANT",
+      "SEGURIDAD"
+    ],
+    "archivedAt": "2026-10-17",
+    "readingMinutes": 9,
+    "order": 2
+  },
+  {
+    "id": "oauth-para-agentes-mcp",
+    "code": "REG-007",
+    "title": "OAuth para agentes: darle a un modelo acceso a pagos sin darle las llaves",
+    "abstract": "Un agente de IA que puede cobrar y reembolsar necesita algo más que un token. Cómo resolví en payments-mcp qué ve el modelo, para quién actúa y cuándo hace falta permiso humano.",
+    "section": "ing",
+    "tags": [
+      "MCP",
+      "IA",
+      "SEGURIDAD"
+    ],
+    "archivedAt": "2026-10-17",
+    "readingMinutes": 9,
+    "order": 3
+  },
+  {
     "id": "migracion-angular-react",
     "code": "REG-006",
     "title": "Migrar de Angular a React sin que el cliente lo notara",
@@ -13,7 +58,7 @@
     ],
     "archivedAt": "2026-10-17",
     "readingMinutes": 5,
-    "order": 1
+    "order": 4
   },
   {
     "id": "migracion-java-go-por-endpoint",
@@ -29,7 +74,7 @@
     ],
     "archivedAt": "2026-10-17",
     "readingMinutes": 5,
-    "order": 2
+    "order": 5
   },
   {
     "id": "desarrollo-con-agentes-claude-code",
@@ -45,7 +90,7 @@
     ],
     "archivedAt": "2026-10-16",
     "readingMinutes": 7,
-    "order": 3
+    "order": 6
   },
   {
     "id": "contenedores-go-12mb",
@@ -61,7 +106,7 @@
     ],
     "archivedAt": "2026-05-28",
     "readingMinutes": 6,
-    "order": 4
+    "order": 7
   },
   {
     "id": "idempotencia-en-pagos",
@@ -76,7 +121,7 @@
     ],
     "archivedAt": "2026-04-22",
     "readingMinutes": 10,
-    "order": 5
+    "order": 8
   },
   {
     "id": "goroutines-que-no-mueren",
@@ -91,6 +136,6 @@
     ],
     "archivedAt": "2026-03-14",
     "readingMinutes": 8,
-    "order": 6
+    "order": 9
   }
 ]
