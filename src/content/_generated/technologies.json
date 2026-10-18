@@ -3,7 +3,6 @@
     "id": "go",
     "name": "Go",
     "category": "language",
-    "proficiency": 90,
     "since": "2021-05-01",
     "description": "Lenguaje principal en backend desde 2021: microservicios, APIs REST, pagos y tiempo real (WebSockets), con arquitectura hexagonal.",
     "usedInMissions": [
@@ -26,7 +25,6 @@
     "id": "java",
     "name": "Java",
     "category": "language",
-    "proficiency": 0,
     "since": "2021-05-01",
     "description": "Backend empresarial en Hibot Chat; servicios que luego migré a Go manteniendo ambos en producción durante la transición.",
     "usedInMissions": [
@@ -44,7 +42,6 @@
     "id": "react",
     "name": "React",
     "category": "framework",
-    "proficiency": 85,
     "since": "2021-06-01",
     "description": "Lideré la migración Angular → React de productos núcleo; interfaces rápidas, mantenibles y reutilizables.",
     "usedInMissions": [
@@ -66,7 +63,6 @@
     "id": "angular",
     "name": "Angular",
     "category": "framework",
-    "proficiency": 85,
     "since": "2021-01-01",
     "description": "SPAs empresariales con NgRx y RxJS; base de los productos que después lideré migrar a React.",
     "usedInMissions": [
@@ -86,7 +82,6 @@
     "id": "mcp",
     "name": "IA (MCP)",
     "category": "tooling",
-    "proficiency": 0,
     "since": "2026-10-01",
     "description": "Model Context Protocol: servidores MCP con autorización OAuth2, tools filtradas por scope y confirmación humana para acciones sensibles.",
     "usedInMissions": [
@@ -104,7 +99,6 @@
     "id": "typescript",
     "name": "TypeScript",
     "category": "language",
-    "proficiency": 88,
     "since": "2020-06-01",
     "description": "Tipado estático en todo el stack: frontends en Angular y React y servicios en NestJS.",
     "usedInMissions": [
@@ -128,7 +122,6 @@
     "id": "spring-boot",
     "name": "Spring Boot",
     "category": "framework",
-    "proficiency": 0,
     "since": "2021-05-01",
     "description": "Spring MVC, Spring Data JPA, Hibernate y JUnit en los microservicios legacy de Hibot Chat.",
     "usedInMissions": [
@@ -146,7 +139,6 @@
     "id": "postgresql",
     "name": "PostgreSQL",
     "category": "database",
-    "proficiency": 0,
     "since": "2026-08-01",
     "description": "Multi-tenant con Row-Level Security, PostGIS y bloqueos FOR UPDATE contra concurrencia.",
     "usedInMissions": [
@@ -166,7 +158,6 @@
     "id": "nestjs",
     "name": "NestJS",
     "category": "framework",
-    "proficiency": 84,
     "since": "2021-03-01",
     "description": "Framework backend para APIs modulares, escalables y testeables sobre Node.js.",
     "usedInMissions": [
@@ -185,7 +176,6 @@
     "id": "claude-code",
     "name": "Claude Code",
     "category": "tooling",
-    "proficiency": 0,
     "since": "2026-06-01",
     "description": "Desarrollo con agentes: CLAUDE.md por proyecto, comandos propios (rama → plan aprobado → tests en rojo → implementación) y revisión humana de cada PR.",
     "usedInMissions": [
@@ -204,7 +194,6 @@
     "id": "docker",
     "name": "Docker",
     "category": "tooling",
-    "proficiency": 80,
     "since": "2022-01-01",
     "description": "Contenedores para entornos reproducibles de desarrollo, integración y despliegue.",
     "usedInMissions": [
@@ -224,7 +213,6 @@
     "id": "mongodb",
     "name": "MongoDB",
     "category": "database",
-    "proficiency": 86,
     "since": "2021-05-01",
     "description": "Modelado documental y pipelines de agregación avanzados para procesamiento de datos de alto rendimiento.",
     "usedInMissions": [
@@ -244,7 +232,6 @@
     "id": "azure",
     "name": "Azure",
     "category": "cloud",
-    "proficiency": 78,
     "since": "2021-06-01",
     "description": "CI/CD con Azure DevOps y despliegue cloud de productos y plataformas en producción.",
     "usedInMissions": [
@@ -264,7 +251,6 @@
     "id": "observability",
     "name": "Prometheus · Grafana · Loki",
     "category": "tooling",
-    "proficiency": 0,
     "since": "2023-01-01",
     "description": "Observabilidad con OpenTelemetry, dashboards, alertas y SLOs como código.",
     "usedInMissions": [
@@ -284,7 +270,6 @@
     "id": "terraform",
     "name": "Terraform",
     "category": "cloud",
-    "proficiency": 0,
     "since": "2026-10-01",
     "description": "Infraestructura como código: colas SQS con DLQ, VPC y EKS.",
     "usedInMissions": [
@@ -302,7 +287,6 @@
     "id": "redis",
     "name": "Redis",
     "category": "database",
-    "proficiency": 72,
     "since": "2022-06-01",
     "description": "Caché y estructuras en memoria para acelerar servicios de alto tráfico.",
     "usedInMissions": [
@@ -320,7 +304,6 @@
     "id": "mysql",
     "name": "MySQL",
     "category": "database",
-    "proficiency": 75,
     "since": "2021-06-01",
     "description": "Bases relacionales para sistemas administrativos, reportes y datos transaccionales.",
     "usedInMissions": [
