@@ -55,7 +55,7 @@
   color: var(--color-accent);
 }
 
-.techs__prof {
+.techs__since {
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
   letter-spacing: var(--ls-wide);

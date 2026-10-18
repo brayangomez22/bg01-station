@@ -30,7 +30,11 @@ export default function TechnologiesListPage() {
 
   return (
     <div className={styles.techs}>
-      <Seo title="Sistemas · Centro de Control" description="Editor de tecnologías." noindex />
+      <Seo
+        title="Sistemas · Centro de Control"
+        description="Editor de tecnologías."
+        noindex
+      />
 
       <header className={styles.techs__head}>
         <div>
@@ -63,7 +67,7 @@ export default function TechnologiesListPage() {
               <Link to={CONTROL.technologyEdit(t.id)} className={styles.techs__name}>
                 {t.name}
               </Link>
-              <span className={styles.techs__prof}>{t.proficiency}%</span>
+              <span className={styles.techs__since}>desde {t.since.slice(0, 4)}</span>
             </div>
 
             <div className={styles.techs__tags}>

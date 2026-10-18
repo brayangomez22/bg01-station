@@ -5,7 +5,12 @@ import { Seo } from '@/lib/seo/Seo';
 import { CONTROL } from '@/app/router/paths';
 import { technologiesApi } from '@/lib/control/resources';
 import type { Technology } from '@/types/domain';
-import { CheckboxField, Fieldset, NumberField, SelectField } from '../components/form/Form';
+import {
+  CheckboxField,
+  Fieldset,
+  NumberField,
+  SelectField,
+} from '../components/form/Form';
 import { PLANET_SIZE, TECH_CATEGORY, blankTechnology } from './techDraft';
 import styles from './TechnologyEditorPage.module.css';
 
@@ -101,14 +106,7 @@ export default function TechnologyEditorPage() {
           />
         </Fieldset>
 
-        <Fieldset legend="Dominio">
-          <NumberField
-            label="Dominio (0-100)"
-            value={draft.proficiency}
-            onChange={(v) => patch({ proficiency: v })}
-            min={0}
-            max={100}
-          />
+        <Fieldset legend="Trayectoria">
           <Field
             label="Desde"
             name="since"
@@ -138,7 +136,9 @@ export default function TechnologyEditorPage() {
             label="Tamaño"
             value={draft.planet.size}
             onChange={(v) =>
-              patch({ planet: { ...draft.planet, size: v as Technology['planet']['size'] } })
+              patch({
+                planet: { ...draft.planet, size: v as Technology['planet']['size'] },
+              })
             }
             options={PLANET_SIZE}
           />

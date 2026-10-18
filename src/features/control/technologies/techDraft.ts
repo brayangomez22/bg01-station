@@ -22,7 +22,6 @@ export function blankTechnology(): Technology {
     id: '',
     name: '',
     category: 'language',
-    proficiency: 80,
     since: '',
     description: '',
     planet: { color: '--color-accent', size: 'm', orbit: 1 },

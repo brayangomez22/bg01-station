@@ -57,7 +57,6 @@ const NEW_TECHNOLOGIES: NewTechnology[] = [
     id: 'java',
     name: 'Java',
     category: 'language',
-    proficiency: 0,
     since: '2021-05-01',
     description:
       'Backend empresarial en Hibot Chat; servicios que luego migré a Go manteniendo ambos en producción durante la transición.',
@@ -68,7 +67,6 @@ const NEW_TECHNOLOGIES: NewTechnology[] = [
     id: 'spring-boot',
     name: 'Spring Boot',
     category: 'framework',
-    proficiency: 0,
     since: '2021-05-01',
     description:
       'Spring MVC, Spring Data JPA, Hibernate y JUnit en los microservicios legacy de Hibot Chat.',
@@ -79,7 +77,6 @@ const NEW_TECHNOLOGIES: NewTechnology[] = [
     id: 'postgresql',
     name: 'PostgreSQL',
     category: 'database',
-    proficiency: 0,
     since: '2026-08-01',
     description:
       'Multi-tenant con Row-Level Security, PostGIS y bloqueos FOR UPDATE contra concurrencia.',
@@ -90,7 +87,6 @@ const NEW_TECHNOLOGIES: NewTechnology[] = [
     id: 'mcp',
     name: 'IA (MCP)',
     category: 'tooling',
-    proficiency: 0,
     since: '2026-10-01',
     description:
       'Model Context Protocol: servidores MCP con autorización OAuth2, tools filtradas por scope y confirmación humana para acciones sensibles.',
@@ -101,7 +97,6 @@ const NEW_TECHNOLOGIES: NewTechnology[] = [
     id: 'claude-code',
     name: 'Claude Code',
     category: 'tooling',
-    proficiency: 0,
     since: '2026-06-01',
     description:
       'Desarrollo con agentes: CLAUDE.md por proyecto, comandos propios (rama → plan aprobado → tests en rojo → implementación) y revisión humana de cada PR.',
@@ -112,7 +107,6 @@ const NEW_TECHNOLOGIES: NewTechnology[] = [
     id: 'observability',
     name: 'Prometheus · Grafana · Loki',
     category: 'tooling',
-    proficiency: 0,
     since: '2023-01-01',
     description:
       'Observabilidad con OpenTelemetry, dashboards, alertas y SLOs como código.',
@@ -123,7 +117,6 @@ const NEW_TECHNOLOGIES: NewTechnology[] = [
     id: 'terraform',
     name: 'Terraform',
     category: 'cloud',
-    proficiency: 0,
     since: '2026-10-01',
     description: 'Infraestructura como código: colas SQS con DLQ, VPC y EKS.',
     planet: { color: '--color-secondary', size: 's', orbit: 4 },

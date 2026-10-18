@@ -76,8 +76,6 @@ export interface Technology {
   id: string;
   name: string;
   category: TechCategory;
-  /** mastery 0-100 */
-  proficiency: number;
   since: ISODate;
   description: string;
   /** derived index of Mission.ids (computed at load, not hand-maintained) */
