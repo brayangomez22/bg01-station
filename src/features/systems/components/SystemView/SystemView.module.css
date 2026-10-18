@@ -20,7 +20,8 @@
   aspect-ratio: 1;
   min-height: 0;
   max-width: 560px;
-  margin-inline: auto;
+  /* The outer ring sits near the edge; its planets and labels spill past it. */
+  margin: var(--space-8) auto;
   padding: 0;
   --planet-scale: 0.66;
 }
@@ -32,15 +33,15 @@
   opacity: 0.4;
 }
 .system-view__ring[data-ring='1'] {
-  width: 40%;
+  width: 30%;
   aspect-ratio: 1;
 }
 .system-view__ring[data-ring='2'] {
-  width: 65%;
+  width: 62%;
   aspect-ratio: 1;
 }
 .system-view__ring[data-ring='3'] {
-  width: 90%;
+  width: 94%;
   aspect-ratio: 1;
   animation: orbit-spin 60s linear infinite;
   border-style: dashed;

@@ -19,69 +19,73 @@ export function MissionCard({ mission }: { mission: Mission }) {
   const status = STATUS[mission.status];
 
   return (
-    <motion.article variants={fadeInUp} className={styles['mission-card']}>
-      <Link
-        to={ROUTES.missionDetail(mission.id)}
-        className={styles['mission-card__link']}
-        onMouseEnter={() => prefetchRoute(ROUTES.missionDetail(mission.id))}
-        aria-label={`Abrir misión ${mission.code}: ${mission.title}`}
-      >
-        <div className={styles['mission-card__media']}>
-          <img
-            src={mission.cover.src}
-            alt={mission.cover.alt}
-            width={mission.cover.width}
-            height={mission.cover.height}
-            loading="lazy"
-            className={styles['mission-card__img']}
-          />
-          <span className={styles['mission-card__code']}>{mission.code}</span>
-        </div>
+    <motion.article
+      variants={fadeInUp}
+      className={styles['mission-card']}
+      onMouseEnter={() => prefetchRoute(ROUTES.missionDetail(mission.id))}
+    >
+      <div className={styles['mission-card__media']}>
+        <img
+          src={mission.cover.src}
+          alt={mission.cover.alt}
+          width={mission.cover.width}
+          height={mission.cover.height}
+          loading="lazy"
+          className={styles['mission-card__img']}
+        />
+        <span className={styles['mission-card__code']}>{mission.code}</span>
+      </div>
 
-        <span
-          className={styles['mission-card__bracket']}
-          data-pos="tl"
-          aria-hidden="true"
-        />
-        <span
-          className={styles['mission-card__bracket']}
-          data-pos="tr"
-          aria-hidden="true"
-        />
-        <span
-          className={styles['mission-card__bracket']}
-          data-pos="bl"
-          aria-hidden="true"
-        />
-        <span
-          className={styles['mission-card__bracket']}
-          data-pos="br"
-          aria-hidden="true"
-        />
+      <span
+        className={styles['mission-card__bracket']}
+        data-pos="tl"
+        aria-hidden="true"
+      />
+      <span
+        className={styles['mission-card__bracket']}
+        data-pos="tr"
+        aria-hidden="true"
+      />
+      <span
+        className={styles['mission-card__bracket']}
+        data-pos="bl"
+        aria-hidden="true"
+      />
+      <span
+        className={styles['mission-card__bracket']}
+        data-pos="br"
+        aria-hidden="true"
+      />
 
-        <div className={styles['mission-card__body']}>
-          <Tag tone={status.tone}>{status.label}</Tag>
-          <Heading level={2} size="md">
+      <div className={styles['mission-card__body']}>
+        <Tag tone={status.tone}>{status.label}</Tag>
+        <Heading level={2} size="md">
+          {/* Stretched link: only the title is the link (its accessible name is
+              the visible text); ::after extends the hit area to the whole card. */}
+          <Link
+            to={ROUTES.missionDetail(mission.id)}
+            className={styles['mission-card__link']}
+          >
             {mission.title}
-          </Heading>
-          <span className={styles['mission-card__lock']} aria-hidden="true">
-            &gt; objetivo fijado · {mission.code}
-          </span>
-          <Text variant="caption" tone="muted">
-            {mission.summary}
-          </Text>
-          <ul className={styles['mission-card__stack']} role="list">
-            {mission.technologies.map((id) => {
-              const tech = technologyById(id);
-              return tech ? (
-                <li key={id} className={styles['mission-card__chip']}>
-                  {tech.name}
-                </li>
-              ) : null;
-            })}
-          </ul>
-        </div>
-      </Link>
+          </Link>
+        </Heading>
+        <span className={styles['mission-card__lock']} aria-hidden="true">
+          &gt; objetivo fijado · {mission.code}
+        </span>
+        <Text variant="caption" tone="muted">
+          {mission.summary}
+        </Text>
+        <ul className={styles['mission-card__stack']} role="list">
+          {mission.technologies.map((id) => {
+            const tech = technologyById(id);
+            return tech ? (
+              <li key={id} className={styles['mission-card__chip']}>
+                {tech.name}
+              </li>
+            ) : null;
+          })}
+        </ul>
+      </div>
     </motion.article>
   );
 }

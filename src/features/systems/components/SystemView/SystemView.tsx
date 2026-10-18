@@ -12,8 +12,14 @@ interface SystemViewProps {
   missions: Mission[];
 }
 
-/** Ring radii as % of the (square) orbit container, matching the drawn rings. */
-const RING_RADIUS: Record<number, number> = { 1: 20, 2: 32.5, 3: 45 };
+/** Ring radii as % of the (square) orbit container, matching the drawn rings.
+    Spread wide so a ring's labels clear the next ring's bodies at any angle. */
+const RING_RADIUS: Record<number, number> = { 1: 15, 2: 31, 3: 47 };
+
+/** Angular offset per ring (deg). Labels stay upright while the system turns,
+    so neighbours on adjacent rings must sit far enough apart in angle; these
+    were measured over a full rotation to keep labels from overlapping. */
+const RING_OFFSET: Record<number, number> = { 1: 48, 2: 90, 3: 144 };
 
 /** Clamp data orbits (1–4) onto the three drawn rings. */
 const ringOf = (orbit: number) => Math.min(Math.max(orbit, 1), 3);
@@ -35,7 +41,7 @@ function polarPositions(technologies: Technology[]): Map<string, PolarPosition> 
   for (const [ring, group] of byRing) {
     const radius = RING_RADIUS[ring];
     group.forEach((tech, i) => {
-      const angle = ((360 / group.length) * i + ring * 48 - 90) * (Math.PI / 180);
+      const angle = ((360 / group.length) * i + RING_OFFSET[ring] - 90) * (Math.PI / 180);
       positions.set(tech.id, {
         left: `${50 + radius * Math.cos(angle)}%`,
         top: `${50 + radius * Math.sin(angle)}%`,
