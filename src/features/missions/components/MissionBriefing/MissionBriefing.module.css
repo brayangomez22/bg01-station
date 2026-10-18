@@ -98,6 +98,16 @@
   margin: 0;
 }
 
+/* Confidential client work: explains the missing code and screenshots. */
+.mission-briefing__restricted {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: var(--border-thin) dashed var(--color-border);
+  border-radius: var(--radius-md);
+}
+
 .mission-briefing__actions {
   display: flex;
   flex-wrap: wrap;

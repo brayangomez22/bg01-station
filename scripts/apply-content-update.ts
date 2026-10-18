@@ -879,6 +879,22 @@ const GALLERIES: Record<string, MediaRef[]> = {
       height: 900,
     },
   ],
+  'rofe-platforms': [
+    {
+      src: '/gallery/m-004/01-plataformas.svg',
+      alt: 'Esquemático ilustrativo: las plataformas Mujeres ROFÉ y Jóvenes creaTIvos, en Angular, sobre un backend NestJS con MySQL, desplegadas en Microsoft Azure',
+      width: 1440,
+      height: 900,
+    },
+  ],
+  'kimsa-climate-systems': [
+    {
+      src: '/gallery/m-006/01-sistemas.svg',
+      alt: 'Esquemático ilustrativo: frontends en Angular y React integrados por API REST con un backend NestJS que centraliza la operación administrativa de la consultora',
+      width: 1440,
+      height: 900,
+    },
+  ],
   'go-microservices-reengineering': [
     {
       src: '/gallery/m-005/01-migracion.svg',
@@ -1030,6 +1046,21 @@ function target(current: Bundle): Bundle {
   m002.period = { start: '2025-09-01', end: '2026-02-01' };
   m002.durationLabel = '5 meses';
   m002.links = { ...m002.links, caseStudy: '/archive/migracion-angular-react' };
+
+  // Confidential freelance work: no repo or screenshots can be shown, so the
+  // briefing says so, and the metrics are only facts that can be verified.
+  m004.links = { restricted: true };
+  m004.metrics = [
+    { label: 'Plataformas', value: '2' },
+    { label: 'Duración', value: '16 meses' },
+    { label: 'Despliegue', value: 'Azure' },
+  ];
+  m006.links = { restricted: true };
+  m006.metrics = [
+    { label: 'Sistemas entregados', value: '3' },
+    { label: 'Frontends', value: 'Angular · React' },
+    { label: 'Duración', value: '16 meses' },
+  ];
   applyOrder(next.missions, MISSION_ORDER);
 
   // Bitácora

@@ -8,6 +8,9 @@ export interface MissionLinks {
   live?: string;
   repo?: string;
   caseStudy?: string;
+  /** Client work under a confidentiality agreement: no public code or
+      screenshots, and the briefing says so instead of showing empty links. */
+  restricted?: boolean;
 }
 
 export interface Mission {
@@ -162,12 +165,7 @@ export interface TransmissionPayload {
 }
 
 export type TransmissionState =
-  | 'idle'
-  | 'validating'
-  | 'transmitting'
-  | 'in-transit'
-  | 'success'
-  | 'error';
+  'idle' | 'validating' | 'transmitting' | 'in-transit' | 'success' | 'error';
 
 /* ============================ PILOT (profile) ============================= */
 

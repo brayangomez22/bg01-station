@@ -212,6 +212,13 @@ export default function MissionEditorPage() {
               patch({ links: { ...draft.links, caseStudy: v || undefined } })
             }
           />
+          <CheckboxField
+            label="Registro restringido (código y capturas confidenciales)"
+            checked={draft.links.restricted ?? false}
+            onChange={(v) =>
+              patch({ links: { ...draft.links, restricted: v || undefined } })
+            }
+          />
         </Fieldset>
 
         <Fieldset legend="Portada">

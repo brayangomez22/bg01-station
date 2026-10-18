@@ -51,6 +51,7 @@ export function MissionBriefing({ mission }: { mission: Mission }) {
             {mission.code}
           </Text>
           <Tag tone={status.tone}>{status.label}</Tag>
+          {mission.links.restricted && <Tag>Restringida</Tag>}
         </motion.div>
         <motion.div variants={fadeInUp}>
           <Heading level={1} size="2xl">
@@ -138,6 +139,19 @@ export function MissionBriefing({ mission }: { mission: Mission }) {
           })}
         </ul>
       </section>
+
+      {mission.links.restricted && (
+        <section className={styles['mission-briefing__restricted']}>
+          <Text variant="mono" tone="accent">
+            ▸ REGISTRO RESTRINGIDO · ACUERDO CON EL CLIENTE
+          </Text>
+          <Text tone="muted">
+            El código y las capturas de este proyecto no son públicos por un acuerdo de
+            confidencialidad con el cliente. Los esquemas de esta ficha son ilustrativos;
+            el detalle técnico lo cuento con gusto en una conversación.
+          </Text>
+        </section>
+      )}
 
       <div className={styles['mission-briefing__actions']}>
         {mission.links.live && (
