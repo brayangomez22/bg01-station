@@ -40,7 +40,7 @@ export function TechnologyPanel({ tech, missions }: TechnologyPanelProps) {
             </Text>
           </div>
 
-          <Heading level={3} size="lg">
+          <Heading level={2} size="lg">
             {tech.name}
           </Heading>
           <Text tone="muted">{tech.description}</Text>

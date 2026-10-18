@@ -14,7 +14,7 @@ export function LogEntry({ entry, index }: { entry: Experience; index: number })
           <Text variant="mono" tone="accent">
             {formatPeriod(entry.period.start, entry.period.end)}
           </Text>
-          <Heading level={3} size="md">
+          <Heading level={2} size="md">
             {entry.role}
           </Heading>
           <Text tone="muted">

@@ -13,14 +13,20 @@
  * "señal perdida" page for unknown paths, which doubles as the SPA fallback
  * for /control (main.tsx client-renders whenever the prerendered path doesn't
  * match the URL).
+ *
+ * Each route's lazy page chunk ships its own CSS, which the browser would only
+ * fetch with the chunk — after the static HTML has painted unstyled and before
+ * it jumps into place (a big layout shift). Using Vite's build manifest, each
+ * HTML links its page's CSS and modulepreloads its chunk up front.
  */
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 interface ServerEntry {
   render(path: string): Promise<string>;
   prerenderPaths(): string[];
+  pageSources(path: string): string[];
   SITE: { url: string };
 }
 
@@ -38,6 +44,44 @@ const ROUTE_META =
 /** React emits hoisted <title>/<meta>/<link> ahead of the app markup. */
 const HOISTED = /^(?:<title>[\s\S]*?<\/title>|<meta\b[^>]*\/>|<link\b[^>]*\/>)*/;
 
+interface ManifestChunk {
+  file: string;
+  css?: string[];
+  imports?: string[];
+}
+type Manifest = Record<string, ManifestChunk>;
+
+const manifestFile = `${dist}.vite/manifest.json`;
+
+/** A manifest chunk plus every chunk it statically imports. */
+function closure(manifest: Manifest, key: string, seen = new Set<string>()): Set<string> {
+  if (seen.has(key)) return seen;
+  const chunk = manifest[key];
+  if (!chunk) throw new Error(`prerender: "${key}" is not in the Vite build manifest`);
+  seen.add(key);
+  for (const dep of chunk.imports ?? []) closure(manifest, dep, seen);
+  return seen;
+}
+
+/** <link> tags for the page chunks a route renders, minus what index.html
+    already loads (the entry and its static imports). */
+function pageAssets(
+  manifest: Manifest,
+  entryKeys: Set<string>,
+  sources: string[],
+): string {
+  const keys = new Set<string>();
+  for (const source of sources) {
+    for (const key of closure(manifest, source)) if (!entryKeys.has(key)) keys.add(key);
+  }
+  const chunks = [...keys].map((key) => manifest[key]);
+  const css = [...new Set(chunks.flatMap((c) => c.css ?? []))];
+  return [
+    ...css.map((f) => `<link rel="stylesheet" crossorigin href="/${f}">`),
+    ...chunks.map((c) => `<link rel="modulepreload" crossorigin href="/${c.file}">`),
+  ].join('');
+}
+
 const fileFor = (path: string) => (path === '/' ? 'index.html' : `${path.slice(1)}.html`);
 
 const escapeXml = (s: string) =>
@@ -53,6 +97,13 @@ async function main(): Promise<void> {
       'prerender: empty #root not found in dist/index.html (already prerendered? run the full `npm run build`)',
     );
   }
+  if (!existsSync(manifestFile)) {
+    throw new Error(
+      'prerender: dist/.vite/manifest.json missing (build.manifest in vite.config.ts)',
+    );
+  }
+  const manifest = JSON.parse(readFileSync(manifestFile, 'utf8')) as Manifest;
+  const entryKeys = closure(manifest, 'index.html');
 
   const page = async (path: string, stamp: boolean): Promise<string> => {
     const html = await entry.render(path);
@@ -65,8 +116,9 @@ async function main(): Promise<void> {
     const head = stamp
       ? hoisted
       : hoisted.replace(/<(title|meta|link)\b/g, '<$1 data-fallback-head');
+    const assets = pageAssets(manifest, entryKeys, entry.pageSources(path));
     return template
-      .replace('</head>', `  ${head}\n  </head>`)
+      .replace('</head>', () => `  ${assets}${head}\n  </head>`)
       .replace('<div id="root"></div>', () => `<div id="root"${attr}>${body}</div>`);
   };
 
@@ -94,6 +146,7 @@ async function main(): Promise<void> {
   );
 
   rmSync(ssrDir, { recursive: true, force: true });
+  rmSync(`${dist}.vite`, { recursive: true, force: true });
 }
 
 await main();

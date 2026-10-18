@@ -67,7 +67,7 @@ export function HudFrame() {
             type="button"
             className={styles['hud-frame__cmd']}
             onClick={() => window.dispatchEvent(new CustomEvent(OPEN_MAP_EVENT))}
-            aria-label="Abrir esquemático de la estación"
+            aria-label="Mapa — abrir esquemático de la estación"
           >
             [ MAPA ]
           </button>
@@ -75,7 +75,7 @@ export function HudFrame() {
             type="button"
             className={cn(styles['hud-frame__cmd'], styles['hud-frame__cmd--console'])}
             onClick={() => window.dispatchEvent(new CustomEvent(OPEN_CONSOLE_EVENT))}
-            aria-label="Abrir consola de comandos (Ctrl+K)"
+            aria-label="CMD — abrir consola de comandos (Ctrl+K)"
             title="Ctrl+K"
           >
             [ CMD ]

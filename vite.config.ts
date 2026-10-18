@@ -28,6 +28,8 @@ export default defineConfig(({ isSsrBuild }) => ({
   build: {
     target: 'es2022',
     cssCodeSplit: true,
+    // Read by scripts/prerender.ts to link each page's own CSS chunk, then deleted.
+    manifest: !isSsrBuild,
     rolldownOptions: {
       output: {
         codeSplitting: {

@@ -9,6 +9,9 @@ interface HeadingProps {
   children: ReactNode;
   /** Semantic level (h1-h4). Decoupled from visual size. */
   level?: Level;
+  /** Render as a paragraph: heading styling for content that isn't a section
+      title (e.g. a stat value), so it stays out of the heading outline. */
+  as?: 'p';
   size?: Size;
   className?: string;
   id?: string;
@@ -17,11 +20,12 @@ interface HeadingProps {
 export function Heading({
   children,
   level = 2,
+  as,
   size = 'xl',
   className,
   id,
 }: HeadingProps) {
-  const Tag = `h${level}` as const;
+  const Tag = as ?? (`h${level}` as const);
   return (
     <Tag id={id} className={cn(styles.heading, styles[`heading--${size}`], className)}>
       {children}

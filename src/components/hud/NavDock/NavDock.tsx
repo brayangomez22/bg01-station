@@ -18,7 +18,7 @@ export function NavDock() {
               to={entry.route}
               end={entry.route === ROUTES.bridge}
               title={entry.hint}
-              aria-label={`${entry.name} — ${entry.hint}`}
+              aria-label={`${entry.code} ${entry.name} — ${entry.hint}`}
               onMouseEnter={() => {
                 prefetchRoute(entry.route);
                 play('blip');

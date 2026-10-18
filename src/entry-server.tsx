@@ -31,6 +31,15 @@ export function prerenderPaths(): string[] {
   ];
 }
 
+/** Source modules of the lazy pages a path renders (build manifest keys), so the
+    prerender can link their CSS and preload their chunks in the static HTML. */
+export function pageSources(path: string): string[] {
+  return (matchRoutes(routes, path) ?? []).flatMap((m) => {
+    const source = (m.route.handle as RouteHandle | undefined)?.source;
+    return source ? [source] : [];
+  });
+}
+
 /**
  * Build-time render of one route to static HTML (consumed by
  * scripts/prerender.ts, never shipped to the browser).

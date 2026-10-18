@@ -10,7 +10,7 @@ export function SoundToggle() {
       className={styles['sound-toggle']}
       onClick={toggle}
       aria-pressed={enabled}
-      aria-label={enabled ? 'Silenciar estación' : 'Activar sonido de la estación'}
+      aria-label={`${enabled ? 'SND ON' : 'SND OFF'} — sonido de la estación`}
     >
       <span className={styles['sound-toggle__icon']} aria-hidden="true">
         {enabled ? '◉' : '◯'}

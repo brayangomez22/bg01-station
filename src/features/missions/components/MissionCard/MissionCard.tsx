@@ -61,7 +61,7 @@ export function MissionCard({ mission }: { mission: Mission }) {
 
         <div className={styles['mission-card__body']}>
           <Tag tone={status.tone}>{status.label}</Tag>
-          <Heading level={3} size="md">
+          <Heading level={2} size="md">
             {mission.title}
           </Heading>
           <span className={styles['mission-card__lock']} aria-hidden="true">

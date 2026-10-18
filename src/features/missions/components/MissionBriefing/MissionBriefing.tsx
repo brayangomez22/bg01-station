@@ -108,7 +108,7 @@ export function MissionBriefing({ mission }: { mission: Mission }) {
             <li key={m.label}>
               <Panel className={styles['mission-briefing__metric']}>
                 <Heading
-                  level={3}
+                  as="p"
                   size="lg"
                   className={styles['mission-briefing__metric-value']}
                 >

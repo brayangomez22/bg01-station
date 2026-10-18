@@ -35,8 +35,10 @@ type PageModule = { default: ComponentType };
       Once preloaded, the lazy factory hands React a synchronously-resolved
       thenable, so React.lazy renders the page in the hydration pass instead
       of suspending (a suspended boundary would be thrown away and
-      client-rendered, losing the markup). */
-function deckPage(load: () => Promise<PageModule>) {
+      client-rendered, losing the markup).
+    - `source` is the page module's path as Vite's build manifest keys it;
+      the prerender uses it to put the page's own CSS in the static HTML. */
+function deckPage(load: () => Promise<PageModule>, source: string) {
   let loaded: PageModule | undefined;
   const preload = () => load().then((module) => (loaded = module));
   const Page = lazy(() => {
@@ -44,7 +46,10 @@ function deckPage(load: () => Promise<PageModule>) {
     if (!module) return paced(load);
     return { then: (resolve: (m: PageModule) => void) => resolve(module) } as Promise<PageModule>;
   });
-  return { element: <Page />, handle: { prefetch: load, preload } satisfies RouteHandle };
+  return {
+    element: <Page />,
+    handle: { prefetch: load, preload, source } satisfies RouteHandle,
+  };
 }
 
 export interface RouteHandle {
@@ -52,19 +57,48 @@ export interface RouteHandle {
   prefetch?: () => Promise<unknown>;
   /** Load the chunk and let the lazy page render without suspending. */
   preload?: () => Promise<unknown>;
+  /** Page module path (e.g. `src/features/pilot/PilotPage.tsx`), a build manifest key. */
+  source?: string;
 }
 
 /* Lazy route components — one chunk per feature. Pages use default exports
    as required by React.lazy (documented exception to the named-export rule). */
-const bridgePage = deckPage(() => import('@/features/bridge/BridgePage'));
-const pilotPage = deckPage(() => import('@/features/pilot/PilotPage'));
-const systemsPage = deckPage(() => import('@/features/systems/SystemsPage'));
-const missionsPage = deckPage(() => import('@/features/missions/MissionsPage'));
-const missionDetailPage = deckPage(() => import('@/features/missions/MissionDetailPage'));
-const logbookPage = deckPage(() => import('@/features/logbook/LogbookPage'));
-const commsPage = deckPage(() => import('@/features/comms/CommsPage'));
-const archivePage = deckPage(() => import('@/features/archive/ArchivePage'));
-const archiveRecordPage = deckPage(() => import('@/features/archive/ArchiveRecordPage'));
+const bridgePage = deckPage(
+  () => import('@/features/bridge/BridgePage'),
+  'src/features/bridge/BridgePage.tsx',
+);
+const pilotPage = deckPage(
+  () => import('@/features/pilot/PilotPage'),
+  'src/features/pilot/PilotPage.tsx',
+);
+const systemsPage = deckPage(
+  () => import('@/features/systems/SystemsPage'),
+  'src/features/systems/SystemsPage.tsx',
+);
+const missionsPage = deckPage(
+  () => import('@/features/missions/MissionsPage'),
+  'src/features/missions/MissionsPage.tsx',
+);
+const missionDetailPage = deckPage(
+  () => import('@/features/missions/MissionDetailPage'),
+  'src/features/missions/MissionDetailPage.tsx',
+);
+const logbookPage = deckPage(
+  () => import('@/features/logbook/LogbookPage'),
+  'src/features/logbook/LogbookPage.tsx',
+);
+const commsPage = deckPage(
+  () => import('@/features/comms/CommsPage'),
+  'src/features/comms/CommsPage.tsx',
+);
+const archivePage = deckPage(
+  () => import('@/features/archive/ArchivePage'),
+  'src/features/archive/ArchivePage.tsx',
+);
+const archiveRecordPage = deckPage(
+  () => import('@/features/archive/ArchiveRecordPage'),
+  'src/features/archive/ArchiveRecordPage.tsx',
+);
 // Control center pages (lazy; loaded only when an admin visits /control).
 const ControlLoginPage = lazy(() => import('@/features/control/LoginPage'));
 const ControlOverviewPage = lazy(() => import('@/features/control/OverviewPage'));
