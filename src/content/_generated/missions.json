@@ -582,21 +582,31 @@
         "value": "2"
       },
       {
-        "label": "Beneficiarios",
-        "value": "300+"
+        "label": "Duración",
+        "value": "16 meses"
       },
       {
-        "label": "Uptime",
-        "value": "99.9%"
+        "label": "Despliegue",
+        "value": "Azure"
       }
     ],
-    "links": {},
+    "links": {
+      "restricted": true
+    },
     "cover": {
       "src": "/covers/m-004.svg",
       "alt": "Diagrama de flujo de las plataformas: registros, servicios y resultados de impacto",
       "width": 1200,
       "height": 675
     },
+    "gallery": [
+      {
+        "src": "/gallery/m-004/01-plataformas.svg",
+        "alt": "Esquemático ilustrativo: las plataformas Mujeres ROFÉ y Jóvenes creaTIvos, en Angular, sobre un backend NestJS con MySQL, desplegadas en Microsoft Azure",
+        "width": 1440,
+        "height": 900
+      }
+    ],
     "featured": false,
     "order": 9
   },
@@ -634,21 +644,31 @@
         "value": "3"
       },
       {
-        "label": "Stack",
-        "value": "NestJS·Angular·React"
+        "label": "Frontends",
+        "value": "Angular · React"
       },
       {
-        "label": "Clientes activos",
-        "value": "10+"
+        "label": "Duración",
+        "value": "16 meses"
       }
     ],
-    "links": {},
+    "links": {
+      "restricted": true
+    },
     "cover": {
       "src": "/covers/m-006.svg",
       "alt": "Esquemático de los sistemas de KIMSA: fuentes de datos hacia una API en NestJS y un panel de indicadores",
       "width": 1200,
       "height": 675
     },
+    "gallery": [
+      {
+        "src": "/gallery/m-006/01-sistemas.svg",
+        "alt": "Esquemático ilustrativo: frontends en Angular y React integrados por API REST con un backend NestJS que centraliza la operación administrativa de la consultora",
+        "width": 1440,
+        "height": 900
+      }
+    ],
     "featured": false,
     "order": 10
   }
