@@ -384,7 +384,9 @@
         "value": "24/7"
       }
     ],
-    "links": {},
+    "links": {
+      "caseStudy": "/archive/bots-multicanal-hexagonal"
+    },
     "cover": {
       "src": "/covers/m-003.svg",
       "alt": "Núcleo hexagonal de ruteo de mensajes con anillo de canales conectados",

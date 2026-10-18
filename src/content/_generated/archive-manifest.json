@@ -1,5 +1,20 @@
 [
   {
+    "id": "bots-multicanal-hexagonal",
+    "code": "REG-010",
+    "title": "Cuatro canales, un núcleo: bots multicanal con arquitectura hexagonal",
+    "abstract": "WhatsApp, Facebook, Instagram y Telegram hablan idiomas distintos. Cómo se organiza un backend en Go para que el núcleo de ruteo no sepa de ninguno, y por qué la arquitectura hexagonal encaja tan bien en este problema.",
+    "section": "ing",
+    "tags": [
+      "GO",
+      "ARQUITECTURA",
+      "MONGODB"
+    ],
+    "archivedAt": "2026-10-18",
+    "readingMinutes": 7,
+    "order": 1
+  },
+  {
     "id": "rotacion-de-refresh-tokens",
     "code": "REG-009",
     "title": "Refresh tokens que delatan al ladrón",
@@ -12,7 +27,7 @@
     ],
     "archivedAt": "2026-10-17",
     "readingMinutes": 8,
-    "order": 1
+    "order": 2
   },
   {
     "id": "multi-tenant-con-rls",
@@ -27,7 +42,7 @@
     ],
     "archivedAt": "2026-10-17",
     "readingMinutes": 9,
-    "order": 2
+    "order": 3
   },
   {
     "id": "oauth-para-agentes-mcp",
@@ -42,7 +57,7 @@
     ],
     "archivedAt": "2026-10-17",
     "readingMinutes": 9,
-    "order": 3
+    "order": 4
   },
   {
     "id": "migracion-angular-react",
@@ -58,7 +73,7 @@
     ],
     "archivedAt": "2026-10-17",
     "readingMinutes": 5,
-    "order": 4
+    "order": 5
   },
   {
     "id": "migracion-java-go-por-endpoint",
@@ -74,7 +89,7 @@
     ],
     "archivedAt": "2026-10-17",
     "readingMinutes": 5,
-    "order": 5
+    "order": 6
   },
   {
     "id": "desarrollo-con-agentes-claude-code",
@@ -90,7 +105,7 @@
     ],
     "archivedAt": "2026-10-16",
     "readingMinutes": 7,
-    "order": 6
+    "order": 7
   },
   {
     "id": "contenedores-go-12mb",
@@ -106,7 +121,7 @@
     ],
     "archivedAt": "2026-05-28",
     "readingMinutes": 6,
-    "order": 7
+    "order": 8
   },
   {
     "id": "idempotencia-en-pagos",
@@ -121,7 +136,7 @@
     ],
     "archivedAt": "2026-04-22",
     "readingMinutes": 10,
-    "order": 8
+    "order": 9
   },
   {
     "id": "goroutines-que-no-mueren",
@@ -136,6 +151,6 @@
     ],
     "archivedAt": "2026-03-14",
     "readingMinutes": 8,
-    "order": 9
+    "order": 10
   }
 ]

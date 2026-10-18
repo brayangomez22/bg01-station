@@ -547,6 +547,80 @@ const NEW_ARCHIVE_RECORD: Omit<ArchiveRecordRow, 'order'> = {
 };
 
 /** Real captures of each product (1440×900 WebP in public/gallery/). */
+// REG-010: draft in docs/borrador-reg-010-bots-multicanal.md, built only from
+// what the M-003 briefing states (no invented incidents or figures).
+const MULTICHANNEL_RECORD: Omit<ArchiveRecordRow, 'order'> = {
+  id: 'bots-multicanal-hexagonal',
+  code: 'REG-010',
+  title: 'Cuatro canales, un núcleo: bots multicanal con arquitectura hexagonal',
+  abstract:
+    'WhatsApp, Facebook, Instagram y Telegram hablan idiomas distintos. Cómo se organiza un backend en Go para que el núcleo de ruteo no sepa de ninguno, y por qué la arquitectura hexagonal encaja tan bien en este problema.',
+  section: 'ing',
+  tags: ['GO', 'ARQUITECTURA', 'MONGODB'],
+  archivedAt: '2026-10-18',
+  readingMinutes: 7,
+  refs: ['migracion-java-go-por-endpoint', 'goroutines-que-no-mueren'],
+  body: [
+    {
+      kind: 'p',
+      text: 'En Hibot Chat participé en la red de bots e integraciones que conecta cuatro canales de mensajería (WhatsApp, Facebook, Instagram y Telegram) con el núcleo de la plataforma. El sistema mueve más de 5.000 conversaciones al día y opera 24/7. Este registro explica cómo se estructura un backend así y por qué la arquitectura hexagonal es la que mejor le sienta.',
+    },
+    { kind: 'h', text: 'Cuatro APIs, cuatro idiomas' },
+    {
+      kind: 'p',
+      text: 'Cada plataforma tiene su forma de entregar un mensaje: webhooks con formatos distintos, identificadores de usuario con reglas propias, adjuntos que llegan como URL en una y como referencia a descargar en otra, botones y plantillas que solo existen en algunas. Si esa diversidad llega al código que decide qué hacer con cada conversación, cada regla de negocio termina llena de condiciones por canal, y añadir uno nuevo obliga a tocarlo todo.',
+    },
+    { kind: 'h', text: 'El núcleo no conoce los canales' },
+    {
+      kind: 'p',
+      text: 'En una arquitectura hexagonal el núcleo define lo que necesita mediante interfaces (los puertos) y cada tecnología externa se conecta por un adaptador. Aquí el núcleo de ruteo solo entiende un mensaje normalizado y una forma de responder. No importa el SDK de ninguna plataforma.',
+    },
+    {
+      kind: 'code',
+      lang: 'go',
+      code: '// Ilustrativo: el puerto de salida que el núcleo usa para responder.\n// El núcleo no sabe si detrás hay WhatsApp o Telegram.\ntype Channel interface {\n    Send(ctx context.Context, to Recipient, msg Outgoing) error\n}\n\n// El mensaje que entra al núcleo, ya traducido por el adaptador del canal.\ntype Incoming struct {\n    Channel        ChannelID // whatsapp, facebook, instagram, telegram\n    ConversationID string\n    From           Recipient\n    Text           string\n    Attachments    []Attachment\n    ReceivedAt     time.Time\n}',
+    },
+    {
+      kind: 'p',
+      text: 'Cada canal tiene su adaptador de entrada, que recibe el webhook y lo traduce a Incoming, y su adaptador de salida, que implementa Channel con la API de esa plataforma. El núcleo recibe sus dependencias al arrancar y nunca importa un paquete de un canal concreto.',
+    },
+    { kind: 'h', text: 'Normalizar sin perder información' },
+    {
+      kind: 'p',
+      text: 'Normalizar no es quedarse con el mínimo común. Lo que todos los canales comparten (texto, remitente, conversación, adjuntos) va en campos tipados. Lo que es propio de una plataforma se queda en el adaptador, que sabe cómo representarlo al responder. Así el núcleo trabaja con un modelo estable y cada canal conserva lo que lo hace distinto.',
+    },
+    {
+      kind: 'p',
+      text: 'La ventaja se ve en las pruebas: las reglas de ruteo se prueban con mensajes normalizados y un Channel falso, sin levantar ninguna integración real.',
+    },
+    { kind: 'h', text: 'Cuando el canal no responde' },
+    {
+      kind: 'p',
+      text: 'Cada plataforma impone límites de uso y, de vez en cuando, falla. En un diseño hexagonal esa responsabilidad vive en el adaptador, que es quien conoce las reglas de su canal: cuántas peticiones admite, qué errores son temporales y cuáles no. El núcleo pide enviar un mensaje; el adaptador decide cómo entregarlo sin saturar la plataforma, y la caída de un canal no arrastra a los otros tres.',
+    },
+    { kind: 'h', text: 'Métricas de conversación' },
+    {
+      kind: 'p',
+      text: 'Con las conversaciones guardadas en MongoDB, las métricas salen de pipelines de agregación en la propia base: volumen por canal, conversaciones por día, tiempos de respuesta. Calcularlas en la base, en vez de traer los documentos a la aplicación, mantiene el cálculo cerca de los datos.',
+    },
+    {
+      kind: 'code',
+      lang: 'js',
+      code: "// Ilustrativo: conversaciones por canal y por día.\ndb.messages.aggregate([\n  { $match: { receivedAt: { $gte: ISODate('2022-01-01') } } },\n  { $group: {\n      _id: { channel: '$channel', day: { $dateTrunc: { date: '$receivedAt', unit: 'day' } } },\n      conversations: { $addToSet: '$conversationId' },\n  } },\n  { $project: { conversations: { $size: '$conversations' } } },\n  { $sort: { '_id.day': 1 } },\n]);",
+    },
+    { kind: 'h', text: 'Lecciones' },
+    {
+      kind: 'list',
+      items: [
+        'Cuando varias integraciones hacen lo mismo de formas distintas, la diferencia debe quedarse en el borde del sistema, no en la lógica de negocio.',
+        'Un modelo de mensaje normalizado hace que añadir un canal sea escribir un adaptador, no reescribir el núcleo.',
+        'Los límites de uso y las caídas son reglas de cada canal: viven en su adaptador.',
+        'Las reglas de ruteo se prueban sin integraciones reales si el núcleo solo depende de interfaces.',
+      ],
+    },
+  ],
+};
+
 // REG-007…009: drafts in docs/borradores-archivo-2026-10.md, from the code of
 // payments-mcp, Cuadra and FindMe.
 const MCP_OAUTH_RECORD: Omit<ArchiveRecordRow, 'order'> = {
@@ -1039,6 +1113,8 @@ function target(current: Bundle): Bundle {
   m002.period = { start: '2025-09-01', end: '2026-02-01' };
   m002.durationLabel = '5 meses';
   m002.links = { ...m002.links, caseStudy: '/archive/migracion-angular-react' };
+  const m003 = byId(next.missions, 'multichannel-bots');
+  m003.links = { ...m003.links, caseStudy: '/archive/bots-multicanal-hexagonal' };
 
   // Confidential freelance work: no repo or screenshots can be shown, so the
   // briefing says so, and the metrics are only facts that can be verified.
@@ -1080,8 +1156,9 @@ function target(current: Bundle): Bundle {
   applyOrder(next.experience, EXPERIENCE_ORDER);
 
   // Archivo: the new record goes first (featured); the rest keep their order.
-  // Newest first: REG-009 … REG-004.
+  // Newest first: REG-010 … REG-004.
   const added = [
+    MULTICHANNEL_RECORD,
     REFRESH_TOKENS_RECORD,
     RLS_RECORD,
     MCP_OAUTH_RECORD,
