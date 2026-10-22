@@ -358,13 +358,13 @@ const EXPERIENCE_ORDER = [
 
 const FRONTEND_MIGRATION_RECORD: Omit<ArchiveRecordRow, 'order'> = {
   id: 'migracion-angular-react',
-  code: 'REG-006',
+  code: 'REG-005',
   title: 'Migrar de Angular a React sin que el cliente lo notara',
   abstract:
     'Dos desarrolladores, 5 meses y más de 40 módulos reescritos sobre una arquitectura nueva de React, sin detener el producto. La meta: que cada pantalla funcionara y se viera exactamente igual.',
   section: 'ing',
   tags: ['REACT', 'ANGULAR', 'MIGRACIÓN', 'FRONTEND'],
-  archivedAt: '2026-10-17',
+  archivedAt: '2026-09-24',
   readingMinutes: 5,
   refs: ['migracion-java-go-por-endpoint'],
   body: [
@@ -407,13 +407,13 @@ const FRONTEND_MIGRATION_RECORD: Omit<ArchiveRecordRow, 'order'> = {
 
 const MIGRATION_RECORD: Omit<ArchiveRecordRow, 'order'> = {
   id: 'migracion-java-go-por-endpoint',
-  code: 'REG-005',
+  code: 'REG-004',
   title: 'Migrar de Java a Go endpoint por endpoint, sin apagar nada',
   abstract:
     'Tres desarrolladores, cuatro meses y más de 8 microservicios de Spring Boot a Go, con ambos stacks en producción hasta el final. Lo difícil no fue escribir Go: fue entender el código que había que replicar.',
   section: 'ing',
   tags: ['GO', 'JAVA', 'MIGRACIÓN', 'ARQUITECTURA'],
-  archivedAt: '2026-10-17',
+  archivedAt: '2026-09-17',
   readingMinutes: 5,
   refs: ['idempotencia-en-pagos'],
   body: [
@@ -460,7 +460,7 @@ const MIGRATION_RECORD: Omit<ArchiveRecordRow, 'order'> = {
 
 const NEW_ARCHIVE_RECORD: Omit<ArchiveRecordRow, 'order'> = {
   id: 'desarrollo-con-agentes-claude-code',
-  code: 'REG-004',
+  code: 'REG-009',
   title: 'Desarrollar con un agente sin perder el control: mi flujo con Claude Code',
   abstract:
     'Cuadra lleva 8 días, 39 PRs integrados y 161 decisiones registradas, desarrollado con Claude Code. Lo que lo hace funcionar no es el modelo: es un flujo que el agente no puede saltarse.',
@@ -551,13 +551,13 @@ const NEW_ARCHIVE_RECORD: Omit<ArchiveRecordRow, 'order'> = {
 // what the M-003 briefing states (no invented incidents or figures).
 const MULTICHANNEL_RECORD: Omit<ArchiveRecordRow, 'order'> = {
   id: 'bots-multicanal-hexagonal',
-  code: 'REG-010',
+  code: 'REG-006',
   title: 'Cuatro canales, un núcleo: bots multicanal con arquitectura hexagonal',
   abstract:
     'WhatsApp, Facebook, Instagram y Telegram hablan idiomas distintos. Cómo se organiza un backend en Go para que el núcleo de ruteo no sepa de ninguno, y por qué la arquitectura hexagonal encaja tan bien en este problema.',
   section: 'ing',
   tags: ['GO', 'ARQUITECTURA', 'MONGODB'],
-  archivedAt: '2026-10-18',
+  archivedAt: '2026-10-01',
   readingMinutes: 7,
   refs: ['migracion-java-go-por-endpoint', 'goroutines-que-no-mueren'],
   body: [
@@ -631,7 +631,7 @@ const MCP_OAUTH_RECORD: Omit<ArchiveRecordRow, 'order'> = {
     'Un agente de IA que puede cobrar y reembolsar necesita algo más que un token. Cómo resolví en payments-mcp qué ve el modelo, para quién actúa y cuándo hace falta permiso humano.',
   section: 'ing',
   tags: ['MCP', 'IA', 'SEGURIDAD'],
-  archivedAt: '2026-10-17',
+  archivedAt: '2026-10-08',
   readingMinutes: 9,
   refs: ['idempotencia-en-pagos', 'desarrollo-con-agentes-claude-code'],
   body: [
@@ -711,7 +711,7 @@ const RLS_RECORD: Omit<ArchiveRecordRow, 'order'> = {
     'En Cuadra todos los comercios comparten una base de datos. Cómo hago que PostgreSQL impida ver datos de otro cliente aunque el código tenga un bug, y tres trampas que encontré por el camino.',
   section: 'ing',
   tags: ['POSTGRESQL', 'MULTI-TENANT', 'SEGURIDAD'],
-  archivedAt: '2026-10-17',
+  archivedAt: '2026-10-12',
   readingMinutes: 9,
   refs: ['rotacion-de-refresh-tokens', 'idempotencia-en-pagos'],
   body: [
@@ -791,13 +791,13 @@ const RLS_RECORD: Omit<ArchiveRecordRow, 'order'> = {
 
 const REFRESH_TOKENS_RECORD: Omit<ArchiveRecordRow, 'order'> = {
   id: 'rotacion-de-refresh-tokens',
-  code: 'REG-009',
+  code: 'REG-010',
   title: 'Refresh tokens que delatan al ladrón',
   abstract:
     'Un refresh token robado da semanas de acceso. Rotarlo en cada uso permite detectar cuando dos personas usan el mismo. Lo difícil es no cerrarle la sesión a un usuario legítimo con dos peticiones en paralelo.',
   section: 'ing',
   tags: ['SEGURIDAD', 'AUTH', 'GO'],
-  archivedAt: '2026-10-17',
+  archivedAt: '2026-10-20',
   readingMinutes: 8,
   refs: ['multi-tenant-con-rls', 'oauth-para-agentes-mcp'],
   body: [
@@ -1156,15 +1156,15 @@ function target(current: Bundle): Bundle {
   applyOrder(next.experience, EXPERIENCE_ORDER);
 
   // Archivo: the new record goes first (featured); the rest keep their order.
-  // Newest first: REG-010 … REG-004.
+  // Newest first, by archivedAt: REG-010 … REG-004.
   const added = [
-    MULTICHANNEL_RECORD,
     REFRESH_TOKENS_RECORD,
+    NEW_ARCHIVE_RECORD,
     RLS_RECORD,
     MCP_OAUTH_RECORD,
+    MULTICHANNEL_RECORD,
     FRONTEND_MIGRATION_RECORD,
     MIGRATION_RECORD,
-    NEW_ARCHIVE_RECORD,
   ];
   const addedIds = added.map((r) => r.id);
   const previous = [...current.archiveRecords]

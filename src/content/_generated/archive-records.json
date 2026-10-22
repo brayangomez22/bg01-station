@@ -1,103 +1,7 @@
 [
   {
-    "id": "bots-multicanal-hexagonal",
-    "code": "REG-010",
-    "title": "Cuatro canales, un núcleo: bots multicanal con arquitectura hexagonal",
-    "abstract": "WhatsApp, Facebook, Instagram y Telegram hablan idiomas distintos. Cómo se organiza un backend en Go para que el núcleo de ruteo no sepa de ninguno, y por qué la arquitectura hexagonal encaja tan bien en este problema.",
-    "section": "ing",
-    "tags": [
-      "GO",
-      "ARQUITECTURA",
-      "MONGODB"
-    ],
-    "archivedAt": "2026-10-18",
-    "readingMinutes": 7,
-    "body": [
-      {
-        "kind": "p",
-        "text": "En Hibot Chat participé en la red de bots e integraciones que conecta cuatro canales de mensajería (WhatsApp, Facebook, Instagram y Telegram) con el núcleo de la plataforma. El sistema mueve más de 5.000 conversaciones al día y opera 24/7. Este registro explica cómo se estructura un backend así y por qué la arquitectura hexagonal es la que mejor le sienta."
-      },
-      {
-        "kind": "h",
-        "text": "Cuatro APIs, cuatro idiomas"
-      },
-      {
-        "kind": "p",
-        "text": "Cada plataforma tiene su forma de entregar un mensaje: webhooks con formatos distintos, identificadores de usuario con reglas propias, adjuntos que llegan como URL en una y como referencia a descargar en otra, botones y plantillas que solo existen en algunas. Si esa diversidad llega al código que decide qué hacer con cada conversación, cada regla de negocio termina llena de condiciones por canal, y añadir uno nuevo obliga a tocarlo todo."
-      },
-      {
-        "kind": "h",
-        "text": "El núcleo no conoce los canales"
-      },
-      {
-        "kind": "p",
-        "text": "En una arquitectura hexagonal el núcleo define lo que necesita mediante interfaces (los puertos) y cada tecnología externa se conecta por un adaptador. Aquí el núcleo de ruteo solo entiende un mensaje normalizado y una forma de responder. No importa el SDK de ninguna plataforma."
-      },
-      {
-        "kind": "code",
-        "lang": "go",
-        "code": "// Ilustrativo: el puerto de salida que el núcleo usa para responder.\n// El núcleo no sabe si detrás hay WhatsApp o Telegram.\ntype Channel interface {\n    Send(ctx context.Context, to Recipient, msg Outgoing) error\n}\n\n// El mensaje que entra al núcleo, ya traducido por el adaptador del canal.\ntype Incoming struct {\n    Channel        ChannelID // whatsapp, facebook, instagram, telegram\n    ConversationID string\n    From           Recipient\n    Text           string\n    Attachments    []Attachment\n    ReceivedAt     time.Time\n}"
-      },
-      {
-        "kind": "p",
-        "text": "Cada canal tiene su adaptador de entrada, que recibe el webhook y lo traduce a Incoming, y su adaptador de salida, que implementa Channel con la API de esa plataforma. El núcleo recibe sus dependencias al arrancar y nunca importa un paquete de un canal concreto."
-      },
-      {
-        "kind": "h",
-        "text": "Normalizar sin perder información"
-      },
-      {
-        "kind": "p",
-        "text": "Normalizar no es quedarse con el mínimo común. Lo que todos los canales comparten (texto, remitente, conversación, adjuntos) va en campos tipados. Lo que es propio de una plataforma se queda en el adaptador, que sabe cómo representarlo al responder. Así el núcleo trabaja con un modelo estable y cada canal conserva lo que lo hace distinto."
-      },
-      {
-        "kind": "p",
-        "text": "La ventaja se ve en las pruebas: las reglas de ruteo se prueban con mensajes normalizados y un Channel falso, sin levantar ninguna integración real."
-      },
-      {
-        "kind": "h",
-        "text": "Cuando el canal no responde"
-      },
-      {
-        "kind": "p",
-        "text": "Cada plataforma impone límites de uso y, de vez en cuando, falla. En un diseño hexagonal esa responsabilidad vive en el adaptador, que es quien conoce las reglas de su canal: cuántas peticiones admite, qué errores son temporales y cuáles no. El núcleo pide enviar un mensaje; el adaptador decide cómo entregarlo sin saturar la plataforma, y la caída de un canal no arrastra a los otros tres."
-      },
-      {
-        "kind": "h",
-        "text": "Métricas de conversación"
-      },
-      {
-        "kind": "p",
-        "text": "Con las conversaciones guardadas en MongoDB, las métricas salen de pipelines de agregación en la propia base: volumen por canal, conversaciones por día, tiempos de respuesta. Calcularlas en la base, en vez de traer los documentos a la aplicación, mantiene el cálculo cerca de los datos."
-      },
-      {
-        "kind": "code",
-        "lang": "js",
-        "code": "// Ilustrativo: conversaciones por canal y por día.\ndb.messages.aggregate([\n  { $match: { receivedAt: { $gte: ISODate('2022-01-01') } } },\n  { $group: {\n      _id: { channel: '$channel', day: { $dateTrunc: { date: '$receivedAt', unit: 'day' } } },\n      conversations: { $addToSet: '$conversationId' },\n  } },\n  { $project: { conversations: { $size: '$conversations' } } },\n  { $sort: { '_id.day': 1 } },\n]);"
-      },
-      {
-        "kind": "h",
-        "text": "Lecciones"
-      },
-      {
-        "kind": "list",
-        "items": [
-          "Cuando varias integraciones hacen lo mismo de formas distintas, la diferencia debe quedarse en el borde del sistema, no en la lógica de negocio.",
-          "Un modelo de mensaje normalizado hace que añadir un canal sea escribir un adaptador, no reescribir el núcleo.",
-          "Los límites de uso y las caídas son reglas de cada canal: viven en su adaptador.",
-          "Las reglas de ruteo se prueban sin integraciones reales si el núcleo solo depende de interfaces."
-        ]
-      }
-    ],
-    "refs": [
-      "migracion-java-go-por-endpoint",
-      "goroutines-que-no-mueren"
-    ],
-    "order": 1
-  },
-  {
     "id": "rotacion-de-refresh-tokens",
-    "code": "REG-009",
+    "code": "REG-010",
     "title": "Refresh tokens que delatan al ladrón",
     "abstract": "Un refresh token robado da semanas de acceso. Rotarlo en cada uso permite detectar cuando dos personas usan el mismo. Lo difícil es no cerrarle la sesión a un usuario legítimo con dos peticiones en paralelo.",
     "section": "ing",
@@ -106,7 +10,7 @@
       "AUTH",
       "GO"
     ],
-    "archivedAt": "2026-10-17",
+    "archivedAt": "2026-10-20",
     "readingMinutes": 8,
     "body": [
       {
@@ -189,6 +93,119 @@
       "multi-tenant-con-rls",
       "oauth-para-agentes-mcp"
     ],
+    "order": 1
+  },
+  {
+    "id": "desarrollo-con-agentes-claude-code",
+    "code": "REG-009",
+    "title": "Desarrollar con un agente sin perder el control: mi flujo con Claude Code",
+    "abstract": "Cuadra lleva 8 días, 39 PRs integrados y 161 decisiones registradas, desarrollado con Claude Code. Lo que lo hace funcionar no es el modelo: es un flujo que el agente no puede saltarse.",
+    "section": "ing",
+    "tags": [
+      "IA",
+      "CLAUDE CODE",
+      "PROCESO",
+      "TESTING"
+    ],
+    "archivedAt": "2026-10-16",
+    "readingMinutes": 7,
+    "body": [
+      {
+        "kind": "p",
+        "text": "Cuadra es un SaaS multi-tenant que maneja dinero, inventario y datos de muchos comercios en una misma base de datos. Es el tipo de sistema donde un error no aparece en la demo: aparece en el cierre de caja de un cliente. Lo desarrollo solo, con Claude Code, y la pregunta nunca fue si el agente escribe buen código —muchas veces lo hace—, sino cómo garantizar que cada cambio sea revisable, probado y dentro del alcance cuando buena parte del código lo propone un agente."
+      },
+      {
+        "kind": "h",
+        "text": "El problema no es el código, es el alcance"
+      },
+      {
+        "kind": "p",
+        "text": "Un agente sin límites tiende a hacer de más: arregla algo que vio de paso, agrega una dependencia «útil», refactoriza el módulo vecino. Cada cosa por separado es razonable; juntas producen PRs imposibles de revisar. La solución fue convertir el proceso en algo que el agente ejecuta, no en algo que yo tengo que recordar."
+      },
+      {
+        "kind": "h",
+        "text": "Las reglas viven en el repositorio"
+      },
+      {
+        "kind": "p",
+        "text": "CLAUDE.md es el contrato. No es documentación para humanos: son las instrucciones que el agente carga en cada sesión. Arquitectura hexagonal por módulo, cómo se aísla cada tenant, float prohibido para dinero, API contract-first con OpenAPI y qué puede ir en un span y qué no. Las reglas críticas son verificables:"
+      },
+      {
+        "kind": "code",
+        "lang": "markdown",
+        "code": "## Multi-tenant (crítico)\n- Toda operación de BD de negocio corre dentro de `platform/db.WithTenantTx(ctx, fn)`.\n- El `tenant_id` sale solo del token autenticado (contexto), nunca del body o de la URL.\n- Cada repositorio nuevo lleva un test de aislamiento: los datos del tenant A\n  no se ven ni se modifican desde el tenant B."
+      },
+      {
+        "kind": "h",
+        "text": "/tarea: rama → plan → tests en rojo → implementación"
+      },
+      {
+        "kind": "p",
+        "text": "El flujo es un comando propio. /tarea T23 crea la rama desde main actualizada, lee el plan de la fase y los pendientes que le tocan, y presenta un plan corto. Ahí se detiene: nada se escribe hasta que yo lo apruebo."
+      },
+      {
+        "kind": "list",
+        "items": [
+          "Rama: una por tarea. Si hay cambios sin commit en otra, se detiene y avisa.",
+          "Plan: archivos, cambios al contrato OpenAPI, nombres de los tests en español, spans y métricas, preguntas abiertas. Espera aprobación.",
+          "Tests en rojo: escribe solo los tests y muestra que fallan por la razón esperada.",
+          "Implementación: lo mínimo para que pasen; después, refactor.",
+          "Verificación: make check en verde. Nunca se salta ni se desactiva un test."
+        ]
+      },
+      {
+        "kind": "p",
+        "text": "El paso que más valor aporta es el tercero. Ver el test fallar por la razón correcta es la prueba de que mide algo; un test escrito después de la implementación tiende a confirmar lo que el código ya hace."
+      },
+      {
+        "kind": "h",
+        "text": "Lo que queda fuera no se pierde"
+      },
+      {
+        "kind": "p",
+        "text": "Regla: si el agente ve algo que mejorar fuera del alcance, lo anota; no lo hace. Esas notas van a docs/plan/pendientes.md con su origen y su destino, la tarea posterior que lo cubre. Al empezar una tarea, /tarea lee los pendientes que le corresponden y los mete en el plan. Hoy hay unos 40 registrados, desde el rate limit del registro hasta los paneles de Grafana de la caja."
+      },
+      {
+        "kind": "h",
+        "text": "Cerrar es un permiso, no un hábito"
+      },
+      {
+        "kind": "p",
+        "text": "El agente no hace commits, push ni PRs por su cuenta. /cerrar-tarea es la autorización explícita y viene con herramientas acotadas: commit, push, abrir el PR y esperar el CI. El merge solo ocurre con squash y con todos los checks en verde. Nunca push directo a main, nunca --force, nunca --admin."
+      },
+      {
+        "kind": "p",
+        "text": "Cada PR trae una sección fija, «Revisar con lupa», que señala dónde están el dinero, el stock, los permisos, el tenant y los datos sensibles de ese cambio. En la tarea de la caja (T23) apuntaba a la cuenta del esperado en el arqueo, a las ventas anuladas antes y después del cierre, a quién puede cerrar una caja y a que los logs lleven solo IDs, nunca montos. Mi revisión empieza ahí."
+      },
+      {
+        "kind": "h",
+        "text": "Los números"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "8 días desde el primer commit (del 9 al 16 de octubre de 2026).",
+          "42 PRs abiertos, 39 integrados.",
+          "161 decisiones registradas con fecha y motivo en docs/decisiones.md.",
+          "110+ archivos de tests entre Go y el frontend."
+        ]
+      },
+      {
+        "kind": "h",
+        "text": "Lecciones"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "El proceso tiene que vivir en el repo y ser ejecutable: un comando que el agente sigue vale más que una buena intención.",
+          "Detenerse a pedir aprobación es una funcionalidad: el plan es el punto más barato para corregir el rumbo.",
+          "Tests en rojo primero: es la única forma de saber que el test prueba algo.",
+          "Lo que depende de disciplina se rompe con un agente. Prefiero lo que impone la herramienta: RLS en la base de datos, CSS Modules en lugar de BEM.",
+          "La revisión humana no desaparece, se enfoca: el PR me dice dónde mirar con lupa."
+        ]
+      }
+    ],
+    "refs": [],
     "order": 2
   },
   {
@@ -202,7 +219,7 @@
       "MULTI-TENANT",
       "SEGURIDAD"
     ],
-    "archivedAt": "2026-10-17",
+    "archivedAt": "2026-10-12",
     "readingMinutes": 9,
     "body": [
       {
@@ -312,7 +329,7 @@
       "IA",
       "SEGURIDAD"
     ],
-    "archivedAt": "2026-10-17",
+    "archivedAt": "2026-10-08",
     "readingMinutes": 9,
     "body": [
       {
@@ -403,8 +420,104 @@
     "order": 4
   },
   {
-    "id": "migracion-angular-react",
+    "id": "bots-multicanal-hexagonal",
     "code": "REG-006",
+    "title": "Cuatro canales, un núcleo: bots multicanal con arquitectura hexagonal",
+    "abstract": "WhatsApp, Facebook, Instagram y Telegram hablan idiomas distintos. Cómo se organiza un backend en Go para que el núcleo de ruteo no sepa de ninguno, y por qué la arquitectura hexagonal encaja tan bien en este problema.",
+    "section": "ing",
+    "tags": [
+      "GO",
+      "ARQUITECTURA",
+      "MONGODB"
+    ],
+    "archivedAt": "2026-10-01",
+    "readingMinutes": 7,
+    "body": [
+      {
+        "kind": "p",
+        "text": "En Hibot Chat participé en la red de bots e integraciones que conecta cuatro canales de mensajería (WhatsApp, Facebook, Instagram y Telegram) con el núcleo de la plataforma. El sistema mueve más de 5.000 conversaciones al día y opera 24/7. Este registro explica cómo se estructura un backend así y por qué la arquitectura hexagonal es la que mejor le sienta."
+      },
+      {
+        "kind": "h",
+        "text": "Cuatro APIs, cuatro idiomas"
+      },
+      {
+        "kind": "p",
+        "text": "Cada plataforma tiene su forma de entregar un mensaje: webhooks con formatos distintos, identificadores de usuario con reglas propias, adjuntos que llegan como URL en una y como referencia a descargar en otra, botones y plantillas que solo existen en algunas. Si esa diversidad llega al código que decide qué hacer con cada conversación, cada regla de negocio termina llena de condiciones por canal, y añadir uno nuevo obliga a tocarlo todo."
+      },
+      {
+        "kind": "h",
+        "text": "El núcleo no conoce los canales"
+      },
+      {
+        "kind": "p",
+        "text": "En una arquitectura hexagonal el núcleo define lo que necesita mediante interfaces (los puertos) y cada tecnología externa se conecta por un adaptador. Aquí el núcleo de ruteo solo entiende un mensaje normalizado y una forma de responder. No importa el SDK de ninguna plataforma."
+      },
+      {
+        "kind": "code",
+        "lang": "go",
+        "code": "// Ilustrativo: el puerto de salida que el núcleo usa para responder.\n// El núcleo no sabe si detrás hay WhatsApp o Telegram.\ntype Channel interface {\n    Send(ctx context.Context, to Recipient, msg Outgoing) error\n}\n\n// El mensaje que entra al núcleo, ya traducido por el adaptador del canal.\ntype Incoming struct {\n    Channel        ChannelID // whatsapp, facebook, instagram, telegram\n    ConversationID string\n    From           Recipient\n    Text           string\n    Attachments    []Attachment\n    ReceivedAt     time.Time\n}"
+      },
+      {
+        "kind": "p",
+        "text": "Cada canal tiene su adaptador de entrada, que recibe el webhook y lo traduce a Incoming, y su adaptador de salida, que implementa Channel con la API de esa plataforma. El núcleo recibe sus dependencias al arrancar y nunca importa un paquete de un canal concreto."
+      },
+      {
+        "kind": "h",
+        "text": "Normalizar sin perder información"
+      },
+      {
+        "kind": "p",
+        "text": "Normalizar no es quedarse con el mínimo común. Lo que todos los canales comparten (texto, remitente, conversación, adjuntos) va en campos tipados. Lo que es propio de una plataforma se queda en el adaptador, que sabe cómo representarlo al responder. Así el núcleo trabaja con un modelo estable y cada canal conserva lo que lo hace distinto."
+      },
+      {
+        "kind": "p",
+        "text": "La ventaja se ve en las pruebas: las reglas de ruteo se prueban con mensajes normalizados y un Channel falso, sin levantar ninguna integración real."
+      },
+      {
+        "kind": "h",
+        "text": "Cuando el canal no responde"
+      },
+      {
+        "kind": "p",
+        "text": "Cada plataforma impone límites de uso y, de vez en cuando, falla. En un diseño hexagonal esa responsabilidad vive en el adaptador, que es quien conoce las reglas de su canal: cuántas peticiones admite, qué errores son temporales y cuáles no. El núcleo pide enviar un mensaje; el adaptador decide cómo entregarlo sin saturar la plataforma, y la caída de un canal no arrastra a los otros tres."
+      },
+      {
+        "kind": "h",
+        "text": "Métricas de conversación"
+      },
+      {
+        "kind": "p",
+        "text": "Con las conversaciones guardadas en MongoDB, las métricas salen de pipelines de agregación en la propia base: volumen por canal, conversaciones por día, tiempos de respuesta. Calcularlas en la base, en vez de traer los documentos a la aplicación, mantiene el cálculo cerca de los datos."
+      },
+      {
+        "kind": "code",
+        "lang": "js",
+        "code": "// Ilustrativo: conversaciones por canal y por día.\ndb.messages.aggregate([\n  { $match: { receivedAt: { $gte: ISODate('2022-01-01') } } },\n  { $group: {\n      _id: { channel: '$channel', day: { $dateTrunc: { date: '$receivedAt', unit: 'day' } } },\n      conversations: { $addToSet: '$conversationId' },\n  } },\n  { $project: { conversations: { $size: '$conversations' } } },\n  { $sort: { '_id.day': 1 } },\n]);"
+      },
+      {
+        "kind": "h",
+        "text": "Lecciones"
+      },
+      {
+        "kind": "list",
+        "items": [
+          "Cuando varias integraciones hacen lo mismo de formas distintas, la diferencia debe quedarse en el borde del sistema, no en la lógica de negocio.",
+          "Un modelo de mensaje normalizado hace que añadir un canal sea escribir un adaptador, no reescribir el núcleo.",
+          "Los límites de uso y las caídas son reglas de cada canal: viven en su adaptador.",
+          "Las reglas de ruteo se prueban sin integraciones reales si el núcleo solo depende de interfaces."
+        ]
+      }
+    ],
+    "refs": [
+      "migracion-java-go-por-endpoint",
+      "goroutines-que-no-mueren"
+    ],
+    "order": 5
+  },
+  {
+    "id": "migracion-angular-react",
+    "code": "REG-005",
     "title": "Migrar de Angular a React sin que el cliente lo notara",
     "abstract": "Dos desarrolladores, 5 meses y más de 40 módulos reescritos sobre una arquitectura nueva de React, sin detener el producto. La meta: que cada pantalla funcionara y se viera exactamente igual.",
     "section": "ing",
@@ -414,7 +527,7 @@
       "MIGRACIÓN",
       "FRONTEND"
     ],
-    "archivedAt": "2026-10-17",
+    "archivedAt": "2026-09-24",
     "readingMinutes": 5,
     "body": [
       {
@@ -470,11 +583,11 @@
     "refs": [
       "migracion-java-go-por-endpoint"
     ],
-    "order": 5
+    "order": 6
   },
   {
     "id": "migracion-java-go-por-endpoint",
-    "code": "REG-005",
+    "code": "REG-004",
     "title": "Migrar de Java a Go endpoint por endpoint, sin apagar nada",
     "abstract": "Tres desarrolladores, cuatro meses y más de 8 microservicios de Spring Boot a Go, con ambos stacks en producción hasta el final. Lo difícil no fue escribir Go: fue entender el código que había que replicar.",
     "section": "ing",
@@ -484,7 +597,7 @@
       "MIGRACIÓN",
       "ARQUITECTURA"
     ],
-    "archivedAt": "2026-10-17",
+    "archivedAt": "2026-09-17",
     "readingMinutes": 5,
     "body": [
       {
@@ -541,119 +654,6 @@
     "refs": [
       "idempotencia-en-pagos"
     ],
-    "order": 6
-  },
-  {
-    "id": "desarrollo-con-agentes-claude-code",
-    "code": "REG-004",
-    "title": "Desarrollar con un agente sin perder el control: mi flujo con Claude Code",
-    "abstract": "Cuadra lleva 8 días, 39 PRs integrados y 161 decisiones registradas, desarrollado con Claude Code. Lo que lo hace funcionar no es el modelo: es un flujo que el agente no puede saltarse.",
-    "section": "ing",
-    "tags": [
-      "IA",
-      "CLAUDE CODE",
-      "PROCESO",
-      "TESTING"
-    ],
-    "archivedAt": "2026-10-16",
-    "readingMinutes": 7,
-    "body": [
-      {
-        "kind": "p",
-        "text": "Cuadra es un SaaS multi-tenant que maneja dinero, inventario y datos de muchos comercios en una misma base de datos. Es el tipo de sistema donde un error no aparece en la demo: aparece en el cierre de caja de un cliente. Lo desarrollo solo, con Claude Code, y la pregunta nunca fue si el agente escribe buen código —muchas veces lo hace—, sino cómo garantizar que cada cambio sea revisable, probado y dentro del alcance cuando buena parte del código lo propone un agente."
-      },
-      {
-        "kind": "h",
-        "text": "El problema no es el código, es el alcance"
-      },
-      {
-        "kind": "p",
-        "text": "Un agente sin límites tiende a hacer de más: arregla algo que vio de paso, agrega una dependencia «útil», refactoriza el módulo vecino. Cada cosa por separado es razonable; juntas producen PRs imposibles de revisar. La solución fue convertir el proceso en algo que el agente ejecuta, no en algo que yo tengo que recordar."
-      },
-      {
-        "kind": "h",
-        "text": "Las reglas viven en el repositorio"
-      },
-      {
-        "kind": "p",
-        "text": "CLAUDE.md es el contrato. No es documentación para humanos: son las instrucciones que el agente carga en cada sesión. Arquitectura hexagonal por módulo, cómo se aísla cada tenant, float prohibido para dinero, API contract-first con OpenAPI y qué puede ir en un span y qué no. Las reglas críticas son verificables:"
-      },
-      {
-        "kind": "code",
-        "lang": "markdown",
-        "code": "## Multi-tenant (crítico)\n- Toda operación de BD de negocio corre dentro de `platform/db.WithTenantTx(ctx, fn)`.\n- El `tenant_id` sale solo del token autenticado (contexto), nunca del body o de la URL.\n- Cada repositorio nuevo lleva un test de aislamiento: los datos del tenant A\n  no se ven ni se modifican desde el tenant B."
-      },
-      {
-        "kind": "h",
-        "text": "/tarea: rama → plan → tests en rojo → implementación"
-      },
-      {
-        "kind": "p",
-        "text": "El flujo es un comando propio. /tarea T23 crea la rama desde main actualizada, lee el plan de la fase y los pendientes que le tocan, y presenta un plan corto. Ahí se detiene: nada se escribe hasta que yo lo apruebo."
-      },
-      {
-        "kind": "list",
-        "items": [
-          "Rama: una por tarea. Si hay cambios sin commit en otra, se detiene y avisa.",
-          "Plan: archivos, cambios al contrato OpenAPI, nombres de los tests en español, spans y métricas, preguntas abiertas. Espera aprobación.",
-          "Tests en rojo: escribe solo los tests y muestra que fallan por la razón esperada.",
-          "Implementación: lo mínimo para que pasen; después, refactor.",
-          "Verificación: make check en verde. Nunca se salta ni se desactiva un test."
-        ]
-      },
-      {
-        "kind": "p",
-        "text": "El paso que más valor aporta es el tercero. Ver el test fallar por la razón correcta es la prueba de que mide algo; un test escrito después de la implementación tiende a confirmar lo que el código ya hace."
-      },
-      {
-        "kind": "h",
-        "text": "Lo que queda fuera no se pierde"
-      },
-      {
-        "kind": "p",
-        "text": "Regla: si el agente ve algo que mejorar fuera del alcance, lo anota; no lo hace. Esas notas van a docs/plan/pendientes.md con su origen y su destino, la tarea posterior que lo cubre. Al empezar una tarea, /tarea lee los pendientes que le corresponden y los mete en el plan. Hoy hay unos 40 registrados, desde el rate limit del registro hasta los paneles de Grafana de la caja."
-      },
-      {
-        "kind": "h",
-        "text": "Cerrar es un permiso, no un hábito"
-      },
-      {
-        "kind": "p",
-        "text": "El agente no hace commits, push ni PRs por su cuenta. /cerrar-tarea es la autorización explícita y viene con herramientas acotadas: commit, push, abrir el PR y esperar el CI. El merge solo ocurre con squash y con todos los checks en verde. Nunca push directo a main, nunca --force, nunca --admin."
-      },
-      {
-        "kind": "p",
-        "text": "Cada PR trae una sección fija, «Revisar con lupa», que señala dónde están el dinero, el stock, los permisos, el tenant y los datos sensibles de ese cambio. En la tarea de la caja (T23) apuntaba a la cuenta del esperado en el arqueo, a las ventas anuladas antes y después del cierre, a quién puede cerrar una caja y a que los logs lleven solo IDs, nunca montos. Mi revisión empieza ahí."
-      },
-      {
-        "kind": "h",
-        "text": "Los números"
-      },
-      {
-        "kind": "list",
-        "items": [
-          "8 días desde el primer commit (del 9 al 16 de octubre de 2026).",
-          "42 PRs abiertos, 39 integrados.",
-          "161 decisiones registradas con fecha y motivo en docs/decisiones.md.",
-          "110+ archivos de tests entre Go y el frontend."
-        ]
-      },
-      {
-        "kind": "h",
-        "text": "Lecciones"
-      },
-      {
-        "kind": "list",
-        "items": [
-          "El proceso tiene que vivir en el repo y ser ejecutable: un comando que el agente sigue vale más que una buena intención.",
-          "Detenerse a pedir aprobación es una funcionalidad: el plan es el punto más barato para corregir el rumbo.",
-          "Tests en rojo primero: es la única forma de saber que el test prueba algo.",
-          "Lo que depende de disciplina se rompe con un agente. Prefiero lo que impone la herramienta: RLS en la base de datos, CSS Modules en lugar de BEM.",
-          "La revisión humana no desaparece, se enfoca: el PR me dice dónde mirar con lupa."
-        ]
-      }
-    ],
-    "refs": [],
     "order": 7
   },
   {

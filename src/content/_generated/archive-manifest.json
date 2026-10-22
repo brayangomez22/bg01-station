@@ -1,22 +1,7 @@
 [
   {
-    "id": "bots-multicanal-hexagonal",
-    "code": "REG-010",
-    "title": "Cuatro canales, un núcleo: bots multicanal con arquitectura hexagonal",
-    "abstract": "WhatsApp, Facebook, Instagram y Telegram hablan idiomas distintos. Cómo se organiza un backend en Go para que el núcleo de ruteo no sepa de ninguno, y por qué la arquitectura hexagonal encaja tan bien en este problema.",
-    "section": "ing",
-    "tags": [
-      "GO",
-      "ARQUITECTURA",
-      "MONGODB"
-    ],
-    "archivedAt": "2026-10-18",
-    "readingMinutes": 7,
-    "order": 1
-  },
-  {
     "id": "rotacion-de-refresh-tokens",
-    "code": "REG-009",
+    "code": "REG-010",
     "title": "Refresh tokens que delatan al ladrón",
     "abstract": "Un refresh token robado da semanas de acceso. Rotarlo en cada uso permite detectar cuando dos personas usan el mismo. Lo difícil es no cerrarle la sesión a un usuario legítimo con dos peticiones en paralelo.",
     "section": "ing",
@@ -25,8 +10,24 @@
       "AUTH",
       "GO"
     ],
-    "archivedAt": "2026-10-17",
+    "archivedAt": "2026-10-20",
     "readingMinutes": 8,
+    "order": 1
+  },
+  {
+    "id": "desarrollo-con-agentes-claude-code",
+    "code": "REG-009",
+    "title": "Desarrollar con un agente sin perder el control: mi flujo con Claude Code",
+    "abstract": "Cuadra lleva 8 días, 39 PRs integrados y 161 decisiones registradas, desarrollado con Claude Code. Lo que lo hace funcionar no es el modelo: es un flujo que el agente no puede saltarse.",
+    "section": "ing",
+    "tags": [
+      "IA",
+      "CLAUDE CODE",
+      "PROCESO",
+      "TESTING"
+    ],
+    "archivedAt": "2026-10-16",
+    "readingMinutes": 7,
     "order": 2
   },
   {
@@ -40,7 +41,7 @@
       "MULTI-TENANT",
       "SEGURIDAD"
     ],
-    "archivedAt": "2026-10-17",
+    "archivedAt": "2026-10-12",
     "readingMinutes": 9,
     "order": 3
   },
@@ -55,13 +56,28 @@
       "IA",
       "SEGURIDAD"
     ],
-    "archivedAt": "2026-10-17",
+    "archivedAt": "2026-10-08",
     "readingMinutes": 9,
     "order": 4
   },
   {
-    "id": "migracion-angular-react",
+    "id": "bots-multicanal-hexagonal",
     "code": "REG-006",
+    "title": "Cuatro canales, un núcleo: bots multicanal con arquitectura hexagonal",
+    "abstract": "WhatsApp, Facebook, Instagram y Telegram hablan idiomas distintos. Cómo se organiza un backend en Go para que el núcleo de ruteo no sepa de ninguno, y por qué la arquitectura hexagonal encaja tan bien en este problema.",
+    "section": "ing",
+    "tags": [
+      "GO",
+      "ARQUITECTURA",
+      "MONGODB"
+    ],
+    "archivedAt": "2026-10-01",
+    "readingMinutes": 7,
+    "order": 5
+  },
+  {
+    "id": "migracion-angular-react",
+    "code": "REG-005",
     "title": "Migrar de Angular a React sin que el cliente lo notara",
     "abstract": "Dos desarrolladores, 5 meses y más de 40 módulos reescritos sobre una arquitectura nueva de React, sin detener el producto. La meta: que cada pantalla funcionara y se viera exactamente igual.",
     "section": "ing",
@@ -71,13 +87,13 @@
       "MIGRACIÓN",
       "FRONTEND"
     ],
-    "archivedAt": "2026-10-17",
+    "archivedAt": "2026-09-24",
     "readingMinutes": 5,
-    "order": 5
+    "order": 6
   },
   {
     "id": "migracion-java-go-por-endpoint",
-    "code": "REG-005",
+    "code": "REG-004",
     "title": "Migrar de Java a Go endpoint por endpoint, sin apagar nada",
     "abstract": "Tres desarrolladores, cuatro meses y más de 8 microservicios de Spring Boot a Go, con ambos stacks en producción hasta el final. Lo difícil no fue escribir Go: fue entender el código que había que replicar.",
     "section": "ing",
@@ -87,24 +103,8 @@
       "MIGRACIÓN",
       "ARQUITECTURA"
     ],
-    "archivedAt": "2026-10-17",
+    "archivedAt": "2026-09-17",
     "readingMinutes": 5,
-    "order": 6
-  },
-  {
-    "id": "desarrollo-con-agentes-claude-code",
-    "code": "REG-004",
-    "title": "Desarrollar con un agente sin perder el control: mi flujo con Claude Code",
-    "abstract": "Cuadra lleva 8 días, 39 PRs integrados y 161 decisiones registradas, desarrollado con Claude Code. Lo que lo hace funcionar no es el modelo: es un flujo que el agente no puede saltarse.",
-    "section": "ing",
-    "tags": [
-      "IA",
-      "CLAUDE CODE",
-      "PROCESO",
-      "TESTING"
-    ],
-    "archivedAt": "2026-10-16",
-    "readingMinutes": 7,
     "order": 7
   },
   {
